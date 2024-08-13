@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:karmalab_assignment/views/authentication/forgot/forgot_password.dart';
 import 'package:karmalab_assignment/views/authentication/login/login_view.dart';
 import 'package:karmalab_assignment/views/authentication/new_password/new_password.dart';
@@ -8,31 +8,26 @@ import 'package:karmalab_assignment/views/authentication/verification/verificati
 import 'package:karmalab_assignment/views/home/home_view.dart';
 import 'package:karmalab_assignment/views/onboarding/onboarding_view.dart';
 import 'package:karmalab_assignment/views/splash/splash_view.dart';
+import '../views/product/product_upload screen.dart';
+import 'Bindings/product_creation_screen_binding.dart';
 
 class RouteUtil {
-  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case SplashView.routeName:
-        return MaterialPageRoute(builder: (context) => const SplashView());
-      case OnboardingView.routeName:
-        return MaterialPageRoute(builder: (context) => const OnboardingView());
-      case SelectAuthView.routeName:
-        return MaterialPageRoute(builder: (context) => const SelectAuthView());
-      case SignUpView.routeName:
-        return MaterialPageRoute(builder: (context) => SignUpView());
-      case LoginView.routeName:
-        return MaterialPageRoute(builder: (context) => const LoginView());
-      case ForgotPassWord.routeName:
-        return MaterialPageRoute(builder: (context) => const ForgotPassWord());
-      case VerificationView.routeName:
-        return MaterialPageRoute(
-            builder: (context) => const VerificationView());
-      case HomeView.routeName:
-        return MaterialPageRoute(builder: (context) => HomeView());
-      case NewPassWordView.routeName:
-        return MaterialPageRoute(builder: (context) => const NewPassWordView());
-      default:
-        return MaterialPageRoute(builder: (context) => const Scaffold());
-    }
-  }
+  static final routes = [
+    GetPage(name: SplashView.routeName, page: () => const SplashView()),
+    GetPage(name: OnboardingView.routeName, page: () => const OnboardingView()),
+    GetPage(name: SelectAuthView.routeName, page: () => const SelectAuthView()),
+    GetPage(name: SignUpView.routeName, page: () => SignUpView()),
+    GetPage(name: LoginView.routeName, page: () => const LoginView()),
+    GetPage(name: ForgotPassWord.routeName, page: () => const ForgotPassWord()),
+    GetPage(
+        name: VerificationView.routeName, page: () => const VerificationView()),
+    GetPage(name: HomeView.routeName, page: () => HomeView()),
+    GetPage(
+      name: ProductCreationScreen.routeName,
+      page: () => ProductCreationScreen(),
+      binding: ProductCreationScreenBinding(),
+    ),
+    GetPage(
+        name: NewPassWordView.routeName, page: () => const NewPassWordView()),
+  ];
 }

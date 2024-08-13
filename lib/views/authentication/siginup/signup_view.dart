@@ -40,7 +40,6 @@ class SignUpView extends StatelessWidget {
             ),
             child: SingleChildScrollView(
               child: Column(
-
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 16),
@@ -67,20 +66,20 @@ class SignUpView extends StatelessWidget {
                     },
                     child: Obx(() => imageController.imageBase64.isEmpty
                         ? Container(
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: const Icon(Icons.add_a_photo),
-                    )
-
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: const Icon(Icons.add_a_photo),
+                          )
                         : CircleAvatar(
-                      radius: 50,
-                      backgroundImage: MemoryImage(
-                          base64Decode(imageController.imageBase64.split(',').last)),
-                    )),
+                            radius: 50,
+                            backgroundImage: MemoryImage(base64Decode(
+                                imageController.imageBase64.split(',').last)
+                            ),
+                          )),
                   ),
                   context.spacing(height: 2),
                   const AuthHeader(
@@ -88,8 +87,7 @@ class SignUpView extends StatelessWidget {
                     title: "Sign Up",
                   ),
                   const SizedBox(height: 25),
-
-                  customForm(controller: _signUpController,isLogin: false),
+                  customForm(controller: _signUpController, isLogin: false),
                   const SizedBox(height: 5),
                   Obx(() {
                     return CustomButton(
@@ -102,18 +100,18 @@ class SignUpView extends StatelessWidget {
                             if (user != null) {
                               Get.offNamedUntil(
                                 HomeView.routeName,
-                                    (_) => false,
+                                (_) => false,
                               );
                             } else {
                               DialogHelper.showSnackBar(
                                   description:
-                                  'Register failed!!! $errorMessage ');
+                                      'Register failed!!! $errorMessage ');
                             }
                           });
                         } catch (e) {
                           DialogHelper.showSnackBar(
                               description:
-                              'An unexpected error occurred: ${e.toString()}');
+                                  'An unexpected error occurred: ${e.toString()}');
                         }
                       },
                     );

@@ -45,8 +45,7 @@ class SignUpController extends GetxController {
   TextEditingController get nameTextController => _nameTextController;
   TextEditingController get emailController => _emailController;
   TextEditingController get passwordController => _passwordController;
-  TextEditingController get conformPasswordController =>
-      _conformPasswordController;
+  TextEditingController get conformPasswordController => _conformPasswordController;
 
   bool get loading => _loading.value;
   String get Type => type.value;
@@ -87,29 +86,7 @@ class SignUpController extends GetxController {
     }
   }
 
-  //
-  // Future<void> pickAvatarImage() async {
-  //   final picker = ImagePicker();
-  //   final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-  //
-  //   if (pickedFile != null) {
-  //     final filePath = pickedFile.path;
-  //     final fileExtension = filePath.split('.').last.toLowerCase();
-  //     type.value = fileExtension; // Ensure no dot
-  //
-  //     final file = File(filePath);
-  //     final fileSize = await file.length(); // Get file size in bytes
-  //
-  //     // Check if file size is greater than 2 MB (2 * 1024 * 1024 bytes)
-  //     if (fileSize > 2 * 1024 * 1024) throw InvalidException("File size exceeds 2 MB! Please select a smaller image.", false);
-  //     final bytes = await file.readAsBytes();
-  //     _avatarBase64.value = base64Encode(bytes);
-  //   }
-  //   else {
-  //     throw InvalidException("No image selected!", false);
-  //   }
-  // }
-  //
+
 
   Future<void> register(
       Function(User?, {String? errorMessage})? onRegister) async {

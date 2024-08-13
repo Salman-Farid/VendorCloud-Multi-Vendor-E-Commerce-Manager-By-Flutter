@@ -71,41 +71,13 @@ class User {
 
 
 
-
-
-
-
-
-  // factory User.fromJson(Map<String, dynamic> json) => User(
-  //   avatar: Avatar.fromJson(json["avatar"]).secureUrl,
-  //   location: Location.fromJson(json["location"]),
-  //   id: json["_id"],
-  //   name: json["name"],
-  //   email: json["email"],
-  //   password: json["password"],
-  //   role: json["role"],
-  //   isActive: json["isActive"],
-  //   isVerified: json["isVerified"],
-  //   phone: json["phone"],
-  //   gender: json["gender"],
-  //   likes: json["likes"] != null
-  //       ? List<dynamic>.from(json["likes"].map((x) => x))
-  //       : null,
-  //   createdAt: DateTime.parse(json["createdAt"]),
-  //   updatedAt: DateTime.parse(json["updatedAt"]),
-  //   v: json["__v"],
-  //   otherPermissions: json["otherPermissions"] != null
-  //       ? OtherPermissions.fromJson(json["otherPermissions"])
-  //       : null, // Parse otherPermissions
-  // );
-
   Map<String, dynamic> toJson() => {
     "avatar": avatar,
     "name": name,
     "email": email,
     "password": password,
     "confirmPassword": confirmPassword,
-    "otherPermissions": otherPermissions?.toJson(), // Convert to JSON
+    "otherPermissions": otherPermissions?.toJson(),
   };
 }
 

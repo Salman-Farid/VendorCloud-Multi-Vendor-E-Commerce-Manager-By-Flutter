@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Auth_by_getx_rest_api',
       initialRoute: SelectAuthView.routeName,
-      onGenerateRoute: RouteUtil.onGenerateRoute,
+      getPages: RouteUtil.routes,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme(),
     );

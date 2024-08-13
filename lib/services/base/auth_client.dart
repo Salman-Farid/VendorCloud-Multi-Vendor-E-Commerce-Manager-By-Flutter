@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:karmalab_assignment/models/user_model.dart';
 import '../shared_pref_service.dart';
 import '../../constants/network_constants.dart';
 import 'package:karmalab_assignment/services/base/app_exceptions.dart';
@@ -17,6 +16,7 @@ class BaseClient {
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.get(uri, headers: header);
+      print('Raw POST Response: ${response.body}');
       _printAndSaveCookies(response); // Print and save cookies
       return _processResponse(response);
     } on SocketException {
@@ -30,6 +30,7 @@ class BaseClient {
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.post(uri, body: payload, headers: header);
+      print('Raw POST Response: ${response.body}');
       _printAndSaveCookies(response); // Print and save cookies
       return _processResponse(response);
     } on SocketException {
@@ -43,6 +44,7 @@ class BaseClient {
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.put(uri, body: payload, headers: header);
+      print('Raw POST Response: ${response.body}');
       _printAndSaveCookies(response); // Print and save cookies
       return _processResponse(response);
     } on SocketException {
@@ -68,6 +70,7 @@ class BaseClient {
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.delete(uri, headers: header);
+      print('Raw POST Response: ${response.body}');
       _printAndSaveCookies(response); // Print and save cookies
       return _processResponse(response);
     } on SocketException {
@@ -113,6 +116,7 @@ class BaseClient {
   // Print and save cookies
   void _printAndSaveCookies(http.Response response) async {
     var setCookie = response.headers['set-cookie'];
+    print(setCookie);
     if (setCookie != null) {
       debugPrint("Set-Cookie Header: $setCookie"); // Print the cookies
       await _saveSessionId(setCookie);
@@ -125,6 +129,7 @@ class BaseClient {
     var cookies = setCookie.split(';');
     for (var cookie in cookies) {
       if (cookie.startsWith('connect.sid=')) {
+
         // Check for the session ID cookie
         var sessionId = cookie.split('=')[1]; // Get the session ID value
         await _prefService.saveSessionId(sessionId);

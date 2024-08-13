@@ -1,0 +1,129 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:karmalab_assignment/controllers/user_controller.dart';
+import '../models/product_model.dart';
+import '../services/product_service.dart';
+import 'image_controller.dart';
+
+class ProductController extends GetxController {
+  final ProductService _productService = ProductService();
+  final ImageController imageController = Get.put(ImageController());
+  final UserController userController = Get.find<UserController>();  // Access the controller
+
+  // Controllers for product details
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _slugController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
+  final TextEditingController _summaryController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _categoryController = TextEditingController();
+  final TextEditingController _brandController = TextEditingController();
+  final TextEditingController _sizeController = TextEditingController();
+  final TextEditingController _videoController = TextEditingController();
+
+  var isLoading = false.obs;
+
+  // Getters for the controllers
+  TextEditingController get nameController => _nameController;
+  TextEditingController get slugController => _slugController;
+  TextEditingController get priceController => _priceController;
+  TextEditingController get quantityController => _quantityController;
+  TextEditingController get summaryController => _summaryController;
+  TextEditingController get descriptionController => _descriptionController;
+  TextEditingController get categoryController => _categoryController;
+  TextEditingController get brandController => _brandController;
+  TextEditingController get sizeController => _sizeController;
+  TextEditingController get videoController => _videoController;
+
+  // Add method to pick additional images
+  Future<void> pickAdditionalImages() async {
+    await imageController.pickAdditionalImages();
+  }
+
+  bool validate() {
+    final name = nameController.text.trim();
+    final price = priceController.text.trim();
+    final quantity = quantityController.text.trim();
+    final coverPhoto = imageController.imageBase64;
+    final additionalImages = imageController.additionalImagesBase64;
+
+    // Validate that all required fields are filled
+    if (name.isEmpty ||
+        price.isEmpty ||
+        quantity.isEmpty ||
+        coverPhoto.isEmpty) {
+      Get.snackbar(
+        'Validation Error',
+        'Please fill all required fields and upload a cover photo.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
+
+    // Validate price and quantity as numbers
+    if (double.tryParse(price) == null) {
+      Get.snackbar(
+        'Validation Error',
+        'Price must be a valid number.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
+
+    if (int.tryParse(quantity) == null) {
+      Get.snackbar(
+        'Validation Error',
+        'Quantity must be a valid number.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
+
+    // Validate additional images if required
+    if (additionalImages.isEmpty) {
+      Get.snackbar(
+        'Validation Error',
+        'Please upload at least one additional image.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<void> createProduct(Function(Product?, {String? errorMessage})? onCreate) async {
+    final valid = validate();
+    final user = userController.user.value;
+
+    if (valid) {
+      final product = Data(
+        user: user!.id,
+        coverPhoto: imageController.imageBase64,
+        video: videoController.text,
+        name: nameController.text,
+        slug: slugController.text,
+        price: double.tryParse(priceController.text) ?? 0.0,
+        quantity: int.tryParse(quantityController.text) ?? 0,
+        summary: summaryController.text,
+        description: descriptionController.text,
+        category: categoryController.text,
+        brand: brandController.text,
+        size: sizeController.text,
+        images: imageController.additionalImagesBase64,
+      );
+
+      try {
+        isLoading.value = true;
+        final createdProduct = await _productService.createProduct(product.toJson());
+        isLoading.value = false;
+        if (onCreate != null) onCreate(createdProduct);
+
+      } catch (e) {
+        isLoading.value = false;
+        if (onCreate != null) onCreate(null, errorMessage: e.toString());
+      }
+    }
+  }
+}

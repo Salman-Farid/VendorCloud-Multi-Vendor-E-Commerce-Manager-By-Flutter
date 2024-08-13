@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:karmalab_assignment/constants/network_constants.dart';
 import 'package:karmalab_assignment/controllers/base_controller.dart';
 import 'package:karmalab_assignment/helper/dialog_helper.dart';

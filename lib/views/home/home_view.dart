@@ -31,6 +31,7 @@ class HomeView extends StatelessWidget {
           ),
         ],
       ),
+      drawer: _buildDrawer(context),  // Add the drawer
       body: Obx(() {
         if (user == null) {
           return const Center(
@@ -55,6 +56,47 @@ class HomeView extends StatelessWidget {
           ),
         );
       }),
+    );
+  }
+
+  Widget _buildDrawer(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            accountName: Text(userController.user.value?.name ?? 'Guest'),
+            accountEmail: Text(userController.user.value?.email ?? ''),
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "https://baburhaatbd.com${userController.user.value?.avatar ?? ''}"),
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.category),
+            title: Text('Categories'),
+            onTap: () {
+              // Navigate to the category screen
+              Get.toNamed('/product');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.production_quantity_limits),
+            title: Text('Products'),
+            onTap: () {
+              // Navigate to the product screen
+              Get.toNamed('/product');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('Logout'),
+            onTap: () {
+              _confirmLogout(context);
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -125,7 +167,7 @@ class HomeView extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               value,
-              style: const TextStyle(fontSize: 14, color:Colors.black , ),
+              style: const TextStyle(fontSize: 14, color: Colors.black),
             ),
           ],
         ),
