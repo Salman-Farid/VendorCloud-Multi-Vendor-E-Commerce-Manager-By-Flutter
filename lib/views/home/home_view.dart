@@ -4,12 +4,13 @@ import 'package:karmalab_assignment/constants/size_constants.dart';
 import 'package:karmalab_assignment/controllers/user_controller.dart';
 
 import '../../models/user_model.dart';
-import '../../services/shared_pref_service.dart';  // Import the controller
+import '../../services/shared_pref_service.dart'; // Import the controller
 
 class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
   static const routeName = "/home";
-  final UserController userController = Get.find<UserController>();  // Access the controller
+  final UserController userController =
+      Get.find<UserController>(); // Access the controller
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class HomeView extends StatelessWidget {
           ),
         ],
       ),
-      drawer: _buildDrawer(context),  // Add the drawer
+      drawer: _buildDrawer(context), // Add the drawer
       body: Obx(() {
         if (user == null) {
           return const Center(
@@ -81,11 +82,19 @@ class HomeView extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.production_quantity_limits),
-            title: Text('Products'),
+            leading: Icon(Icons.create),
+            title: Text('Product Creation'),
             onTap: () {
               // Navigate to the product screen
-              Get.toNamed('/product');
+              Get.toNamed('/productUploadScreen');
+            },
+          ),
+
+          ListTile(
+            leading: Icon(Icons.production_quantity_limits_outlined),
+            title: Text('All Products'),
+            onTap: () {
+              Get.toNamed('/all_products');
             },
           ),
           ListTile(
@@ -100,7 +109,8 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileHeader(BuildContext context, User user, String avatarUrl) {
+  Widget _buildProfileHeader(
+      BuildContext context, User user, String avatarUrl) {
     return Row(
       children: [
         CircleAvatar(
@@ -114,7 +124,8 @@ class HomeView extends StatelessWidget {
             children: [
               Text(
                 user.name,
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 5),
               Text(
@@ -214,7 +225,10 @@ class HomeView extends StatelessWidget {
   }
 
   String _formatPermissionName(String permissionKey) {
-    return permissionKey.replaceAll('is', '').replaceAllMapped(RegExp(r'[A-Z]'), (match) => ' ${match.group(0)}').trim();
+    return permissionKey
+        .replaceAll('is', '')
+        .replaceAllMapped(RegExp(r'[A-Z]'), (match) => ' ${match.group(0)}')
+        .trim();
   }
 
   void _showSessionInfo(BuildContext context) async {
@@ -243,8 +257,10 @@ class HomeView extends StatelessWidget {
   }
 
   void _showEditProfileDialog(BuildContext context, User user) {
-    TextEditingController nameController = TextEditingController(text: user.name ?? '');
-    TextEditingController emailController = TextEditingController(text: user.email ?? '');
+    TextEditingController nameController =
+        TextEditingController(text: user.name ?? '');
+    TextEditingController emailController =
+        TextEditingController(text: user.email ?? '');
 
     Get.defaultDialog(
       title: 'Edit Profile',

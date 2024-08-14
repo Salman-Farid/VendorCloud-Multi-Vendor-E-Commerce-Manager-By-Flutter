@@ -8,7 +8,10 @@ import 'package:karmalab_assignment/views/authentication/verification/verificati
 import 'package:karmalab_assignment/views/home/home_view.dart';
 import 'package:karmalab_assignment/views/onboarding/onboarding_view.dart';
 import 'package:karmalab_assignment/views/splash/splash_view.dart';
-import '../views/product/product_upload screen.dart';
+import '../controllers/product_controller.dart';
+import '../views/product/all_products.dart';
+import '../views/product/product_upload_screen.dart';
+import 'Bindings/fetchProductBindings.dart';
 import 'Bindings/product_creation_screen_binding.dart';
 
 class RouteUtil {
@@ -27,6 +30,13 @@ class RouteUtil {
       page: () => ProductCreationScreen(),
       binding: ProductCreationScreenBinding(),
     ),
+    GetPage(
+      name: ProductGridView.routeName,
+      page: () => ProductGridView(),
+      binding: Fetchproductbindings(),
+
+    ),
+
     GetPage(
         name: NewPassWordView.routeName, page: () => const NewPassWordView()),
   ];

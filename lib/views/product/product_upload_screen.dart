@@ -15,7 +15,7 @@ import '../../controllers/product_controller.dart';
 
 
 class ProductCreationScreen extends GetView<ProductController> {
-  static const routeName = "/product";
+  static const routeName = "/productUploadScreen";
 
   @override
 

@@ -38,7 +38,7 @@ class Data {
   dynamic? user;
   String? name;
   String? slug;
-  double? price;
+  int? price;
   int? quantity;
   String? summary;
   String? description;
