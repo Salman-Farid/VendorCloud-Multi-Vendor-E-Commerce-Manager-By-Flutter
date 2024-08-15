@@ -60,7 +60,7 @@ class ImageController extends GetxController {
         final fileSize = await file.length(); // Get file size in bytes
 
         // Check if file size is greater than 2 MB (2 * 1024 * 1024 bytes)
-        if (fileSize > 7 * 1024 * 1024) {
+        if (fileSize > 40 * 1024 * 1024) {
           throw InvalidException(
             "File size exceeds 2 MB! Please select a smaller image.",
             false,
@@ -79,9 +79,12 @@ class ImageController extends GetxController {
     }
   }
 
-  void clearAdditionalImages() {
-    _imageBase64.close();
-    _additionalImagesBase64.clear();
+
+
+  void removeImage(int index) {
+    if (index >= 0 && index < _additionalImagesBase64.length) {
+      _additionalImagesBase64.removeAt(index);
+    }
   }
 }
 

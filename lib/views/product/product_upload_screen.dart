@@ -8,16 +8,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../controllers/image_controller.dart';
 import '../../controllers/product_controller.dart';
 
-
-
-
-
-
-
 class ProductCreationScreen extends GetView<ProductController> {
   static const routeName = "/productUploadScreen";
-
-  @override
 
   @override
   Widget build(BuildContext context) {
@@ -77,13 +69,18 @@ class ProductCreationScreen extends GetView<ProductController> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: List.generate(3, (index) {
                     if (index < controller.imageController.additionalImagesBase64.length) {
-                      return CircleAvatar(
-                        radius: 40,
-                        backgroundImage: MemoryImage(base64Decode(
-                            controller.imageController.additionalImagesBase64[index]
-                                .split(',')
-                                .last)),
-                        backgroundColor: Colors.deepPurpleAccent,
+                      return GestureDetector(
+                        onDoubleTap: () {
+                          controller.imageController.removeImage(index);
+                        },
+                        child: CircleAvatar(
+                          radius: 40,
+                          backgroundImage: MemoryImage(base64Decode(
+                              controller.imageController.additionalImagesBase64[index]
+                                  .split(',')
+                                  .last)),
+                          backgroundColor: Colors.deepPurpleAccent,
+                        ),
                       );
                     } else {
                       return const CircleAvatar(
