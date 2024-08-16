@@ -145,26 +145,6 @@ class ProductController extends GetxController {
       isLoading.value = true;
       final productResponse = await _productService.getProducts();
       isLoading.value = false;
-        if (productResponse != null && productResponse.data != null) {
-          productList.assignAll(productResponse.data!);
-
-      } else {
-          productList.clear();
-      }
-    } catch (e) {
-      isLoading.value = false;
-      Get.snackbar('Error', 'Failed to fetch products: $e', snackPosition: SnackPosition.BOTTOM);
-    }
-  }
-
-  // Fetch product by ID
-
-
-  Future<void> getProductById(String id, Function(Product, {String? errorMessage})? ) async {
-    try {
-      isLoading.value = true;
-      final productResponse = await _productService.getProductById(id);
-      isLoading.value = false;
       if (productResponse != null && productResponse.data != null) {
         productList.assignAll(productResponse.data!);
 
@@ -177,49 +157,68 @@ class ProductController extends GetxController {
     }
   }
 
+  // Fetch product by ID
 
 
-  //
-  // Future<void> getProductById(String id, Function(Product?, {String? errorMessage})? onFetch) async {
-  //   try {
-  //     isLoading.value = true;
-  //     final productResponse = await _productService.getProductById(id);
-  //     isLoading.value = false;
-  //     if (productResponse != null) {
-  //       final product = productResponse.first;  // Assuming the first product is the one we're interested in
-  //       if (onFetch != null) onFetch(product);
-  //     }
-  //   } catch (e) {
-  //     isLoading.value = false;
-  //     if (onFetch != null) onFetch(null, errorMessage: e.toString());
-  //   }
-  // }
+  Future<void> getProductById(String id, Function(Product, {String? errorMessage})? ) async {
+  try {
+  isLoading.value = true;
+  final productResponse = await _productService.getProductById(id);
+  isLoading.value = false;
+  if (productResponse != null && productResponse.data != null) {
+  productList.assignAll(productResponse.data!);
 
-  // Update product
-  Future<void> updateProductById(String id, Product product, Function(Product?, {String? errorMessage})? onUpdate) async {
-    try {
-      isLoading.value = true;
-      final updatedProductResponse = await _productService.updateProductById(id, product.toJson());
-      isLoading.value = false;
-      final updatedProduct = Product.fromJson(updatedProductResponse as Map<String, dynamic>);
-      if (onUpdate != null) onUpdate(updatedProduct);
-        } catch (e) {
-      isLoading.value = false;
-      if (onUpdate != null) onUpdate(null, errorMessage: e.toString());
-    }
+  } else {
+  productList.clear();
   }
-
-  // Delete product
-  Future<void> deleteProduct(String id, Function(bool, {String? errorMessage})? onDelete) async {
-    try {
-      isLoading.value = true;
-      final success = await _productService.deleteProductById(id);
-      isLoading.value = false;
-      if (onDelete != null) onDelete(success);
-    } catch (e) {
-      isLoading.value = false;
-      if (onDelete != null) onDelete(false, errorMessage: e.toString());
-    }
+  } catch (e) {
+  isLoading.value = false;
+  Get.snackbar('Error', 'Failed to fetch products: $e', snackPosition: SnackPosition.BOTTOM);
   }
 }
 
+
+
+//
+// Future<void> getProductById(String id, Function(Product?, {String? errorMessage})? onFetch) async {
+//   try {
+//     isLoading.value = true;
+//     final productResponse = await _productService.getProductById(id);
+//     isLoading.value = false;
+//     if (productResponse != null) {
+//       final product = productResponse.first;  // Assuming the first product is the one we're interested in
+//       if (onFetch != null) onFetch(product);
+//     }
+//   } catch (e) {
+//     isLoading.value = false;
+//     if (onFetch != null) onFetch(null, errorMessage: e.toString());
+//   }
+// }
+
+// Update product
+Future<void> updateProductById(String id, Product product, Function(Product?, {String? errorMessage})? onUpdate) async {
+  try {
+    isLoading.value = true;
+    final updatedProductResponse = await _productService.updateProductById(id, product.toJson());
+    isLoading.value = false;
+    final updatedProduct = Product.fromJson(updatedProductResponse as Map<String, dynamic>);
+    if (onUpdate != null) onUpdate(updatedProduct);
+  } catch (e) {
+    isLoading.value = false;
+    if (onUpdate != null) onUpdate(null, errorMessage: e.toString());
+  }
+}
+
+// Delete product
+Future<void> deleteProduct(String id, Function(bool, {String? errorMessage})? onDelete) async {
+  try {
+    isLoading.value = true;
+    final success = await _productService.deleteProductById(id);
+    isLoading.value = false;
+    if (onDelete != null) onDelete(success);
+  } catch (e) {
+    isLoading.value = false;
+    if (onDelete != null) onDelete(false, errorMessage: e.toString());
+  }
+}
+}

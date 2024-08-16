@@ -10,7 +10,7 @@ import '../models/product_model.dart';
 class ProductService extends BaseController {
   final SharedPrefService _prefService = SharedPrefService();
   final BaseClient _baseClient = BaseClient();
- late  final Product? product;
+  late  final Product? product;
 
 
 

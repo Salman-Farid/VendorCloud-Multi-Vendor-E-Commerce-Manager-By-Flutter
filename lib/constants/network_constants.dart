@@ -1,4 +1,3 @@
-import 'package:karmalab_assignment/views/authentication/forgot/forgot_password.dart';
 
 class NetworkConstants {
   // base url

@@ -88,6 +88,7 @@ class Data {
     this.id,
   });
 
+
   Data.fromJson(Map<String, dynamic> json) {
     coverPhoto = json['coverPhoto'] != null
         ? CoverPhoto.fromJson(json['coverPhoto'])
@@ -111,7 +112,7 @@ class Data {
     if (json['images'] != null) {
       images = <Images>[];
       json['images'].forEach((v) {
-        images!.add(Images.fromJson(v));
+        images!.add(Images.fromJson(v ?? {}));
       });
     }
     stock = json['stock'];
@@ -136,7 +137,7 @@ class Data {
     if (json['reviews'] != null) {
       reviews = <Reviews>[];
       json['reviews'].forEach((v) {
-        reviews!.add(Reviews.fromJson(v));
+        reviews!.add(Reviews.fromJson(v ?? {}));
       });
     }
     id = json['id'];
