@@ -8,9 +8,13 @@ import 'package:karmalab_assignment/views/authentication/verification/verificati
 import 'package:karmalab_assignment/views/home/home_view.dart';
 import 'package:karmalab_assignment/views/onboarding/onboarding_view.dart';
 import 'package:karmalab_assignment/views/splash/splash_view.dart';
+import '../controllers/category_controller.dart';
 import '../controllers/product_controller.dart';
+import '../views/category/category_creation_screen.dart';
+import '../views/category/category_management_screen.dart';
 import '../views/product/all_products.dart';
 import '../views/product/product_upload_screen.dart';
+import 'Bindings/category_bindings.dart';
 import 'Bindings/fetchProductBindings.dart';
 import 'Bindings/product_creation_screen_binding.dart';
 
@@ -26,17 +30,27 @@ class RouteUtil {
         name: VerificationView.routeName, page: () => const VerificationView()),
     GetPage(name: HomeView.routeName, page: () => HomeView()),
     GetPage(
-      name: ProductCreationScreen.routeName,
-      page: () => ProductCreationScreen(),
-      binding: ProductCreationScreenBinding(),
+        name: ProductCreationScreen.routeName,
+        page: () => ProductCreationScreen(),
+        binding: ProductCreationScreenBinding(),
     ),
     GetPage(
       name: ProductGridView.routeName,
       page: () => ProductGridView(),
       binding: Fetchproductbindings(),
-
     ),
-
+    GetPage(
+        name: CategoryGridView.routeName,
+        page: () => CategoryGridView(),
+        binding: FetchCategorybindings(),
+    ),
+    GetPage(
+      name: CategoryCreationScreen.routeName,
+      page: () => CategoryCreationScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<CategoryController>(() => CategoryController());
+      }),
+    ),
     GetPage(
         name: NewPassWordView.routeName, page: () => const NewPassWordView()),
   ];

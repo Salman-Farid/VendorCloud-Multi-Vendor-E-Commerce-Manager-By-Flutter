@@ -78,7 +78,15 @@ class HomeView extends StatelessWidget {
             title: Text('Categories'),
             onTap: () {
               // Navigate to the category screen
-              Get.toNamed('/product');
+              Get.toNamed('/all_categories');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.create_new_folder),
+            title: Text('Categorie Creation'),
+            onTap: () {
+              // Navigate to the category screen
+              Get.toNamed('/categoryCreateScreen');
             },
           ),
           ListTile(

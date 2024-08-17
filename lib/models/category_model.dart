@@ -1,108 +1,109 @@
 class Category {
-  String? status;
-  int? total;
-  List<Data>? data;
+  String status = '';
+  List<Data> data = [];
+  Data? singleData;
 
-  Category({this.status, this.total, this.data});
+  Category({this.status = '', this.data = const [], this.singleData});
 
-  Category.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    total = json['total'];
-    if (json['data'] != null) {
+  Category.FromJson(Map<String, dynamic> json) {
+    status = json['status'] ?? '';
+    if (json['data'] is List) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data.add(Data.fromJson(v));
       });
+    } else if (json['data'] is Map) {
+      singleData = Data.fromJson(json['data']);
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
-    data['total'] = this.total;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    if (this.data.isNotEmpty) {
+      data['data'] = this.data.map((v) => v.toJson()).toList();
+    } else if (this.singleData != null) {
+      data['data'] = this.singleData!.toJson();
     }
     return data;
   }
 }
 
-class Data {
-  Image? image;
-  String? sId;
-  String? name;
-  String? shippingCharge;
-  String? vat;
-  String? status;
-  String? commission;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
-  List<SubCategories>? subCategories;
-  String? id;
 
-  Data(
-      {this.image,
-        this.sId,
-        this.name,
-        this.shippingCharge,
-        this.vat,
-        this.status,
-        this.commission,
-        this.createdAt,
-        this.updatedAt,
-        this.iV,
-        this.subCategories,
-        this.id});
+
+
+class Data {
+  dynamic? image;
+  String sId = '';
+  String name = '';
+  String shippingCharge = '';
+  String vat = '';
+  String status = '';
+  String commission = '';
+  String createdAt = '';
+  String updatedAt = '';
+  int V = 0;
+  List<SubCategories> subCategories = [];
+  String id = '';
+  String icon = '';
+
+  Data({
+    this.image,
+    this.sId = '',
+    this.name = '',
+    this.shippingCharge = '',
+    this.vat = '',
+    this.status = '',
+    this.commission = '',
+    this.createdAt = '',
+    this.updatedAt = '',
+    this.V = 0,
+    this.subCategories = const [],
+    this.id = '',
+    this.icon = '',
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
-    image = json['image'] != null ? new Image.fromJson(json['image']) : null;
-    sId = json['_id'];
-    name = json['name'];
-    shippingCharge = json['shippingCharge'];
-    vat = json['vat'];
-    status = json['status'];
-    commission = json['commission'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    iV = json['__v'];
+    image = json['image'] != null ? Image.fromJson(json['image']) : null;
+    sId = json['_id'] ?? '';
+    name = json['name'] ?? '';
+    shippingCharge = json['shippingCharge'] ?? '';
+    vat = json['vat'] ?? '';
+    status = json['status'] ?? '';
+    commission = json['commission'] ?? '';
+    createdAt = json['createdAt'] ;
+    updatedAt = json['updatedAt'] ;
+    V = json['__v'] ?? 0;
     if (json['subCategories'] != null) {
       subCategories = <SubCategories>[];
       json['subCategories'].forEach((v) {
-        subCategories!.add(new SubCategories.fromJson(v));
+        subCategories.add(SubCategories.fromJson(v));
       });
     }
-    id = json['id'];
+    id = json['id'] ?? '';
+    icon = json['icon'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.image != null) {
-      data['image'] = this.image!.toJson();
+      data['image'] = this.image;
     }
-    data['_id'] = this.sId;
     data['name'] = this.name;
     data['shippingCharge'] = this.shippingCharge;
     data['vat'] = this.vat;
     data['status'] = this.status;
     data['commission'] = this.commission;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
-    if (this.subCategories != null) {
-      data['subCategories'] =
-          this.subCategories!.map((v) => v.toJson()).toList();
-    }
-    data['id'] = this.id;
+    data['icon'] = this.icon;
     return data;
   }
 }
 
 class Image {
-  String? publicId;
+  String? publicId ;
   String? secureUrl;
 
-  Image({this.publicId, this.secureUrl});
+  Image({this.publicId , this.secureUrl });
 
   Image.fromJson(Map<String, dynamic> json) {
     publicId = json['public_id'];
@@ -110,7 +111,7 @@ class Image {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = {};
     data['public_id'] = this.publicId;
     data['secure_url'] = this.secureUrl;
     return data;

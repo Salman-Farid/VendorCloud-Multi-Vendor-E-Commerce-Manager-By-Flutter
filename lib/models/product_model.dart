@@ -90,9 +90,7 @@ class Data {
 
 
   Data.fromJson(Map<String, dynamic> json) {
-    coverPhoto = json['coverPhoto'] != null
-        ? CoverPhoto.fromJson(json['coverPhoto'])
-        : null;
+    coverPhoto = json['coverPhoto'] != null ? CoverPhoto.fromJson(json['coverPhoto']) : null;
     video = json['video'] != null ? CoverPhoto.fromJson(json['video']) : null;
     specifications = json['specifications'] != null
         ? Specifications.fromJson(json['specifications'])

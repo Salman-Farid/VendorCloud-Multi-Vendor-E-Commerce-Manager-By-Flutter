@@ -54,55 +54,6 @@ class ProductService extends BaseController {
   }
 
 
-
-
-
-
-
-
-
-  // // Fetch all products
-  // Future<List<Product>?> getProducts() async {
-  //   try {
-  //     final sessionId = await _prefService.getSessionId();
-  //     var response = await _baseClient.get(
-  //       NetworkConstants.getProducts,
-  //       header: {'Cookie': "connect.sid=$sessionId"},
-  //     ).catchError(handleError);
-  //
-  //     if (response != null) {
-  //       List<dynamic> data = response;
-  //       return data.map((json) => Product.fromJson(json)).toList();
-  //     }
-  //   } catch (e) {
-  //     print('Error fetching products: $e');
-  //   }
-  //   return null;
-  // }
-  //
-  // // Fetch product by ID
-  // Future<List<Product>?> getProductById(String id) async {
-  //   try {
-  //     final sessionId = await _prefService.getSessionId();
-  //     var response = await _baseClient.get(
-  //       NetworkConstants.getProductById(id),
-  //       header: {'Cookie': "connect.sid=$sessionId"},
-  //     ).catchError(handleError);
-  //
-  //     if (response != null) {
-  //       final productResponse = jsonDecode(response); // Assuming response is a JSON string
-  //       List<Product> products = [];
-  //       for (var item in productResponse['data']) {
-  //         products.add(Product.fromJson(item));
-  //       }
-  //       return products;
-  //     }
-  //   } catch (e) {
-  //     print('Error fetching products: $e');
-  //   }
-  //   return null;
-  // }
-  // Create a new product
   Future<Product?> createProduct(dynamic object) async {
     try {
       final sessionId = await _prefService.getSessionId();
@@ -116,8 +67,7 @@ class ProductService extends BaseController {
       ).catchError(handleError);
 
       if (response != null) {
-        var data = response['data'];
-        return Product.fromJson((data));
+        return Product.fromJson((response));
       }
     } catch (e) {
       print('Error creating product: $e');
