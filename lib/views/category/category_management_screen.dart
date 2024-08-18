@@ -117,47 +117,6 @@ class CategorySubcategoryView extends GetView<CategoryController> {
                 ),
               )
               // Sidebar for categories
-              // Container(
-              //   width: 100, // Adjust the width as per design
-              //   color: Colors.grey[200],
-              //   padding: const EdgeInsets.all(8.0), // Add padding for space between categories
-              //   child: ListView.builder(
-              //     itemCount: controller.categories.length,
-              //     itemBuilder: (context, index) {
-              //       final category = controller.categories[index];
-              //       return GestureDetector(
-              //         onTap: () {
-              //           controller.selectedCategory.value = category;
-              //         },
-              //         child: Obx(() {
-              //           return Container(
-              //             color: controller.selectedCategory.value?.id == category.id
-              //                 ? Colors.grey[300]
-              //                 : Colors.transparent,
-              //             padding: const EdgeInsets.all(8.0),
-              //             margin: const EdgeInsets.only(bottom: 8.0), // Add margin for space between categories
-              //             child: Column(
-              //               children: [
-              //                 if (category.image != null)
-              //                   Image.network(
-              //                     "https://baburhaatbd.com${category.image!.secureUrl}",
-              //                     width: 50,
-              //                     height: 50,
-              //                   ),
-              //                 const SizedBox(height: 5),
-              //                 Text(
-              //                   category.name ?? '',
-              //                   style: const TextStyle(fontSize: 12),
-              //                   textAlign: TextAlign.center,
-              //                 ),
-              //               ],
-              //             ),
-              //           );
-              //         }),
-              //       );
-              //     },
-              //   ),
-              // ),
             ],
           );
         }
