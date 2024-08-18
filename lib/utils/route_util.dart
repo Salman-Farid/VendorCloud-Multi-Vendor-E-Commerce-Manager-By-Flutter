@@ -40,8 +40,8 @@ class RouteUtil {
       binding: Fetchproductbindings(),
     ),
     GetPage(
-        name: CategoryGridView.routeName,
-        page: () => CategoryGridView(),
+        name: CategorySubcategoryView.routeName,
+        page: () => CategorySubcategoryView(),
         binding: FetchCategorybindings(),
     ),
     GetPage(

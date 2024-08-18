@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../models/category_model.dart';
+import 'package:karmalab_assignment/models/category_model.dart';
 import '../services/category_service.dart';
 import 'image_controller.dart';
 
@@ -19,6 +19,8 @@ class CategoryController extends GetxController {
 
   var isLoading = false.obs;
   var categoryList = <Data>[].obs;
+  var selectedCategory = Rxn<Data>();
+
 
   @override
   void onInit() {

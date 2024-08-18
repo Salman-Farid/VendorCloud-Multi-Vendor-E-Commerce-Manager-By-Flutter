@@ -2,53 +2,53 @@ import 'package:karmalab_assignment/constants/network_constants.dart';
 import 'package:karmalab_assignment/controllers/base_controller.dart';
 import 'package:karmalab_assignment/services/base/auth_client.dart';
 import 'package:karmalab_assignment/services/shared_pref_service.dart';
-import '../models/category_model.dart';
+import '../models/category_model.dart'; // Assuming the SubCategory model is similar to Data model
 
-class CategoryService extends BaseController {
+class SubCategoryService extends BaseController {
   final SharedPrefService _prefService = SharedPrefService();
   final BaseClient _baseClient = BaseClient();
 
-  // Fetch all categories
-  Future<Category?> getAllCategories() async {
+  // Fetch all subcategories
+  Future<SubCategories?> getAllSubCategories() async {
     try {
       final sessionId = await _prefService.getSessionId();
       var response = await _baseClient.get(
-        NetworkConstants.getAllCategories,
+        NetworkConstants.getAllSubCategories,
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
       if (response != null) {
-        return Category.FromJson(response);
+        return SubCategories.fromJson(response);
       }
     } catch (e) {
-      print('Error fetching categories: $e');
+      print('Error fetching subcategories: $e');
     }
     return null;
   }
 
-  // Fetch category by ID
-  Future<Category?> getCategoryById(String id) async {
+  // Fetch subcategory by ID
+  Future<SubCategories?> getSubCategoryById(String id) async {
     try {
       final sessionId = await _prefService.getSessionId();
       var response = await _baseClient.get(
-        NetworkConstants.getCategoryById(id),
+        NetworkConstants.getSubCategoryById(id),
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
       if (response != null) {
-        return Category.FromJson(response);
+        return SubCategories.fromJson(response);
       }
     } catch (e) {
-      print('Error fetching category by ID: $e');
+      print('Error fetching subcategory by ID: $e');
     }
     return null;
   }
 
-  // Create a new category
-  Future<Category?> createCategory(dynamic object) async {
+  // Create a new subcategory
+  Future<SubCategories?> createSubCategory(dynamic object) async {
     try {
       final sessionId = await _prefService.getSessionId();
       var response = await _baseClient.post(
-        NetworkConstants.createCategory,
+        NetworkConstants.createSubCategory,
         object,
         header: {
           'Cookie': "connect.sid=$sessionId",
@@ -56,22 +56,22 @@ class CategoryService extends BaseController {
         },
       ).catchError(handleError);
 
-      if (response != null ) {
+      if (response != null) {
         print('The response is: ... ... ... $response');
-        return  Category.FromJson(response);
+        return SubCategories.fromJson(response);
       }
     } catch (e) {
-      print('Error creating category: $e');
+      print('Error creating subcategory: $e');
     }
     return null;
   }
 
-  // Update category by ID
-  Future<bool> updateCategoryById(String id, dynamic object) async {
+  // Update subcategory by ID
+  Future<bool> updateSubCategoryById(String id, dynamic object) async {
     try {
       final sessionId = await _prefService.getSessionId();
       var response = await _baseClient.patch(
-        NetworkConstants.updateCategoryById(id),
+        NetworkConstants.updateSubCategoryById(id),
         object,
         header: {
           'Cookie': "connect.sid=$sessionId",
@@ -83,17 +83,17 @@ class CategoryService extends BaseController {
         return true;
       }
     } catch (e) {
-      print('Error updating category by ID: $e');
+      print('Error updating subcategory by ID: $e');
     }
     return false;
   }
 
-  // Delete category by ID
-  Future<bool> deleteCategoryById(String id) async {
+  // Delete subcategory by ID
+  Future<bool> deleteSubCategoryById(String id) async {
     try {
       final sessionId = await _prefService.getSessionId();
       var response = await _baseClient.delete(
-        NetworkConstants.deleteCategoryById(id),
+        NetworkConstants.deleteSubCategoryById(id),
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
@@ -101,7 +101,7 @@ class CategoryService extends BaseController {
         return true;
       }
     } catch (e) {
-      print('Error deleting category by ID: $e');
+      print('Error deleting subcategory by ID: $e');
     }
     return false;
   }

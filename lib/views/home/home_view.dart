@@ -78,7 +78,7 @@ class HomeView extends StatelessWidget {
             title: Text('Categories'),
             onTap: () {
               // Navigate to the category screen
-              Get.toNamed('/all_categories');
+              Get.toNamed('/category_subcategory');
             },
           ),
           ListTile(
