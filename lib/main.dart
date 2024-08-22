@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:karmalab_assignment/controllers/category_controller.dart';
 import 'package:karmalab_assignment/theme/theme.dart';
 import 'package:karmalab_assignment/utils/route_util.dart';
 import 'package:karmalab_assignment/views/authentication/select_auth/select_auth_view.dart';
+import 'package:karmalab_assignment/views/mainScreen/mainscreen.dart';
+import 'constants/colors.dart';
+import 'controllers/mainscreen_controller.dart';
+import 'controllers/oerder_controller.dart';
+import 'controllers/product_review_controller.dart';
 import 'controllers/user_controller.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  Get.lazyPut(()=>ProductReviewController());
+  Get.lazyPut(()=>MainController());
   Get.put(UserController());
+  Get.lazyPut(()=>CategoryController());
+  Get.lazyPut(()=>OrderController());
   runApp(const MyApp());
 }
 
@@ -17,7 +27,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Auth_by_getx_rest_api',
+      // theme: ThemeData(
+      //   canvasColor: Colors.white, // Sets the background color of the app
+      //   fontFamily: 'Roboto',
+      //   primaryColor: primaryColor,
+
+      // ),
+      //themeMode: ThemeMode.system,
+      title: 'BabutHut vendor',
       initialRoute: SelectAuthView.routeName,
       getPages: RouteUtil.routes,
       debugShowCheckedModeBanner: false,

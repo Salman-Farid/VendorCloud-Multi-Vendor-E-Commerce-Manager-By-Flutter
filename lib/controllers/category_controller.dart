@@ -185,4 +185,28 @@ Future<void> updateCategoryById(String id, Category category) async {
       if (onDelete != null) onDelete(false, errorMessage: e.toString());
     }
   }
+
+// Delete Sub-category
+Future<void> deleteSubCategoryId(String id, Function(bool, {String? errorMessage})? onDelete) async {
+  try {
+    isLoading.value = true;
+    final success = await _categoryService.deleteSubCategoryId(id);
+    isLoading.value = false;
+    if (success) {
+      await getCategories(); // Refresh categories to reflect deletion
+    }
+    if (onDelete != null) onDelete(success);
+  } catch (e) {
+    isLoading.value = false;
+    if (onDelete != null) onDelete(false, errorMessage: e.toString());
+  }
+}
+
+
+
+
+
+
+
+
 }

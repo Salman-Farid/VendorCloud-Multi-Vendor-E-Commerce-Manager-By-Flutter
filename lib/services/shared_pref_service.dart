@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:karmalab_assignment/views/home/home_view.dart';
+import 'package:karmalab_assignment/views/profile/profile_view.dart';
 import 'package:karmalab_assignment/views/onboarding/onboarding_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_model.dart';
+import '../views/home/home.dart';
 
 
 
@@ -70,7 +71,7 @@ class SharedPrefService {
       pref.setBool("login", false);
     }
 
-    return status != null ? HomeView.routeName : OnboardingView.routeName;
+    return status != null ? Profile.routeName : OnboardingView.routeName;
   }
 
 

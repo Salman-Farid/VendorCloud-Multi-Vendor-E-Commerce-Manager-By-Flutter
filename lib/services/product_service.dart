@@ -106,7 +106,7 @@ class ProductService extends BaseController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
-      if (response != null) {
+      if (response == null) {
         return true;
       }
     } catch (e) {

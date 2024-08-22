@@ -10,7 +10,7 @@ import 'package:karmalab_assignment/utils/dimension.dart';
 import 'package:karmalab_assignment/views/authentication/forgot/forgot_password.dart';
 import 'package:karmalab_assignment/views/authentication/siginup/signup_view.dart';
 import 'package:karmalab_assignment/views/authentication/widget/auth_header.dart';
-import 'package:karmalab_assignment/views/home/home_view.dart';
+import 'package:karmalab_assignment/views/profile/profile_view.dart';
 import 'package:karmalab_assignment/widgets/custom_button.dart';
 import 'package:karmalab_assignment/widgets/custom_input.dart';
 import 'package:karmalab_assignment/widgets/fancy2_text.dart';
@@ -18,6 +18,7 @@ import 'package:karmalab_assignment/widgets/social_media_log.dart';
 
 import '../../../models/user_model.dart';
 import '../../../widgets/custom_form.dart';
+import '../../mainScreen/mainscreen.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -67,7 +68,7 @@ class _LoginViewState extends State<LoginView> {
                       onTap: () => _loginController.login((User? user) {
                         if (user != null) {
                           Get.offNamedUntil(
-                            HomeView.routeName,
+                            MainScreen.routeName,
                             (_) => false,
                           );
                         } else {

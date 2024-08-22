@@ -9,10 +9,13 @@ class AppTheme {
     return ThemeData(
       splashColor: AppColors.orange,
       primaryColor: AppColors.white,
-      // primarySwatch: AppColors.orange,
-      // buttonTheme: ButtonThemeData(
-      //     // hoverColor: MaterialStateColor.resolveWith((states) => Colors.red),
-      //     ),
+      canvasColor: AppColors.white, // Set the canvas color to premium white
+      scaffoldBackgroundColor: AppColors.white, // Set the scaffold background to premium white
+
+      primarySwatch: Colors.blue,
+      buttonTheme: ButtonThemeData(
+          hoverColor: WidgetStateColor.resolveWith((states) => Colors.red),
+          ),
       textTheme: TextTheme(
         displaySmall: GoogleFonts.openSans(),
         titleSmall: CustomTextTheme.titleSmall(),

@@ -6,9 +6,9 @@ import 'package:karmalab_assignment/controllers/user_controller.dart';
 import '../../models/user_model.dart';
 import '../../services/shared_pref_service.dart'; // Import the controller
 
-class HomeView extends StatelessWidget {
-  HomeView({Key? key}) : super(key: key);
-  static const routeName = "/home";
+class Profile extends StatelessWidget {
+  Profile({Key? key}) : super(key: key);
+  static const routeName = "/profile";
   final UserController userController =
       Get.find<UserController>(); // Access the controller
 

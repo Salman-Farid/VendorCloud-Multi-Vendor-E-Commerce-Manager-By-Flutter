@@ -67,7 +67,7 @@ class SubCategoryController extends CategoryController {
   }
 
   // Delete subcategory
-  Future<void> deleteSubCategory(String id, Function(bool, {String? errorMessage})? onDelete) async {
+  Future<void> deleteSubCategoryId(String id, Function(bool, {String? errorMessage})? onDelete) async {
     try {
       isLoading.value = true;
       final success = await _subCategoryService.deleteSubCategoryById(id);

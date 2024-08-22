@@ -105,4 +105,23 @@ class CategoryService extends BaseController {
     }
     return false;
   }
+
+
+  Future<bool> deleteSubCategoryId(String id) async {
+    try {
+      print('The id is: $id');
+      final sessionId = await _prefService.getSessionId();
+      var response = await _baseClient.delete(
+        NetworkConstants.deleteSubCategoryById(id),
+        header: {'Cookie': "connect.sid=$sessionId"},
+      ).catchError(handleError);
+
+      if (response == null) {
+        return true;
+      }
+    } catch (e) {
+      print('Error deleting category by ID: $e');
+    }
+    return false;
+  }
 }
