@@ -12,10 +12,6 @@ class ProductService extends BaseController {
   final BaseClient _baseClient = BaseClient();
   late  final Product? product;
 
-
-
-
-
   Future<Product?> getProducts() async {
     try {
       final sessionId = await _prefService.getSessionId();
@@ -54,7 +50,7 @@ class ProductService extends BaseController {
   }
 
 
-  Future<Product?> createProduct(dynamic object) async {
+  Future<bool> createProduct(dynamic object) async {
     try {
       final sessionId = await _prefService.getSessionId();
       var response = await _baseClient.post(
@@ -65,14 +61,13 @@ class ProductService extends BaseController {
           'Content-Type': "application/json",
         },
       ).catchError(handleError);
-
-      if (response != null) {
-        return Product.fromJson((response));
+      if (response['status']=='success') {
+        return true;
       }
     } catch (e) {
       print('Error creating product: $e');
     }
-    return null;
+    return false;
   }
 
   // Update product by ID

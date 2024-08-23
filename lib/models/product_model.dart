@@ -1,5 +1,36 @@
 
 
+// class Product {
+//   String? status;
+//   int? total;
+//   List<Data>? data;
+//
+//   Product({this.status, this.total, this.data});
+//
+//   Product.fromJson(Map<String, dynamic> json) {
+//     status = json['status'];
+//     total = json['total'];
+//     if (json['data'] != null) {
+//       data = <Data>[];
+//       json['data'].forEach((v) {
+//         data!.add(Data.fromJson(v));
+//       });
+//     }
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = {};
+//     data['status'] = this.status;
+//     data['total'] = this.total;
+//     if (this.data != null) {
+//       data['data'] = this.data!.map((v) => v.toJson()).toList();
+//     }
+//     return data;
+//   }
+// }
+
+
+
 class Product {
   String? status;
   int? total;
@@ -9,25 +40,33 @@ class Product {
 
   Product.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    total = json['total'];
-    if (json['data'] != null) {
+    if (json['data'] is List) {
+      total = json['total'];
       data = <Data>[];
       json['data'].forEach((v) {
         data!.add(Data.fromJson(v));
       });
+    } else if (json['data'] is Map) {
+      data = [Data.fromJson(json['data'])];
+    } else if (json['data'] is String) {
+      // Handle the case where data is a String
+      data = [Data(name: json['data'])];
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['status'] = this.status;
-    data['total'] = this.total;
-    if (this.data != null) {
+    if (this.data != null && this.data!.length > 1) {
+      data['total'] = this.total;
       data['data'] = this.data!.map((v) => v.toJson()).toList();
+    } else if (this.data != null && this.data!.length == 1) {
+      data['data'] = this.data!.first.toJson();
     }
     return data;
   }
 }
+
 
 class Data {
   dynamic? coverPhoto;

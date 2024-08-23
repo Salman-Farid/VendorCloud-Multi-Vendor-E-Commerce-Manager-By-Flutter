@@ -109,7 +109,6 @@ class AuthService extends BaseController {
     if (result != null) {
       result = json.decode(result);
       print(result.toString());
-      print("======");
       print(result["token"]);
 
       _prefService.updateToken(result["token"]);

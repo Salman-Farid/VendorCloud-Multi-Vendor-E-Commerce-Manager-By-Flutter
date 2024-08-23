@@ -106,7 +106,7 @@ class ProductController extends GetxController {
 
   // Create product
   Future<void> createProduct(
-      Function(Product?, {String? errorMessage})? onCreate) async {
+      Function(bool, {String? errorMessage})? onCreate) async {
     final valid = validate();
     final user = userController.user.value;
 
@@ -138,7 +138,7 @@ class ProductController extends GetxController {
         }
       } catch (e) {
         isLoading.value = false;
-        if (onCreate != null) onCreate(null, errorMessage: e.toString());
+        if (onCreate != null) onCreate(false, errorMessage: e.toString());
       }
     }
   }
