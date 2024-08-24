@@ -8,8 +8,7 @@ import 'user_controller.dart';
 class ProductController extends GetxController {
   final ProductService _productService = ProductService();
   final ImageController imageController = Get.put(ImageController());
-  final UserController userController =
-      Get.find<UserController>(); // Access the controller
+  final UserController userController = Get.find<UserController>(); // Access the controller
 
   // Controllers for product details
   final TextEditingController _nameController = TextEditingController();
@@ -24,7 +23,7 @@ class ProductController extends GetxController {
   final TextEditingController _videoController = TextEditingController();
 
   var isLoading = false.obs;
-  var productList = <Data>[].obs;
+  var productList = <Product>[].obs;
 
   @override
   void onInit() {
@@ -45,7 +44,7 @@ class ProductController extends GetxController {
 
   // Getter for products
   //List<Product> get products => _products.toList();
-  List<Data> get products => productList;
+  List<Product> get products => productList;
 
   // Add method to pick additional images
   Future<void> pickAdditionalImages() async {
@@ -111,7 +110,7 @@ class ProductController extends GetxController {
     final user = userController.user.value;
 
     if (valid) {
-      final product = Data(
+      final product = Product(
         user: user!.id,
         coverPhoto: imageController.imageBase64,
         video: videoController.text,
@@ -198,15 +197,15 @@ class ProductController extends GetxController {
 // }
 
 // Update product
-  Future<void> updateProductById(String id, Product product,
-      Function(Product?, {String? errorMessage})? onUpdate) async {
+  Future<void> updateProductById(String id, allProduct product,
+      Function(allProduct?, {String? errorMessage})? onUpdate) async {
     try {
       isLoading.value = true;
       final updatedProductResponse =
           await _productService.updateProductById(id, product.toJson());
       isLoading.value = false;
       final updatedProduct =
-          Product.fromJson(updatedProductResponse as Map<String, dynamic>);
+      allProduct.fromJson(updatedProductResponse as Map<String, dynamic>);
       if (onUpdate != null) onUpdate(updatedProduct);
     } catch (e) {
       isLoading.value = false;

@@ -35,7 +35,6 @@ class Order {
   }
 
   double get totalAmount => products.fold(0, (sum, product) => sum + (product.price * product.quantity));
-
   String get formattedDate => DateFormat('MMM d, yyyy').format(createdAt);
 }
 

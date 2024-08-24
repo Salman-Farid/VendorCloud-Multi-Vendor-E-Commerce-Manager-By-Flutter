@@ -5,6 +5,7 @@ import 'package:karmalab_assignment/models/category_model.dart';
 import '../../../constants/colors.dart';
 import '../../utils/route_util.dart';
 import '../category/category_management_screen.dart';
+import '../eventManager/event_mangement.dart';
 import '../product/all_products.dart';
 import '../product/product_upload_screen.dart';
 import '../review/product_review.dart';
@@ -21,7 +22,7 @@ class DashboardScreen extends StatelessWidget {
     {'title': 'Category', 'icon': Icons.category_outlined, 'routeName': CategorySubcategoryView.routeName}, // Add your category route
     {'title': 'Finance', 'icon': Icons.insert_chart, 'routeName': '/Finance'},
     //{'title': 'Account/Balance', 'icon': Icons.monetization_on, 'routeName': '/account'},
-    {'title': 'Event Management', 'icon': Icons.event, 'routeName': '/event'},
+    {'title': 'Event Management', 'icon': Icons.event, 'routeName':EventManagementScreen.routeName},
     {'title': 'AD Management', 'icon': Icons.ad_units, 'routeName': '/ad'},
     {'title': 'Review', 'icon': Icons.reviews_outlined, 'routeName': ProductReviewScreen.routeName},
     {'title': 'Report', 'icon': Icons.report, 'routeName': '/report'},

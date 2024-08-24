@@ -43,30 +43,34 @@ class ProductGridView extends GetView<ProductController> {
                     Stack(
                       children: [
                         ClipRRect(
-                          borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                          borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(12)),
                           child: product.coverPhoto != null
                               ? Image.network(
-                            "https://baburhaatbd.com${product.coverPhoto.secureUrl}",
-                            fit: BoxFit.cover,
-                            height: 180, // Increased image height
-                            width: double.infinity,
-                          )
+                                  "https://baburhaatbd.com${product.coverPhoto.secureUrl}",
+                                  fit: BoxFit.cover,
+                                  height: 180, // Increased image height
+                                  width: double.infinity,
+                                )
                               : Container(
-                            color: Colors.grey[200],
-                            width: double.infinity,
-                            child: Icon(Icons.image, color: Colors.grey[200], size: 40),
-                          ),
+                                  color: Colors.grey[200],
+                                  width: double.infinity,
+                                  child: Icon(Icons.image,
+                                      color: Colors.grey[200], size: 40),
+                                ),
                         ),
                         Positioned(
                           top: 4,
                           right: 4,
                           child: PopupMenuButton<String>(
-                            icon: const Icon(Icons.more_vert, color: Colors.white),
+                            icon: const Icon(Icons.more_vert,
+                                color: Colors.white),
                             onSelected: (value) {
                               if (value == 'update') {
                                 //Get.to(() => ProductUpdateScreen(product: product));
                               } else if (value == 'delete') {
-                                _showDeleteConfirmation(context, product.id ?? '');
+                                _showDeleteConfirmation(
+                                    context, product.id ?? '');
                               }
                             },
                             itemBuilder: (BuildContext context) => [
@@ -101,7 +105,8 @@ class ProductGridView extends GetView<ProductController> {
                           Text(
                             '\$${product.price ?? 0}',
                             style: TextStyle(
-                              color: Theme.of(context).textTheme.bodySmall!.color,
+                              color:
+                                  Theme.of(context).textTheme.bodySmall!.color,
                               fontWeight: FontWeight.w600,
                               fontSize: 10,
                             ),
@@ -137,12 +142,13 @@ class ProductGridView extends GetView<ProductController> {
                 Navigator.of(context).pop();
                 controller.deleteProduct(
                   productId,
-                      (success, {errorMessage}) {
+                  (success, {errorMessage}) {
                     if (success) {
                       Get.snackbar('Success', 'Product deleted successfully');
                       controller.getProducts();
                     } else {
-                      Get.snackbar('Error', errorMessage ?? 'Failed to delete product');
+                      Get.snackbar(
+                          'Error', errorMessage ?? 'Failed to delete product');
                     }
                   },
                 );

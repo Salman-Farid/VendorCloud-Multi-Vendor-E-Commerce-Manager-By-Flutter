@@ -31,26 +31,26 @@
 
 
 
-class Product {
+class allProduct {
   String? status;
   int? total;
-  List<Data>? data;
+  List<Product>? data;
 
-  Product({this.status, this.total, this.data});
+  allProduct({this.status, this.total, this.data});
 
-  Product.fromJson(Map<String, dynamic> json) {
+  allProduct.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     if (json['data'] is List) {
       total = json['total'];
-      data = <Data>[];
+      data = <Product>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add(Product.fromJson(v));
       });
     } else if (json['data'] is Map) {
-      data = [Data.fromJson(json['data'])];
+      data = [Product.fromJson(json['data'])];
     } else if (json['data'] is String) {
       // Handle the case where data is a String
-      data = [Data(name: json['data'])];
+      data = [Product(name: json['data'])];
     }
   }
 
@@ -68,7 +68,7 @@ class Product {
 }
 
 
-class Data {
+class Product {
   dynamic? coverPhoto;
   dynamic?  video;
   Specifications? specifications;
@@ -97,7 +97,7 @@ class Data {
   List<Reviews>? reviews;
   String? id;
 
-  Data({
+  Product({
     this.coverPhoto,
     this.video,
     this.specifications,
@@ -128,7 +128,7 @@ class Data {
   });
 
 
-  Data.fromJson(Map<String, dynamic> json) {
+  Product.fromJson(Map<String, dynamic> json) {
     coverPhoto = json['coverPhoto'] != null ? CoverPhoto.fromJson(json['coverPhoto']) : null;
     video = json['video'] != null ? CoverPhoto.fromJson(json['video']) : null;
     specifications = json['specifications'] != null

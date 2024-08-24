@@ -10,9 +10,9 @@ import '../models/product_model.dart';
 class ProductService extends BaseController {
   final SharedPrefService _prefService = SharedPrefService();
   final BaseClient _baseClient = BaseClient();
-  late  final Product? product;
+  late  final allProduct? product;
 
-  Future<Product?> getProducts() async {
+  Future<allProduct?> getProducts() async {
     try {
       final sessionId = await _prefService.getSessionId();
       var response = await _baseClient.get(
@@ -22,7 +22,7 @@ class ProductService extends BaseController {
 
       if (response != null) {
         //List<dynamic> data = response;
-        return Product.fromJson(response);
+        return allProduct.fromJson(response);
       }
     } catch (e) {
       print('Error fetching products: $e');
@@ -30,7 +30,7 @@ class ProductService extends BaseController {
     return null;
   }
 
-  Future<Product?> getProductById(String id) async {
+  Future<allProduct?> getProductById(String id) async {
     try {
       final sessionId = await _prefService.getSessionId();
       var response = await _baseClient.get(
@@ -41,7 +41,7 @@ class ProductService extends BaseController {
       if (response != null) {
         //final productResponse = jsonDecode(response);
         //List<dynamic> data = productResponse['data'];
-        return Product.fromJson(response);
+        return allProduct.fromJson(response);
       }
     } catch (e) {
       print('Error fetching product by ID: $e');

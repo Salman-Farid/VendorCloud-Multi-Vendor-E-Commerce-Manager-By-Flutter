@@ -8,11 +8,13 @@ import 'package:karmalab_assignment/views/authentication/verification/verificati
 import 'package:karmalab_assignment/views/profile/profile_view.dart';
 import 'package:karmalab_assignment/views/onboarding/onboarding_view.dart';
 import 'package:karmalab_assignment/views/splash/splash_view.dart';
+import '../controllers/EventManagementController.dart';
 import '../controllers/category_controller.dart';
 import '../controllers/product_controller.dart';
 import '../views/Dashboard/dashboard.dart';
 import '../views/category/category_creation_screen.dart';
 import '../views/category/category_management_screen.dart';
+import '../views/eventManager/event_mangement.dart';
 import '../views/home/home.dart';
 import '../views/mainScreen/mainscreen.dart';
 import '../views/order_management/orderlist_screen.dart';
@@ -38,6 +40,7 @@ class RouteUtil {
     GetPage(name: ProductGridView.routeName, page: () => ProductGridView(), binding: Fetchproductbindings(),),
     GetPage(name: CategorySubcategoryView.routeName, page: () => CategorySubcategoryView(), binding: FetchCategorybindings(),),
     GetPage(name: CategoryCreationScreen.routeName, page: () => CategoryCreationScreen(), binding: BindingsBuilder(() {Get.lazyPut<CategoryController>(() => CategoryController());}),),
+    GetPage(name: EventManagementScreen.routeName, page: () => EventManagementScreen()),//binding: BindingsBuilder(() {Get.lazyPut<EventManagementController>(() => EventManagementController());}),),
     GetPage(name: OrderListScreen.routeName, page: () => OrderListScreen(), binding: OrderlistBinding(),),
     GetPage(name: MainScreen.routeName, page: () =>  MainScreen()),
     GetPage(name: HomeScreen.routeName, page: () =>  HomeScreen()),

@@ -5,7 +5,6 @@ import 'package:karmalab_assignment/views/profile/profile_view.dart';
 
 import '../../controllers/mainscreen_controller.dart';
 import '../Dashboard/dashboard.dart';
-import '../category/category_management_screen.dart';
 import '../home/home.dart';
 import '../order_management/orderlist_screen.dart';
 import '../review/product_review.dart';
