@@ -3,20 +3,27 @@ import 'package:karmalab_assignment/services/base/app_exceptions.dart';
 
 class BaseController {
   void handleError(error) {
-    // print(error);
+    // Print the error for debugging purposes
+    print('This is for testing purpose: $error');
+
+    if (error == null) {
+      return;  // No action needed for null error
+    }
+
     if (error is BadRequestException) {
       var message = error.message;
-      // print(error);
       DialogHelper.showErrorDialog(description: message);
     } else if (error is FetchDataException) {
-      var message = error.message;
-      DialogHelper.showErrorDialog(description: message);
+      //var message = 'main culprit is here!!!!!!!';
+      //DialogHelper.showErrorDialog(description: message);
     } else if (error is ApiNotRespondingException) {
-      // var message = error.message;
       DialogHelper.showErrorDialog(description: "It took longer to respond.");
     } else if (error is InvalidException) {
       DialogHelper.showErrorDialog(
           description: error.message, title: "Oops 🥸");
+    } else {
+      // Handle any unexpected or unknown errors
+      DialogHelper.showErrorDialog(description: "An unknown error occurred.");
     }
   }
 }

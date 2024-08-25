@@ -49,7 +49,7 @@ class ProductGridView extends GetView<ProductController> {
                               ? Image.network(
                                   "https://baburhaatbd.com${product.coverPhoto.secureUrl}",
                                   fit: BoxFit.cover,
-                                  height: 180, // Increased image height
+                                  height: 175, // Increased image height
                                   width: double.infinity,
                                 )
                               : Container(

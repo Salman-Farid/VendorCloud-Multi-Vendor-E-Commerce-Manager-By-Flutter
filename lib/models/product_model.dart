@@ -69,10 +69,9 @@ class allProduct {
 
 
 class Product {
-  dynamic? coverPhoto;
+
   dynamic?  video;
-  Specifications? specifications;
-  String? sId;
+
   String? customId;
   dynamic? user;
   String? name;
@@ -84,18 +83,30 @@ class Product {
   String? category;
   String? brand;
   String? size;
+  dynamic? coverPhoto;
   List<dynamic>? images;
   int? stock;
   int? sold;
   int? revenue;
   List<dynamic>? numReviews;
   int? ratings;
+  Specifications? specifications;
   List<dynamic>? likes;
+  String? discount;
+  String? subCategory;
+  String? warranty;
+  Packaging? packaging;
+
+  String? sId;
   String? createdAt;
   String? updatedAt;
   int? V;
   List<Reviews>? reviews;
   String? id;
+
+
+
+
 
   Product({
     this.coverPhoto,
@@ -125,7 +136,12 @@ class Product {
     this.V,
     this.reviews,
     this.id,
+    this.discount,
+    this.subCategory,
+    this.warranty,
+    this.packaging,
   });
+
 
 
   Product.fromJson(Map<String, dynamic> json) {
@@ -466,6 +482,32 @@ class Location {
     if (coordinates != null) {
       data['coordinates'] = coordinates;
     }
+    return data;
+  }
+}
+
+
+class Packaging {
+  String? weight;
+  String? height;
+  String? width;
+  String? dimension;
+
+  Packaging({this.weight, this.height, this.width, this.dimension});
+
+  Packaging.fromJson(Map<String, dynamic> json) {
+    weight = json['weight'];
+    height = json['height'];
+    width = json['width'];
+    dimension = json['dimension'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['weight'] = this.weight;
+    data['height'] = this.height;
+    data['width'] = this.width;
+    data['dimension'] = this.dimension;
     return data;
   }
 }

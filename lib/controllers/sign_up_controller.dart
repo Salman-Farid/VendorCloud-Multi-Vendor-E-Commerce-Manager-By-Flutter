@@ -8,7 +8,7 @@ import '../models/user_model.dart';
 import 'image_controller.dart';
 
 class SignUpController extends GetxController {
-  final imageController = Get.put(ImageController());
+  final imageController = Get.put(MediaController());
 
   final AuthService _authService = AuthService();
 

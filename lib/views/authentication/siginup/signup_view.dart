@@ -9,12 +9,10 @@ import 'package:karmalab_assignment/helper/dialog_helper.dart';
 import 'package:karmalab_assignment/utils/dimension.dart';
 import 'package:karmalab_assignment/views/authentication/login/login_view.dart';
 import 'package:karmalab_assignment/views/authentication/widget/auth_header.dart';
-import 'package:karmalab_assignment/views/profile/profile_view.dart';
 import 'package:karmalab_assignment/widgets/custom_button.dart';
 import 'package:karmalab_assignment/widgets/custom_form.dart';
 import 'package:karmalab_assignment/widgets/fancy2_text.dart';
 import 'package:karmalab_assignment/widgets/social_media_log.dart';
-
 import '../../../controllers/image_controller.dart';
 import '../../../models/user_model.dart';
 import '../../../services/base/app_exceptions.dart';
@@ -24,7 +22,7 @@ class SignUpView extends StatelessWidget {
   static const routeName = '/sign-up';
 
   final SignUpController _signUpController = Get.put(SignUpController());
-  final imageController = Get.put(ImageController());
+  final imageController = Get.put(MediaController());
 
   SignUpView({super.key});
 

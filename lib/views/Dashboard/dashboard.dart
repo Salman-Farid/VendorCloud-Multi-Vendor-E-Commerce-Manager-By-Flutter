@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:lottie/lottie.dart';
 import 'package:karmalab_assignment/models/category_model.dart';
 import '../../../constants/colors.dart';
 import '../../utils/route_util.dart';
@@ -17,16 +17,46 @@ class DashboardScreen extends StatelessWidget {
   DashboardScreen({Key? key}) : super(key: key);
 
   final List<Map<String, dynamic>> menuList = [
-    {'title': 'Manage Products', 'icon': Icons.storefront, 'routeName': ProductGridView.routeName},
-    {'title': 'Upload Products', 'icon': Icons.upload, 'routeName': ProductCreationScreen.routeName},
-    {'title': 'Category', 'icon': Icons.category_outlined, 'routeName': CategorySubcategoryView.routeName}, // Add your category route
-    {'title': 'Finance', 'icon': Icons.insert_chart, 'routeName': '/Finance'},
-    //{'title': 'Account/Balance', 'icon': Icons.monetization_on, 'routeName': '/account'},
-    {'title': 'Event Management', 'icon': Icons.event, 'routeName':EventManagementScreen.routeName},
-    {'title': 'AD Management', 'icon': Icons.ad_units, 'routeName': '/ad'},
-    {'title': 'Review', 'icon': Icons.reviews_outlined, 'routeName': ProductReviewScreen.routeName},
-    {'title': 'Report', 'icon': Icons.report, 'routeName': '/report'},
-
+    {
+      'title': 'Manage Products',
+      'animationUrl': 'assets/images/lottie/manage_prod.json',
+      'routeName': ProductGridView.routeName
+    },
+    {
+      'title': 'Upload Products',
+      'animationUrl': 'assets/images/lottie/upload.json',
+      'routeName': ProductCreationScreen.routeName
+    },
+    {
+      'title': 'Category',
+      'animationUrl': 'assets/images/lottie/category.json',
+      'routeName': CategorySubcategoryView.routeName
+    },
+    {
+      'title': 'Finance',
+      'animationUrl': 'assets/images/lottie/finance.json',
+      'routeName': '/Finance'
+    },
+    {
+      'title': 'Event Management',
+      'animationUrl': 'assets/images/lottie/event.json',
+      'routeName': EventManagementScreen.routeName
+    },
+    {
+      'title': 'AD Management',
+      'animationUrl': 'assets/images/lottie/advertise.json',
+      'routeName': '/ad'
+    },
+    {
+      'title': 'Review',
+      'animationUrl': 'assets/images/lottie/reviews.json',
+      'routeName': ProductReviewScreen.routeName
+    },
+    {
+      'title': 'Report',
+      'animationUrl': 'assets/images/lottie/Reports.json',
+      'routeName': '/report'
+    },
   ];
 
   @override
@@ -96,21 +126,18 @@ class DashboardScreen extends StatelessWidget {
         boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10)],
       ),
       child: InkWell(
-        onTap:   ()=> Get.toNamed(item['routeName']),
-        // onTap: () {
-        //   // Navigate to the corresponding screen using routeName
-        //   Navigator.of(context).pushNamed(item['routeName']);
-        // },
+        onTap: () => Get.toNamed(item['routeName']),
         borderRadius: BorderRadius.circular(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              item['icon'],
-              size: 48,
-              color: primaryColor,
+            Lottie.asset(
+              item['animationUrl'],
+              width: 110,
+              height: 110,
+              fit: BoxFit.cover,
             ),
-            const SizedBox(height: 12),
+            //const SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(

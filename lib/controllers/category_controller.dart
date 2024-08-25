@@ -6,12 +6,11 @@ import 'image_controller.dart';
 
 class CategoryController extends GetxController {
   final CategoryService _categoryService = CategoryService();
-  final ImageController imageController = Get.put(ImageController());
+  final MediaController imageController = Get.put(MediaController());
 
   // Controllers for category details
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _shippingChargeController =
-      TextEditingController();
+  final TextEditingController _shippingChargeController = TextEditingController();
   final TextEditingController _vatController = TextEditingController();
   final TextEditingController _statusController = TextEditingController();
   final TextEditingController _commissionController = TextEditingController();
@@ -20,6 +19,8 @@ class CategoryController extends GetxController {
   var isLoading = false.obs;
   var categoryList = <Data>[].obs;
   var selectedCategory = Rxn<Data>();
+  var selectedSubCategory = Rxn<SubCategories>();
+  var setSelectedCategoryId = Rxn<String>();
 
 
   @override
@@ -30,8 +31,7 @@ class CategoryController extends GetxController {
 
   // Getters for the controllers
   TextEditingController get nameController => _nameController;
-  TextEditingController get shippingChargeController =>
-      _shippingChargeController;
+  TextEditingController get shippingChargeController => _shippingChargeController;
   TextEditingController get vatController => _vatController;
   TextEditingController get statusController => _statusController;
   TextEditingController get commissionController => _commissionController;
@@ -92,6 +92,44 @@ class CategoryController extends GetxController {
     return true;
 
   }
+
+
+
+
+
+
+
+
+  // Update this method to set the selected category
+  void setSelectedCategory(String categoryId) {
+    final category = categoryList.firstWhere((cat) => cat.sId == categoryId, orElse: () => Data());
+    if (category.sId != null) {
+      selectedCategory.value = category;
+      selectedSubCategory.value = null; // Reset subcategory when category changes
+    }
+  }
+
+  // Add this method to set the selected subcategory
+  void setSelectedSubCategory(String subCategoryId) {
+    if (selectedCategory.value != null) {
+      final subCategory = selectedCategory.value!.subCategories?.firstWhere(
+            (subCat) => subCat.sId == subCategoryId,
+        orElse: () => SubCategories(),
+      );
+      if (subCategory != null && subCategory.sId != null) {
+        selectedSubCategory.value = subCategory;
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+
 
   // Create category
   Future<void> createCategory(

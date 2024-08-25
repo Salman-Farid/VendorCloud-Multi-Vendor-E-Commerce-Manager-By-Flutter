@@ -71,7 +71,7 @@ class BaseClient {
     try {
       var response = await client.delete(uri, headers: header);
       print('Raw POST Response: ${response.body}');
-      _printAndSaveCookies(response); // Print and save cookies
+      print('Raw POST Response: $response}');
       return _processResponse(response);
     } on SocketException {
       throw FetchDataException("No Internet connection", uri.toString());
@@ -87,6 +87,7 @@ class BaseClient {
         return responseJson;
       case 201:
         return responseJson;
+
       case 400:
         var errors = json.decode(bodyBytes)["errors"];
 
@@ -94,8 +95,8 @@ class BaseClient {
             errors[errors.keys.elementAt(0)][0].toString(),
             response.request!.url.toString());
       case 401:
-        throw InternalServerException(
-            "something went wrong, code: 401", response.request?.url.toString());
+        throw InternalServerException("something went wrong, code: 401",
+            response.request?.url.toString());
       case 403:
         var errors = json.decode(bodyBytes)["errors"];
 
@@ -104,8 +105,8 @@ class BaseClient {
             response.request?.url.toString());
 
       case 500:
-        throw InternalServerException(
-            "something went wrong, code: 500", response.request?.url.toString());
+        throw InternalServerException("something went wrong, code: 500",
+            response.request?.url.toString());
       default:
         throw FetchDataException(
             "Error occur with code : ${response.statusCode}",
@@ -129,7 +130,6 @@ class BaseClient {
     var cookies = setCookie.split(';');
     for (var cookie in cookies) {
       if (cookie.startsWith('connect.sid=')) {
-
         // Check for the session ID cookie
         var sessionId = cookie.split('=')[1]; // Get the session ID value
         await _prefService.saveSessionId(sessionId);
