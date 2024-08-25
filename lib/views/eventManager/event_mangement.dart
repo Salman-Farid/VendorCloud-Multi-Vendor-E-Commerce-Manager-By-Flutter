@@ -36,33 +36,28 @@ class EventManagementScreen extends StatelessWidget {
                   final product = eventManagementController.productController.products[index];
                   return LongPressDraggable<Product>(
                     data: product,
-                    feedback: Container(
-                      width: 150,
-                      height: 150,
-                      child: Image.network(product.coverPhoto != null
-                            ? "https://baburhaatbd.com${product.coverPhoto!.secureUrl}"
-                            : '',
-                        height: 100,
-                        color: Colors.orangeAccent,
-                        colorBlendMode: BlendMode.colorBurn,
+                    feedback: Material(
+                      elevation: 4,
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        width: 100,
+                        height: 140,
+                        child: ProductCard(product: product, index: index), // Pass index here
                       ),
                     ),
                     onDragStarted: () {
-                      eventManagementController.setDragging(true);
+                      eventManagementController.startDragging(index);
                     },
                     onDraggableCanceled: (velocity, offset) {
-                      eventManagementController.setDragging(false);
+                      eventManagementController.stopDragging();
                     },
                     onDragCompleted: () {
-                      eventManagementController.setDragging(false);
+                      eventManagementController.stopDragging();
                     },
-
                     childWhenDragging: SizedBox(height: 150),
-                    child: ProductCard(product: product),
+                    child: ProductCard(product: product, index: index), // Pass index here
                     onDragEnd: (details) {
-                      eventManagementController.setDragging(false);
-
-                      // You can handle drag end here if needed
+                      eventManagementController.stopDragging();
                     },
                   );
                 },
@@ -70,7 +65,7 @@ class EventManagementScreen extends StatelessWidget {
             }
           }),
           Positioned(
-            bottom: 10,
+            bottom: 70,
             left: 0,
             right: 0,
             child: Center(
@@ -79,29 +74,24 @@ class EventManagementScreen extends StatelessWidget {
                 onAccept: (product) => eventManagementController.addProductToEvent(product),
                 builder: (context, candidateData, rejectedData) {
                   return Container(
-                    width: 450,
-                    height: 450,
+                    width: 250,
+                    height: 250,
                     decoration: BoxDecoration(
-                      color: candidateData.isEmpty ? Colors.transparent : Colors.transparent,
+                      color: candidateData.isEmpty ? Colors.transparent : Colors.red.shade100,
                       shape: BoxShape.circle,
                     ),
-                    child:
+                    child:  Obx(() {
+                    return Visibility(
+                      visible: eventManagementController.draggingIndex.value != null, // Check if draggingIndex is not null
+                      child: Lottie.network(
+                        repeat: false,
+                        'https://lottie.host/d5ff3ee6-7d57-41bf-ad92-ca34777279e3/P4XDvDxN9O.json',
+                        fit: BoxFit.contain,
+                        animate: true,
+                      ),
+                    );
+                  }),
 
-                    Obx(() {
-                      return Visibility(
-                        visible: eventManagementController.isDragging.value,
-                        child: Lottie.network(
-
-                          repeat: false,
-                          //'https://lottie.host/1dfd30da-0380-4082-91f7-cd7448112b00/xrT5wfkcvy.json',
-                          'https://lottie.host/d5ff3ee6-7d57-41bf-ad92-ca34777279e3/P4XDvDxN9O.json',
-                          width: 450,
-                          height: 450,
-                          fit: BoxFit.contain,
-                          animate: true,
-                        ),
-                      );
-                    }),
                   );
                 },
               ),
@@ -115,62 +105,61 @@ class EventManagementScreen extends StatelessWidget {
 
 class ProductCard extends StatelessWidget {
   final Product product;
-  const ProductCard({Key? key, required this.product}) : super(key: key);
+  final int index;
+  final EventManagementController eventManagementController = Get.find<EventManagementController>(); // Use Get.find to reuse controller
+
+  ProductCard({Key? key, required this.product, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-            child: product.coverPhoto != null
-                ? Image.network(
-              "https://baburhaatbd.com${product.coverPhoto!.secureUrl}",
-              fit: BoxFit.cover,
-              height: 175,
-              width: double.infinity,
-            )
-                : Container(
-              color: Colors.grey[200],
-              width: double.infinity,
-              height: 150,
-              child: Icon(Icons.image, color: Colors.grey[400], size: 40),
+    return Obx(() {
+      bool isDragging = eventManagementController.draggingIndex.value == index;
+      return Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+              child: Image.network(
+                "https://baburhaatbd.com${product.coverPhoto!.secureUrl}",
+                fit: BoxFit.cover,
+                height: isDragging ? 100 : 175,
+                width: double.infinity,
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  product.name ?? '',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    product.name ?? '',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: isDragging ? 5 : 14,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '\$${product.price ?? 0}',
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.bodySmall!.color,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12,
+                  const SizedBox(height: 4),
+                  Text(
+                    '\$${product.price ?? 0}',
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.bodySmall!.color,
+                      fontWeight: FontWeight.w600,
+                      fontSize: isDragging ? 3 : 12,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 }

@@ -58,6 +58,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/logos/
+    - assets/images/lottie/
     - assets/images/png/onboarding-images/
     - assets/images/png/
     - assets/images/logos/ic_launcher-2/

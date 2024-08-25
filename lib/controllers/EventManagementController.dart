@@ -19,6 +19,19 @@ class EventManagementController extends GetxController {
     getProducts();
   }
 
+
+
+  var draggingIndex = Rxn<int>(); // Add this line
+
+  // Add these methods to manage dragging index
+  void startDragging(int index) {
+    draggingIndex.value = index;
+  }
+
+  void stopDragging() {
+    draggingIndex.value = null;
+  }
+
   void setDragging(bool value) {
     isDragging.value = value;
   }
