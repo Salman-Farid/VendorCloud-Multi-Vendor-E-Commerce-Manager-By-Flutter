@@ -51,7 +51,7 @@ class VerificationView extends StatelessWidget {
                     onTap: () {
                       _verifyOtpController.verify(email, (status) {
                         if (status) {
-                          Get.to(NewPassWordView(email: email));
+                          Get.to(()=> NewPassWordView(email: email));
                         } else {
                           DialogHelper.showSnackBar();
                         }

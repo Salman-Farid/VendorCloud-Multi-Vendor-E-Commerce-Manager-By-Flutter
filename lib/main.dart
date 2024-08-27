@@ -6,6 +6,7 @@ import 'package:karmalab_assignment/utils/route_util.dart';
 import 'package:karmalab_assignment/views/authentication/select_auth/select_auth_view.dart';
 import 'package:karmalab_assignment/views/mainScreen/mainscreen.dart';
 import 'constants/colors.dart';
+import 'controllers/dashboard_controller.dart';
 import 'controllers/mainscreen_controller.dart';
 import 'controllers/oerder_controller.dart';
 import 'controllers/product_review_controller.dart';
@@ -18,6 +19,7 @@ void main() {
   Get.put(UserController());
   Get.lazyPut(()=>CategoryController());
   Get.lazyPut(()=>OrderController());
+  Get.put(DashboardController());
   runApp(const MyApp());
 }
 

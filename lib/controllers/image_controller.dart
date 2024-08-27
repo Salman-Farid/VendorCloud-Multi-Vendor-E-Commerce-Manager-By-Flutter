@@ -66,7 +66,7 @@ class MediaController extends GetxController {
       final fileSize = await file.length(); // Get file size in bytes
 
       // Check if file size is greater than 20 MB (20 * 1024 * 1024 bytes)
-      if (fileSize > 20 * 1024 * 1024) {
+      if (fileSize > 200 * 1024 * 1024) {
         throw InvalidException(
           "File size exceeds 20 MB! Please select a smaller video.",
           false,

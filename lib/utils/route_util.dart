@@ -10,6 +10,7 @@ import 'package:karmalab_assignment/views/onboarding/onboarding_view.dart';
 import 'package:karmalab_assignment/views/splash/splash_view.dart';
 import '../controllers/EventManagementController.dart';
 import '../controllers/category_controller.dart';
+import '../controllers/dashboard_controller.dart';
 import '../controllers/product_controller.dart';
 import '../views/Dashboard/dashboard.dart';
 import '../views/category/category_creation_screen.dart';
@@ -22,6 +23,7 @@ import '../views/product/all_products.dart';
 import '../views/product/product_upload_screen.dart';
 import '../views/review/product_review.dart';
 import 'Bindings/category_bindings.dart';
+import 'Bindings/dashboard_binding.dart';
 import 'Bindings/fetchProductBindings.dart';
 import 'Bindings/orderlist_binding.dart';
 import 'Bindings/product_creation_screen_binding.dart';
@@ -37,14 +39,13 @@ class RouteUtil {
     GetPage(name: VerificationView.routeName, page: () => const VerificationView()),
     GetPage(name: Profile.routeName, page: () => Profile()),
     GetPage(name: ProductCreationScreen.routeName, page: () => ProductCreationScreen(), binding: ProductCreationScreenBinding(),),
-    GetPage(name: ProductGridView.routeName, page: () => ProductGridView(), binding: Fetchproductbindings(),),
-    GetPage(name: CategorySubcategoryView.routeName, page: () => CategorySubcategoryView(), binding: FetchCategorybindings(),),
-    GetPage(name: CategoryCreationScreen.routeName, page: () => CategoryCreationScreen(), binding: BindingsBuilder(() {Get.lazyPut<CategoryController>(() => CategoryController());}),),
+    GetPage(name: ProductGridView.routeName, page: () => const ProductGridView(), binding: Fetchproductbindings(),),
+    GetPage(name: CategorySubcategoryView.routeName, page: () => const CategorySubcategoryView(), binding: FetchCategorybindings(),),
+    GetPage(name: DashboardScreen.routeName, page: () => DashboardScreen(), binding:DashboardBinding()),
     GetPage(name: EventManagementScreen.routeName, page: () => EventManagementScreen()),//binding: BindingsBuilder(() {Get.lazyPut<EventManagementController>(() => EventManagementController());}),),
-    GetPage(name: OrderListScreen.routeName, page: () => OrderListScreen(), binding: OrderlistBinding(),),
+    GetPage(name: OrderListScreen.routeName, page: () => OrderListScreen(), binding: OrderlistBinding()),
     GetPage(name: MainScreen.routeName, page: () =>  MainScreen()),
     GetPage(name: HomeScreen.routeName, page: () =>  HomeScreen()),
-    GetPage(name: DashboardScreen.routeName, page: () =>  DashboardScreen()),
     GetPage(name: NewPassWordView.routeName, page: () => const NewPassWordView()),
     GetPage(name: ProductReviewScreen.routeName, page: () => ProductReviewScreen()),
   ];

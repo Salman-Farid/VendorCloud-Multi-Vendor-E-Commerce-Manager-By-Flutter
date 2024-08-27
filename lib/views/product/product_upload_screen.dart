@@ -348,6 +348,79 @@ class ProductCreationScreen extends GetView<ProductController> {
 
 
 
+  // Widget _buildCategoryDropdown() {
+  //   return Obx(() {
+  //     return DropdownButtonFormField<String>(
+  //       decoration: InputDecoration(
+  //         labelText: 'Category',
+  //         prefixIcon: Icon(FontAwesomeIcons.layerGroup, color: Colors.deepPurple),
+  //         border: OutlineInputBorder(
+  //           borderRadius: BorderRadius.circular(15),
+  //           borderSide: BorderSide(color: Colors.deepPurple.withOpacity(0.5)),
+  //         ),
+  //       ),
+  //       value: categoryController.selectedCategory.value?.sId,
+  //       items: categoryController.categories.map((category) {
+  //         return DropdownMenuItem<String>(
+  //           value: category.sId,
+  //           child: Text(category.name ?? ''),
+  //         );
+  //       }).toList(),
+  //       onChanged: (String? categoryId) {
+  //         if (categoryId != null) {
+  //           categoryController.setSelectedCategory(categoryId);
+  //           controller.categoryController.text = categoryId;
+  //           // Reset subcategory when category changes
+  //           controller.subCategoryController.text = '';
+  //         }
+  //       },
+  //     );
+  //   });
+  // }
+
+
+  // Widget _buildSubCategoryDropdown() {
+  //   return Obx(() {
+  //     final selectedCategoryId = categoryController.selectedCategory.value?.sId;
+  //     final subCategories = categoryController.selectedCategory.value?.subCategories ?? [];
+  //
+  //     // Reset subcategory when category changes or if the current subcategory is not in the list
+  //     if (controller.subCategoryController.text.isNotEmpty &&
+  //         !subCategories.any((subCat) => subCat.sId == controller.subCategoryController.text)) {
+  //       controller.subCategoryController.text = ''; // Clear the selected subcategory
+  //       categoryController.selectedSubCategory.value = null; // Reset selected subcategory
+  //     }
+  //
+  //     return DropdownButtonFormField<String>(
+  //       decoration: InputDecoration(
+  //         labelText: 'Subcategory',
+  //         prefixIcon: Icon(FontAwesomeIcons.tags, color: Colors.deepPurple),
+  //         border: OutlineInputBorder(
+  //           borderRadius: BorderRadius.circular(15),
+  //           borderSide: BorderSide(color: Colors.deepPurple.withOpacity(0.5)),
+  //         ),
+  //       ),
+  //       value: controller.subCategoryController.text.isNotEmpty ? controller.subCategoryController.text : null,
+  //       items: subCategories.map((subCategory) {
+  //         return DropdownMenuItem<String>(
+  //           value: subCategory.sId,
+  //           child: Text(subCategory.name ?? ''),
+  //         );
+  //       }).toList(),
+  //       onChanged: (String? subCategoryId) {
+  //         if (subCategoryId != null) {
+  //           categoryController.setSelectedSubCategory(subCategoryId);
+  //           controller.subCategoryController.text = subCategoryId;
+  //         } else {
+  //           controller.subCategoryController.text = '';
+  //           categoryController.selectedSubCategory.value = null; // Reset selected subcategory on clear
+  //         }
+  //       },
+  //     );
+  //   });
+  // }
+
+
   Widget _buildCategoryDropdown() {
     return Obx(() {
       return DropdownButtonFormField<String>(
@@ -372,22 +445,25 @@ class ProductCreationScreen extends GetView<ProductController> {
             controller.categoryController.text = categoryId;
             // Reset subcategory when category changes
             controller.subCategoryController.text = '';
+            categoryController.selectedSubCategory.value = null;
           }
         },
       );
     });
   }
 
-
   Widget _buildSubCategoryDropdown() {
     return Obx(() {
       final selectedCategoryId = categoryController.selectedCategory.value?.sId;
       final subCategories = categoryController.selectedCategory.value?.subCategories ?? [];
 
-      // Reset subcategory when category changes or if the current subcategory is not in the list
+      // Reset subcategory when category changes
       if (controller.subCategoryController.text.isNotEmpty &&
           !subCategories.any((subCat) => subCat.sId == controller.subCategoryController.text)) {
-        controller.subCategoryController.text = '';
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          controller.subCategoryController.text = '';
+          categoryController.selectedSubCategory.value = null;
+        });
       }
 
       return DropdownButtonFormField<String>(
@@ -399,7 +475,10 @@ class ProductCreationScreen extends GetView<ProductController> {
             borderSide: BorderSide(color: Colors.deepPurple.withOpacity(0.5)),
           ),
         ),
-        value: controller.subCategoryController.text.isNotEmpty ? controller.subCategoryController.text : null,
+        value: controller.subCategoryController.text.isNotEmpty &&
+            subCategories.any((subCat) => subCat.sId == controller.subCategoryController.text)
+            ? controller.subCategoryController.text
+            : null,
         items: subCategories.map((subCategory) {
           return DropdownMenuItem<String>(
             value: subCategory.sId,
@@ -412,12 +491,12 @@ class ProductCreationScreen extends GetView<ProductController> {
             controller.subCategoryController.text = subCategoryId;
           } else {
             controller.subCategoryController.text = '';
+            categoryController.selectedSubCategory.value = null;
           }
         },
       );
     });
   }
-
 
 
   // Widget _buildSubCategoryDropdown() {

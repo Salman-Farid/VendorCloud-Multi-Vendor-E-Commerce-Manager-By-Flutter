@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:karmalab_assignment/controllers/product_controller.dart';
 import 'package:karmalab_assignment/models/category_model.dart';
 import '../services/category_service.dart';
 import 'image_controller.dart';
@@ -7,6 +8,7 @@ import 'image_controller.dart';
 class CategoryController extends GetxController {
   final CategoryService _categoryService = CategoryService();
   final MediaController imageController = Get.put(MediaController());
+  final ProductController controller = Get.put(ProductController());
 
   // Controllers for category details
   final TextEditingController _nameController = TextEditingController();
@@ -106,8 +108,10 @@ class CategoryController extends GetxController {
     if (category.sId != null) {
       selectedCategory.value = category;
       selectedSubCategory.value = null; // Reset subcategory when category changes
+      controller.subCategoryController.text = ''; // Reset the subcategory text controller
     }
   }
+
 
   // Add this method to set the selected subcategory
   void setSelectedSubCategory(String subCategoryId) {
