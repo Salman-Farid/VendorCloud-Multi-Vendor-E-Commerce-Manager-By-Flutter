@@ -361,7 +361,7 @@ class ProductCreationScreen extends GetView<ProductController> {
         items: categoryController.categories.map((category) {
           return DropdownMenuItem<String>(
             value: category.sId,
-            child: Text(category.name ?? ''),
+            child: Text(category.name),
           );
         }).toList(),
         onChanged: (String? categoryId) {
