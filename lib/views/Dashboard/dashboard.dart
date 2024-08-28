@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:karmalab_assignment/models/category_model.dart';
 import '../../../constants/colors.dart';
-import '../../utils/route_util.dart';
+import '../category/category_creation_screen.dart';
 import '../category/category_management_screen.dart';
 import '../eventManager/event_mangement.dart';
 import '../product/all_products.dart';
 import '../product/product_upload_screen.dart';
 import '../review/product_review.dart';
-import '../../controllers/dashboard_controller.dart';
+
+// Add other import statements for the respective screens
 
 class DashboardScreen extends StatelessWidget {
   static const routeName = "/dashboard";
   DashboardScreen({Key? key}) : super(key: key);
 
-  final DashboardController controller = Get.put(DashboardController());
   final List<Map<String, dynamic>> menuList = [
     {
       'title': 'Manage Products',
@@ -55,16 +54,14 @@ class DashboardScreen extends StatelessWidget {
     {
       'title': 'Report',
       'animationUrl': 'assets/images/lottie/Reports.json',
-      'routeName': '/report'
+      'routeName': CategoryCreationScreen.routeName
     },
   ];
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: Get.height*1.2,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -73,67 +70,53 @@ class DashboardScreen extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: GetBuilder<DashboardController>(
-            builder: (controller) {
-              return AnimatedBuilder(
-                animation: controller.animationController!,
-                builder: (context, child) {
-                  return Opacity(
-                    opacity: controller.opacityAnimation!.value,
-                    child: Transform.scale(
-                      scale: controller.scaleAnimation!.value,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 0),
-                        child: Column(
-                          children: [
-                            const Center(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.dashboard,
-                                    color: primaryColor,
-                                    size: 32,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    'Dashboard',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 28,
-                                      color: primaryColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 24),
-                            Expanded(
-                              child: GridView.builder(
-                                padding: const EdgeInsets.all(10),
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 16,
-                                  mainAxisSpacing: 16,
-                                  childAspectRatio: 1,
-                                ),
-                                itemCount: menuList.length,
-                                itemBuilder: (context, index) => _buildMenuItem(context, menuList[index]),
-                              ),
-                            ),
-                          ],
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 16.0),
+            child: Column(
+              children: [
+                const Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.dashboard,
+                        color: primaryColor,
+                        size: 32,
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        'Dashboard',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 28,
+                          color: primaryColor,
                         ),
                       ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Expanded(
+                  child: GridView.builder(
+                    padding: const EdgeInsets.all(10),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      childAspectRatio: 1,
                     ),
-                  );
-                },
-              );
-            },
+                    itemCount: menuList.length,
+                    itemBuilder: (context, index) => _buildMenuItem(context, menuList[index]),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
   Widget _buildMenuItem(BuildContext context, Map<String, dynamic> item) {
     return Container(
       decoration: BoxDecoration(
@@ -153,13 +136,17 @@ class DashboardScreen extends StatelessWidget {
               height: 110,
               fit: BoxFit.cover,
             ),
-            Text(
-              item['title'],
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
-                color: Colors.grey,
+            //const SizedBox(height: 5),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(
+                item['title'],
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: Colors.grey,
+                ),
               ),
             ),
           ],

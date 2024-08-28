@@ -134,7 +134,7 @@ class ProductController extends GetxController {
         size: sizeController.text,
         images: mediaController.additionalImagesBase64,
         discount: discountController.text,
-        subCategory: '66b8b726fc3c520a4f5633f9',
+        subCategory: subCategoryController.text,
         warranty: warrantyController.text,
         packaging: Packaging(
           weight: weightController.text,

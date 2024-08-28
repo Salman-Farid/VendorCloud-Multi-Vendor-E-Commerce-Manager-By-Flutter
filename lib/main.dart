@@ -19,7 +19,7 @@ void main() {
   Get.put(UserController());
   Get.lazyPut(()=>CategoryController());
   Get.lazyPut(()=>OrderController());
-  Get.put(DashboardController());
+  //Get.put(DashboardController());
   runApp(const MyApp());
 }
 

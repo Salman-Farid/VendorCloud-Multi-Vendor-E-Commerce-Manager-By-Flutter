@@ -97,34 +97,76 @@ class CategoryController extends GetxController {
 
 
 
-
-
-
-
-
-  // Update this method to set the selected category
+// Update this method to set the selected category
   void setSelectedCategory(String categoryId) {
-    final category = categoryList.firstWhere((cat) => cat.sId == categoryId, orElse: () => Data());
+    // Find the category by id or return a default Data object
+    final category = categoryList.firstWhere(
+          (cat) => cat.sId == categoryId,
+      orElse: () => Data(),
+    );
+
+    // Check if the category is valid
     if (category.sId != null) {
-      selectedCategory.value = category;
-      selectedSubCategory.value = null; // Reset subcategory when category changes
-      controller.subCategoryController.text = ''; // Reset the subcategory text controller
+      selectedCategory.value = category; // Update the selected category
+
+      // Get the list of subcategories for the selected category
+      final subCategories = category.subCategories ?? [];
+
+      // Reset the selected subcategory and subcategory text controller
+      if (subCategories.isNotEmpty) {
+        selectedSubCategory.value = subCategories.first;
+        controller.subCategoryController.text = subCategories.first.sId ?? '';
+      } else {
+        selectedSubCategory.value = null;
+        controller.subCategoryController.text = '';
+      }
     }
   }
 
-
-  // Add this method to set the selected subcategory
+// Update this method to set the selected subcategory
   void setSelectedSubCategory(String subCategoryId) {
     if (selectedCategory.value != null) {
+      // Find the subcategory by id or return a default SubCategories object
       final subCategory = selectedCategory.value!.subCategories?.firstWhere(
             (subCat) => subCat.sId == subCategoryId,
         orElse: () => SubCategories(),
       );
+
+      // Check if the subcategory is valid
       if (subCategory != null && subCategory.sId != null) {
-        selectedSubCategory.value = subCategory;
+        selectedSubCategory.value = subCategory; // Update the selected subcategory
+        controller.subCategoryController.text = subCategoryId; // Update text controller
       }
     }
   }
+
+
+
+
+
+  // // Update this method to set the selected category
+  // void setSelectedCategory(String categoryId) {
+  //   final category = categoryList.firstWhere((cat) => cat.sId == categoryId, orElse: () => Data());
+  //   if (category.sId != null) {
+  //     selectedCategory.value = category;
+  //     selectedSubCategory.value = null; // Reset subcategory when category changes
+  //     controller.subCategoryController.text = ''; // Reset the subcategory text controller
+  //   }
+  // }
+  //
+  //
+  // // Add this method to set the selected subcategory
+  // void setSelectedSubCategory(String subCategoryId) {
+  //   if (selectedCategory.value != null) {
+  //     final subCategory = selectedCategory.value!.subCategories?.firstWhere(
+  //           (subCat) => subCat.sId == subCategoryId,
+  //       orElse: () => SubCategories(),
+  //     );
+  //     if (subCategory != null && subCategory.sId != null) {
+  //       selectedSubCategory.value = subCategory;
+  //     }
+  //   }
+  // }
 
 
 
