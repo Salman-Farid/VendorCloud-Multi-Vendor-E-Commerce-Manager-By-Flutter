@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:karmalab_assignment/views/product/product_update_screen.dart';
 import '../../controllers/product_controller.dart';
 
 class ProductGridView extends GetView<ProductController> {
@@ -38,6 +39,7 @@ class ProductGridView extends GetView<ProductController> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
+
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Stack(
@@ -66,9 +68,18 @@ class ProductGridView extends GetView<ProductController> {
                             icon: const Icon(Icons.more_vert,
                                 color: Colors.white),
                             onSelected: (value) {
+
+
                               if (value == 'update') {
-                                //Get.to(() => ProductUpdateScreen(product: product));
+                                Get.to(() => ProductUpdateScreen(product: product));
                               } else if (value == 'delete') {
+                                _showDeleteConfirmation(context, product.id ?? '');
+                              }
+
+
+
+
+                              else if (value == 'delete') {
                                 _showDeleteConfirmation(
                                     context, product.id ?? '');
                               }
@@ -92,25 +103,32 @@ class ProductGridView extends GetView<ProductController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            product.name ?? '',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 10,
-                            ),
-                            maxLines: 1, // Adjusted to single line
-                            overflow: TextOverflow.ellipsis,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                product.name ?? '',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 10,
+                                ),
+                                maxLines: 1, // Adjusted to single line
+                                overflow: TextOverflow.ellipsis,
+                              ),
+
+                              Text(
+                                '\$${product.price ?? 0}',
+                                style: TextStyle(
+                                  color:
+                                  Theme.of(context).textTheme.bodySmall!.color,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 10,
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 2),
-                          Text(
-                            '\$${product.price ?? 0}',
-                            style: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodySmall!.color,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 10,
-                            ),
-                          ),
+
                         ],
                       ),
                     ),
