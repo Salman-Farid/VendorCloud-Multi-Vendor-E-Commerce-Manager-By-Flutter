@@ -108,7 +108,9 @@ class CategoryController extends GetxController {
     // Check if the category is valid
     if (category.sId != null) {
       selectedCategory.value = category; // Update the selected category
-
+      controller.categoryController.text = categoryId;
+      print('the category ............. ${controller.categoryController.text}' );// Update text controller
+// Update text controller
       // Get the list of subcategories for the selected category
       final subCategories = category.subCategories ?? [];
 
@@ -135,7 +137,9 @@ class CategoryController extends GetxController {
       // Check if the subcategory is valid
       if (subCategory != null && subCategory.sId != null) {
         selectedSubCategory.value = subCategory; // Update the selected subcategory
-        controller.subCategoryController.text = subCategoryId; // Update text controller
+        controller.subCategoryController.text = subCategoryId;
+        print('the Subcategory controller is............. ${controller.subCategoryController.text}' );// Update text controller
+
       }
     }
   }

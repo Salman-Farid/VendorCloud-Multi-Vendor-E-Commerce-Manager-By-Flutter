@@ -56,9 +56,9 @@ class allProduct {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['status'] = this.status;
+    data['status'] = status;
     if (this.data != null && this.data!.length > 1) {
-      data['total'] = this.total;
+      data['total'] = total;
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     } else if (this.data != null && this.data!.length == 1) {
       data['data'] = this.data!.first.toJson();
@@ -71,7 +71,6 @@ class allProduct {
 class Product {
 
   dynamic?  video;
-
   String? customId;
   dynamic? user;
   String? name;
@@ -82,7 +81,6 @@ class Product {
   String? description;
   String? category;
   String? brand;
-  String? size;
   dynamic? coverPhoto;
   List<dynamic>? images;
   int? stock;
@@ -92,7 +90,6 @@ class Product {
   int? ratings;
   Specifications? specifications;
   List<dynamic>? likes;
-  String? discount;
   String? subCategory;
   String? warranty;
   Packaging? packaging;
@@ -123,7 +120,6 @@ class Product {
     this.description,
     this.category,
     this.brand,
-    this.size,
     this.images,
     this.stock,
     this.sold,
@@ -136,7 +132,6 @@ class Product {
     this.V,
     this.reviews,
     this.id,
-    this.discount,
     this.subCategory,
     this.warranty,
     this.packaging,
@@ -158,10 +153,10 @@ class Product {
     price = json['price'];
     quantity = json['quantity'];
     summary = json['summary'];
+    warranty = json['warranty'];
     description = json['description'];
     category = json['category'];
     brand = json['brand'];
-    size = json['size'];
     if (json['images'] != null) {
       images = <Images>[];
       json['images'].forEach((v) {
@@ -184,6 +179,9 @@ class Product {
         likes!.add(v);
       });
     }
+    //packaging = json['packaging'] != null ? Packaging.fromJson(json['packaging']) : null;
+    packaging= json["packaging"] == null ? null : Packaging.fromJson(json["packaging"]);
+
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     V = json['__v'];
@@ -195,6 +193,10 @@ class Product {
     }
     id = json['id'];
   }
+
+
+
+
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
@@ -215,8 +217,11 @@ class Product {
     data['summary'] = summary;
     data['description'] = description;
     data['category'] = category;
+    data['subCategory'] = subCategory;
     data['brand'] = brand;
-    data['size'] = size;
+    data['warranty'] = warranty;
+    data['packaging'] = packaging;
+
     if (images != null) {
       data['images'] = images;
     }
@@ -438,6 +443,7 @@ class Reviews {
     if (dislikes != null) {
       data['dislikes'] = dislikes;
     }
+
     data['_id'] = sId;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
@@ -504,10 +510,10 @@ class Packaging {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['weight'] = this.weight;
-    data['height'] = this.height;
-    data['width'] = this.width;
-    data['dimension'] = this.dimension;
+    data['weight'] = weight;
+    data['height'] = height;
+    data['width'] = width;
+    data['dimension'] = dimension;
     return data;
   }
 }

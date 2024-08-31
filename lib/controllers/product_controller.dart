@@ -10,6 +10,7 @@ import 'user_controller.dart';
 class ProductController extends GetxController {
   final ProductService _productService = ProductService();
   final MediaController mediaController = Get.put(MediaController());
+
   final UserController userController = Get.find<UserController>();
 
   // Controllers for product details
@@ -50,9 +51,7 @@ class ProductController extends GetxController {
   TextEditingController get descriptionController => _descriptionController;
   TextEditingController get categoryController => _categoryController;
   TextEditingController get brandController => _brandController;
-  TextEditingController get sizeController => _sizeController;
   TextEditingController get videoController => _videoController;
-  TextEditingController get discountController => _discountController;
   TextEditingController get subCategoryController => _subCategoryController;
   TextEditingController get warrantyController => _warrantyController;
   TextEditingController get weightController => _weightController;
@@ -75,7 +74,10 @@ class ProductController extends GetxController {
     final coverPhoto = mediaController.imageBase64;
     final additionalImages = mediaController.additionalImagesBase64;
 
-    if (name.isEmpty || price.isEmpty || quantity.isEmpty || coverPhoto.isEmpty) {
+    if (name.isEmpty ||
+        price.isEmpty ||
+        quantity.isEmpty ||
+        coverPhoto.isEmpty) {
       Get.snackbar(
         'Validation Error',
         'Please fill all required fields and upload a cover photo.',
@@ -115,14 +117,17 @@ class ProductController extends GetxController {
   }
 
   // Create product
-  Future<void> createProduct(Function(bool, {String? errorMessage})? onCreate) async {
+  Future<void> createProduct(
+      Function(bool, {String? errorMessage})? onCreate) async {
     final valid = validate();
     final user = userController.user.value;
     if (valid) {
       final product = Product(
         user: user!.id,
         coverPhoto: mediaController.imageBase64,
-        video: mediaController.videoBase64.isNotEmpty? mediaController.videoBase64 : videoController.text,
+        video: mediaController.videoBase64.isNotEmpty
+            ? mediaController.videoBase64
+            : videoController.text,
         name: nameController.text,
         slug: slugController.text,
         price: int.tryParse(priceController.text) ?? 0,
@@ -130,11 +135,9 @@ class ProductController extends GetxController {
         summary: summaryController.text,
         description: descriptionController.text,
         category: categoryController.text,
-        brand: brandController.text,
-        size: sizeController.text,
-        images: mediaController.additionalImagesBase64,
-        discount: discountController.text,
         subCategory: subCategoryController.text,
+        images: mediaController.additionalImagesBase64,
+        brand: brandController.text,
         warranty: warrantyController.text,
         packaging: Packaging(
           weight: weightController.text,
@@ -146,7 +149,8 @@ class ProductController extends GetxController {
 
       try {
         isLoading.value = true;
-        final createdProduct = await _productService.createProduct(product.toJson());
+        final createdProduct =
+            await _productService.createProduct(product.toJson());
         isLoading.value = false;
         if (onCreate != null) {
           onCreate(createdProduct);
@@ -177,61 +181,55 @@ class ProductController extends GetxController {
   }
 
   // Fetch product by ID
-  Future<void> getProductById(String id, Function(Product, {String? errorMessage})?) async {
-  try {
-  isLoading.value = true;
-  final productResponse = await _productService.getProductById(id);
-  isLoading.value = false;
-  if (productResponse != null && productResponse.data != null) {
-  productList.assignAll(productResponse.data!);
-  } else {
-  productList.clear();
+  Future<void> getProductById(
+      String id, Function(Product, {String? errorMessage})?) async {
+    try {
+      isLoading.value = true;
+      final productResponse = await _productService.getProductById(id);
+      isLoading.value = false;
+      if (productResponse != null && productResponse.data != null) {
+        productList.assignAll(productResponse.data!);
+      } else {
+        productList.clear();
+      }
+    } catch (e) {
+      isLoading.value = false;
+      Get.snackbar('Error', 'Failed to fetch products: $e',
+          snackPosition: SnackPosition.BOTTOM);
+    }
   }
-  } catch (e) {
-  isLoading.value = false;
-  Get.snackbar('Error', 'Failed to fetch products: $e',
-  snackPosition: SnackPosition.BOTTOM);
-  }
-}
 
 // Update product
-Future<void> updateProductById(String id, Product product,
-    Function(Product?, {String? errorMessage})? onUpdate) async {
-  try {
-    isLoading.value = true;
-    final updatedProductResponse = await _productService.updateProductById(id, product.toJson());
-    isLoading.value = false;
-    final updatedProduct = Product.fromJson(updatedProductResponse as Map<String, dynamic>);
-    if (onUpdate != null) onUpdate(updatedProduct);
-  } catch (e) {
-    isLoading.value = false;
-    if (onUpdate != null) onUpdate(null, errorMessage: e.toString());
+  Future<void> updateProductById(String id, Product product,
+      Function(Product?, {String? errorMessage})? onUpdate) async {
+    try {
+      isLoading.value = true;
+      final updatedProductResponse =
+          await _productService.updateProductById(id, product.toJson());
+      isLoading.value = false;
+      final updatedProduct =
+          Product.fromJson(updatedProductResponse as Map<String, dynamic>);
+      if (onUpdate != null) onUpdate(updatedProduct);
+    } catch (e) {
+      isLoading.value = false;
+      if (onUpdate != null) onUpdate(null, errorMessage: e.toString());
+    }
   }
-}
 
 // Delete product
-Future<void> deleteProduct(String id, Function(bool, {String? errorMessage})? onDelete) async {
-  try {
-    isLoading.value = true;
-    final success = await _productService.deleteProductById(id);
-    isLoading.value = false;
-    if (onDelete != null) onDelete(success);
-  } catch (e) {
-    isLoading.value = false;
-    if (onDelete != null) onDelete(false, errorMessage: e.toString());
+  Future<void> deleteProduct(
+      String id, Function(bool, {String? errorMessage})? onDelete) async {
+    try {
+      isLoading.value = true;
+      final success = await _productService.deleteProductById(id);
+      isLoading.value = false;
+      if (onDelete != null) onDelete(success);
+    } catch (e) {
+      isLoading.value = false;
+      if (onDelete != null) onDelete(false, errorMessage: e.toString());
+    }
   }
 }
-}
-
-
-
-
-
-
-
-
-
-
 
 //import 'package:flutter/material.dart';
 // import 'package:get/get.dart';

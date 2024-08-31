@@ -12,7 +12,7 @@ class EventManagementScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Event Management'),
+        title: FittedBox(child: const Text('Event Management', style: TextStyle(color: Colors.black, fontSize: 24))),
         elevation: 0,
       ),
       body: Stack(
@@ -136,24 +136,31 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    product.name ?? '',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: isDragging ? 5 : 14,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        product.name ?? '',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: isDragging ? 5 : 14,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '\$${product.price ?? 0}',
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.bodySmall!.color,
+                          fontWeight: FontWeight.w600,
+                          fontSize: isDragging ? 3 : 12,
+                        ),
+                      ),
+
+                    ],
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '\$${product.price ?? 0}',
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.bodySmall!.color,
-                      fontWeight: FontWeight.w600,
-                      fontSize: isDragging ? 3 : 12,
-                    ),
-                  ),
+
                 ],
               ),
             ),
