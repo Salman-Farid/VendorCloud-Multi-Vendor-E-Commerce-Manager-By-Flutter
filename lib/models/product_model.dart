@@ -107,6 +107,7 @@ class Product {
     this.subCategory,
     this.warranty,
     this.packaging,
+    this.variants,
   });
 
 
