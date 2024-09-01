@@ -17,8 +17,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(() {
-        return PageView(
+      body: PageView(
           controller: _pageController,
           onPageChanged: (index) {
             controller.changePage(index);
@@ -30,8 +29,7 @@ class MainScreen extends StatelessWidget {
             ProductReviewScreen(),
             Profile(),
           ],
-        );
-      }),
+        ),
       bottomNavigationBar: Obx(() {
         return BottomNavigationBar(
           backgroundColor: Colors.white,

@@ -30,7 +30,6 @@ class coverPhotoSection  extends StatelessWidget {
                 child: Obx(() {
                   String imageBase64 = controller.mediaController.imageBase64;
                   String imageUrl = controller.mediaController.imageUrl;
-                  print('The image url is $imageUrl');  // Print the image url
 
                   return Container(
                     width: 150,

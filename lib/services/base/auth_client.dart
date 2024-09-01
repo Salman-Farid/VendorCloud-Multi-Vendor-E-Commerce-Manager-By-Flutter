@@ -58,6 +58,7 @@ class BaseClient {
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.patch(uri, body: payload, headers: header);
+      print('Raw POST Response: ${response.body}');
       _printAndSaveCookies(response); // Print and save cookies
       return _processResponse(response);
     } on SocketException {

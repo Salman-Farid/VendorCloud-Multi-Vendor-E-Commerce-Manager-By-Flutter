@@ -44,7 +44,7 @@ class NetworkConstants {
 
 
   // Endpoints for products
-  static const String getProducts = "api/products";
+  static const String getProducts = "api/products?_limit=200";
   static const String createProduct = "api/products";
   static String getProductById(String id) => "api/products/$id";
   static String getProductBySlug(String slug) => "api/products/$slug";

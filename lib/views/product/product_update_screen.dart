@@ -16,7 +16,7 @@ class ProductUpdateScreen extends GetView<ProductController> {
   static const routeName = "/productUpdateScreen";
   final Product product;
 
-  ProductUpdateScreen({Key? key, required this.product}) : super(key: key);
+  ProductUpdateScreen({super.key, required this.product});
   final CategoryController categoryController = Get.put(CategoryController());
 
   @override
@@ -83,7 +83,6 @@ class ProductUpdateScreen extends GetView<ProductController> {
       if (product.coverPhoto != null && product.coverPhoto.secureUrl != null) {
         String coverPhotoUrl =
             "https://baburhaatbd.com${product.coverPhoto.secureUrl}";
-        print('The cover photo url is: $coverPhotoUrl');
         controller.mediaController.setCoverPhoto(coverPhotoUrl);
       }
 
@@ -100,7 +99,6 @@ class ProductUpdateScreen extends GetView<ProductController> {
         controller.mediaController.setVideo(videoUrl);
       }
     } catch (e) {
-      print('Error initializing media controllers: $e');
       Get.snackbar('Error', 'Failed to load product media');
     }
   }
@@ -225,65 +223,6 @@ class ProductUpdateScreen extends GetView<ProductController> {
     );
   }
 
-  //
-  // void _handleUpdateProduct() async {
-  //   final Map<String, dynamic> productData = {
-  //     'id': product.id,
-  //     'user': product.user,
-  //     'video': controller.mediaController.videoBase64.isNotEmpty
-  //         ? controller.mediaController.videoBase64
-  //         : controller.videoController.text,
-  //     'name': controller.nameController.text,
-  //     'slug': controller.slugController.text,
-  //     'price': int.tryParse(controller.priceController.text) ?? 0,
-  //     'quantity': int.tryParse(controller.quantityController.text) ?? 0,
-  //     'summary': controller.summaryController.text,
-  //     'description': controller.descriptionController.text,
-  //     'category': controller.categoryController.text,
-  //     'subCategory': controller.subCategoryController.text,
-  //     'images': controller.mediaController.additionalImagesBase64,
-  //     'brand': controller.brandController.text,
-  //     'warranty': controller.warrantyController.text,
-  //     'packaging': Packaging(
-  //       weight: controller.weightController.text,
-  //       height: controller.heightController.text,
-  //       width: controller.widthController.text,
-  //       dimension: controller.dimensionController.text,
-  //     ),
-  //   };
-  //
-  //   if (controller.mediaController.imageBase64 != null) {
-  //     productData['coverPhoto'] = controller.mediaController.imageBase64;
-  //   }
-  //
-  //   final updatedProduct = Product.fromMap(productData);
-  //
-  //   await controller.updateProductById(
-  //     product.id!,
-  //     updatedProduct,
-  //         (updatedProduct, {errorMessage}) {
-  //       if (updatedProduct != null) {
-  //         ScaffoldMessenger.of(Get.context!).showSnackBar(
-  //           const SnackBar(
-  //             duration: Duration(seconds: 3),
-  //             content: Text('Product updated successfully!'),
-  //             backgroundColor: Colors.green,
-  //           ),
-  //         );
-  //         Get.back();
-  //       } else {
-  //         ScaffoldMessenger.of(Get.context!).showSnackBar(
-  //           SnackBar(
-  //             content: Text('Error: $errorMessage'),
-  //             backgroundColor: Colors.red,
-  //           ),
-  //         );
-  //       }
-  //     },
-  //   );
-  // }
-  //
-  //
 
   void _handleUpdateProduct() async {
     final updatedProduct = Product(
@@ -315,8 +254,8 @@ class ProductUpdateScreen extends GetView<ProductController> {
     await controller.updateProductById(
       product.id!,
       updatedProduct,
-      (updatedProduct, {errorMessage}) {
-        if (updatedProduct != null) {
+          (isUpdated, {errorMessage}) {
+        if (isUpdated) {
           ScaffoldMessenger.of(Get.context!).showSnackBar(
             const SnackBar(
               duration: Duration(seconds: 3),
@@ -324,16 +263,20 @@ class ProductUpdateScreen extends GetView<ProductController> {
               backgroundColor: Colors.green,
             ),
           );
+          controller.mediaController.clearAdditionalImageBase64();
+          controller.getProducts();
           Get.back();
-        } else {
-          ScaffoldMessenger.of(Get.context!).showSnackBar(
-            SnackBar(
-              content: Text('Error: $errorMessage'),
-              backgroundColor: Colors.red,
-            ),
-          );
         }
+        // else {
+        //   ScaffoldMessenger.of(Get.context!).showSnackBar(
+        //     SnackBar(
+        //       content: Text('Error: $errorMessage'),
+        //       backgroundColor: Colors.red,
+        //     ),
+        //   );
+        // }
       },
     );
   }
+
 }

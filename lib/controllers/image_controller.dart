@@ -102,11 +102,9 @@ class MediaController extends GetxController {
     if (videoUrl != null && videoUrl.isNotEmpty) {
       // Handle the video URL
       try {
-        print('The video url is: $videoUrl');
         // Generate thumbnail for the video URL
         final videoThumbnail = await VideoThumbnail.thumbnailData(
           video: videoUrl,
-
           imageFormat: ImageFormat.JPEG,
           maxWidth: 720,
           quality: 50,
@@ -115,12 +113,12 @@ class MediaController extends GetxController {
         if (videoThumbnail != null) {
           _videoThumnail.value = base64Encode(videoThumbnail);
         } else {
-          Get.snackbar(
-            'Error',
-            'Unable to generate video thumbnail!',
-            backgroundColor: Colors.transparent,
-            colorText: Colors.black,
-          );
+          // Get.snackbar(
+          //   'Error',
+          //   'Unable to generate video thumbnail!',
+          //   backgroundColor: Colors.transparent,
+          //   colorText: Colors.black,
+          // );
         }
 
         // Set the video URL as the base64 string directly
@@ -128,13 +126,12 @@ class MediaController extends GetxController {
         _videoBase64.value = videoUrl; // Use the video URL directly
         _videoExtension.value = videoUrl.split('.').last.toLowerCase(); // Extract extension from URL
       } catch (e) {
-        print('Error occurred while processing the video URL: $e');
-        Get.snackbar(
-          'Error',
-          'An error occurred while processing the video URL. The error is: $e',
-          backgroundColor: Colors.transparent,
-          colorText: Colors.black,
-        );
+        // Get.snackbar(
+        //   'Error',
+        //   'An error occurred while processing the video URL. The error is: $e',
+        //   backgroundColor: Colors.transparent,
+        //   colorText: Colors.black,
+        // );
       }
     } else {
       // Handle video picking from file
@@ -360,7 +357,9 @@ class MediaController extends GetxController {
     }
   }
 
-
+  void clearAdditionalImageBase64() {
+      _additionalImagesBase64.clear();
+  }
 
   void removeUrlImage(int index) {
     if (index >= 0 && index < _additionalImagesUrls.length) {

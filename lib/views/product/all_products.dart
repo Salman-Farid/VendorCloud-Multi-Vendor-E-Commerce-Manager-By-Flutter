@@ -34,6 +34,7 @@ class ProductGridView extends GetView<ProductController> {
             itemBuilder: (context, index) {
               final product = controller.products[index];
               return Card(
+                color: Colors.white,
                 elevation: 2,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),

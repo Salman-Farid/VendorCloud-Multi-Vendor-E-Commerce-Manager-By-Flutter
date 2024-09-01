@@ -1,34 +1,5 @@
 
 
-// class Product {
-//   String? status;
-//   int? total;
-//   List<Data>? data;
-//
-//   Product({this.status, this.total, this.data});
-//
-//   Product.fromJson(Map<String, dynamic> json) {
-//     status = json['status'];
-//     total = json['total'];
-//     if (json['data'] != null) {
-//       data = <Data>[];
-//       json['data'].forEach((v) {
-//         data!.add(Data.fromJson(v));
-//       });
-//     }
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = {};
-//     data['status'] = this.status;
-//     data['total'] = this.total;
-//     if (this.data != null) {
-//       data['data'] = this.data!.map((v) => v.toJson()).toList();
-//     }
-//     return data;
-//   }
-// }
-
 
 
 class allProduct {
@@ -100,6 +71,7 @@ class Product {
   int? V;
   List<Reviews>? reviews;
   String? id;
+  List<ProductVariant>? variants;
 
 
 
@@ -140,7 +112,15 @@ class Product {
 
 
   Product.fromJson(Map<String, dynamic> json) {
-    coverPhoto = json['coverPhoto'] != null ? CoverPhoto.fromJson(json['coverPhoto']) : null;
+
+
+    coverPhoto= json['coverPhoto'] != null
+        ? (json['coverPhoto'] is String
+        ? (json['coverPhoto'].isEmpty ? null : json['coverPhoto'])
+        : CoverPhoto.fromJson(json['coverPhoto']))
+        : null;
+
+
     video = json['video'] != null ? CoverPhoto.fromJson(json['video']) : null;
     specifications = json['specifications'] != null
         ? Specifications.fromJson(json['specifications'])
@@ -181,7 +161,12 @@ class Product {
     }
     //packaging = json['packaging'] != null ? Packaging.fromJson(json['packaging']) : null;
     packaging= json["packaging"] == null ? null : Packaging.fromJson(json["packaging"]);
-
+    if (json['variants'] != null) {
+      variants = <ProductVariant>[];
+      json['variants'].forEach((v) {
+        variants!.add(ProductVariant.fromJson(v));
+      });
+    }
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     V = json['__v'];
@@ -216,12 +201,14 @@ class Product {
     data['quantity'] = quantity;
     data['summary'] = summary;
     data['description'] = description;
-    data['category'] = category;
-    data['subCategory'] = subCategory;
+    //data['category'] = category;
+    //data['subCategory'] = subCategory;
     data['brand'] = brand;
     data['warranty'] = warranty;
     data['packaging'] = packaging;
-
+    if (variants != null) {
+      data['variants'] = variants!.map((v) => v.toJson()).toList();
+    }
     if (images != null) {
       data['images'] = images;
     }
@@ -514,6 +501,41 @@ class Packaging {
     data['height'] = height;
     data['width'] = width;
     data['dimension'] = dimension;
+    return data;
+  }
+}
+
+
+class ProductVariant {
+  String? variantId;
+  String? color;
+  String? size;
+  int? price;
+  int? stock;
+
+  ProductVariant({
+    this.variantId,
+    this.color,
+    this.size,
+    this.price,
+    this.stock,
+  });
+
+  ProductVariant.fromJson(Map<String, dynamic> json) {
+    variantId = json['variantId'];
+    color = json['color'];
+    size = json['size'];
+    price = json['price'];
+    stock = json['stock'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['variantId'] = variantId;
+    data['color'] = color;
+    data['size'] = size;
+    data['price'] = price;
+    data['stock'] = stock;
     return data;
   }
 }

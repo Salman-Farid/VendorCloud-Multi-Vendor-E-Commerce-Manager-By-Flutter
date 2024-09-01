@@ -21,6 +21,7 @@ class ProductService extends BaseController {
       ).catchError(handleError);
 
       if (response != null) {
+        print('Response: $response');
         //List<dynamic> data = response;
         return allProduct.fromJson(response);
       }
@@ -70,7 +71,8 @@ class ProductService extends BaseController {
     return false;
   }
 
-  // Update product by ID
+// Update product by ID
+// Update product by ID
   Future<bool> updateProductById(String id, dynamic object) async {
     try {
       final sessionId = await _prefService.getSessionId();
@@ -84,12 +86,12 @@ class ProductService extends BaseController {
       ).catchError(handleError);
 
       if (response != null) {
-        return true;
+        return true; // Return true to indicate success
       }
     } catch (e) {
       print('Error updating product by ID: $e');
     }
-    return false;
+    return false; // Return false to indicate failure
   }
 
   // Delete product by ID

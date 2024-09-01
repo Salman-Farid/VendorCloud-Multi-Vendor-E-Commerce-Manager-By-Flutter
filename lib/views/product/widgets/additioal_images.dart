@@ -77,7 +77,6 @@ class AdditionalImagesSection extends StatelessWidget {
               return Center(child: CircularProgressIndicator());
             },
             errorBuilder: (context, error, stackTrace) {
-              print('Error loading image: $error');
               return Icon(Icons.error);
             },
           ),
@@ -104,7 +103,6 @@ class AdditionalImagesSection extends StatelessWidget {
             base64Decode(imageBase64.split(',').last),
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) {
-              print('Error decoding base64 image: $error');
               return Icon(Icons.error);
             },
           ),
