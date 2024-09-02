@@ -8,13 +8,18 @@ import 'package:image_picker/image_picker.dart';
 
 class MediaController extends GetxController {
   final _imageBase64 = ''.obs;
+  final _imageVariantBase64 = ''.obs;
   final _fileExtension = ''.obs;
   final _encodedImage = ''.obs;
+  final _encodedVariantImage = ''.obs;
   final _additionalImagesUrls = <String>[].obs;
   final _videoUrl = ''.obs;
   final _imageUrl = ''.obs;
   final _additionalImagesBase64 = <String>[].obs;
 
+  // variant images
+
+  final _variantImages = <String, String>{}.obs; // Map to store base64 images for each variant
 
 
   // Video properties
@@ -27,6 +32,7 @@ class MediaController extends GetxController {
 
   String get imageUrl => _imageUrl.value;
   String get imageBase64 => _imageBase64.value;
+  String get variantImageBase64 => _imageVariantBase64.value;
   String get fileExtension => _fileExtension.value;
   String get encodedImage => _encodedImage.value;
   List<String> get additionalImagesBase64 => _additionalImagesBase64;
@@ -46,18 +52,24 @@ class MediaController extends GetxController {
   String get videoThumnail => _videoThumnail.value;
 
 
+  // Add this method to set variant images
+  void setVariantImage(String variantId, String variantImageBase64) {
+    _variantImages[variantId] = variantImageBase64;
+  }
 
-
-  Future<void> imagePickerAndBase64Conversion() async {
+  // Add this method to get variant images
+  String getVariantImage(String variantId) {
+    return _variantImages[variantId] ?? '';
+  }
+  // Image picker and base64 conversion
+  Future<void> imagePickerAndBase64Conversion({String? variantId}) async {
     final picker = ImagePicker();
     try {
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
         final filePath = pickedFile.path;
-
-        _fileExtension.value =
-            filePath.split('.').last.toLowerCase(); // File extension
+        _fileExtension.value = filePath.split('.').last.toLowerCase(); // File extension
 
         final file = File(filePath);
         final fileSize = await file.length(); // Get file size in bytes
@@ -74,10 +86,20 @@ class MediaController extends GetxController {
         }
 
         final bytes = await file.readAsBytes();
-        _encodedImage.value = base64Encode(bytes);
-        // Correctly construct the imageBase64 string
-        _imageBase64.value =
-            "data:image/${_fileExtension.value};base64,${_encodedImage.value}";
+        if (variantId?.isEmpty ?? true) {
+         _encodedImage.value = base64Encode(bytes);
+         _imageBase64.value = "data:image/${_fileExtension.value};base64,${_encodedImage.value}";
+        }
+
+        else {
+          print('Variant ID: $variantId');
+          _encodedVariantImage.value = base64Encode(bytes);
+          _imageVariantBase64.value = "data:image/${_fileExtension.value};base64,${_encodedVariantImage.value}";
+
+        }
+        print('Variant ID: $variantId');
+        // Update variant image
+        _variantImages[variantId!] = _imageVariantBase64.value;
       } else {
         Get.snackbar(
           'Error',
@@ -86,15 +108,68 @@ class MediaController extends GetxController {
           colorText: Colors.black,
         );
       }
-    } catch (e) {
-      Get.snackbar(
-        'Error',
-        'An error occurred while picking the image.',
-        backgroundColor: Colors.transparent,
-        colorText: Colors.black,
-      );
+    }
+
+
+    catch (e) {
+      // Get.snackbar(
+      //   'Error',
+      //   'An error occurred while picking the image.',
+      //   backgroundColor: Colors.transparent,
+      //   colorText: Colors.black,
+      // );
+
+
     }
   }
+
+  // Future<void> imagePickerAndBase64Conversion() async {
+  //   final picker = ImagePicker();
+  //   try {
+  //     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  //
+  //     if (pickedFile != null) {
+  //       final filePath = pickedFile.path;
+  //
+  //       _fileExtension.value =
+  //           filePath.split('.').last.toLowerCase(); // File extension
+  //
+  //       final file = File(filePath);
+  //       final fileSize = await file.length(); // Get file size in bytes
+  //
+  //       // Check if file size is greater than 5 MB (5 * 1024 * 1024 bytes)
+  //       if (fileSize > 5 * 1024 * 1024) {
+  //         Get.snackbar(
+  //           'Error',
+  //           'File size exceeds 5 MB! Please select a smaller image.',
+  //           backgroundColor: Colors.red,
+  //           colorText: Colors.white,
+  //         );
+  //         return; // Exit the function
+  //       }
+  //
+  //       final bytes = await file.readAsBytes();
+  //       _encodedImage.value = base64Encode(bytes);
+  //       // Correctly construct the imageBase64 string
+  //       _imageBase64.value =
+  //           "data:image/${_fileExtension.value};base64,${_encodedImage.value}";
+  //     } else {
+  //       Get.snackbar(
+  //         'Error',
+  //         'No image selected!',
+  //         backgroundColor: Colors.transparent,
+  //         colorText: Colors.black,
+  //       );
+  //     }
+  //   } catch (e) {
+  //     Get.snackbar(
+  //       'Error',
+  //       'An error occurred while picking the image.',
+  //       backgroundColor: Colors.transparent,
+  //       colorText: Colors.black,
+  //     );
+  //   }
+  // }
 
   Future<void> videoPickerAndBase64Conversion({String? videoUrl}) async {
     final picker = ImagePicker();
@@ -276,8 +351,8 @@ class MediaController extends GetxController {
 
       if (pickedFiles.isEmpty) {
         Get.snackbar(
-          'Error',
-          'You can only select up to 3 images!',
+          'Warning',
+          'You did not select any image!',
           backgroundColor: Colors.transparent,
           colorText: Colors.black,
         );

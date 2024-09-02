@@ -10,45 +10,51 @@ class ProductController extends GetxController {
   final MediaController mediaController = Get.put(MediaController());
   final UserController userController = Get.find<UserController>();
 
-  // Controllers for product details
+  // Product details controllers
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _slugController = TextEditingController();
-  final TextEditingController _priceController = TextEditingController();
-  final TextEditingController _quantityController = TextEditingController();
+  // final TextEditingController _priceController = TextEditingController();
+  // final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _summaryController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _brandController = TextEditingController();
   final TextEditingController _videoController = TextEditingController();
-  final TextEditingController _discountController = TextEditingController();
   final TextEditingController _subCategoryController = TextEditingController();
   final TextEditingController _warrantyController = TextEditingController();
 
-  // Controllers for packaging details
+  // Product variant controllers_
+  final TextEditingController _variantNameController = TextEditingController();
+
+  final TextEditingController _variantPriceController = TextEditingController();
+  final TextEditingController _variantDiscountController = TextEditingController();
+  final TextEditingController _variantQuantityController = TextEditingController();
+  final TextEditingController _variantColorController = TextEditingController();
+  final TextEditingController _variantMaterialController = TextEditingController();
+  final TextEditingController _variantSizeController = TextEditingController();
+  final TextEditingController _variantGenderController = TextEditingController();
+  final TextEditingController _variantImageController = TextEditingController();
+
+  // Packaging details controllers
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _widthController = TextEditingController();
   final TextEditingController _dimensionController = TextEditingController();
-
-  // Controllers for product variants
-  final TextEditingController _variantColorController = TextEditingController();
-  final TextEditingController _variantSizeController = TextEditingController();
-  final TextEditingController _variantPriceController = TextEditingController();
-  final TextEditingController _variantStockController = TextEditingController();
 
   var isLoading = false.obs;
   var productList = <Product>[].obs;
 
   @override
   void onInit() {
+    _initializeVariantControllers();
     super.onInit();
   }
 
   // Getters for the controllers
   TextEditingController get nameController => _nameController;
   TextEditingController get slugController => _slugController;
-  TextEditingController get priceController => _priceController;
-  TextEditingController get quantityController => _quantityController;
+  // TextEditingController get priceController => _priceController;
+  // TextEditingController get quantityController => _quantityController;
   TextEditingController get summaryController => _summaryController;
   TextEditingController get descriptionController => _descriptionController;
   TextEditingController get categoryController => _categoryController;
@@ -61,11 +67,63 @@ class ProductController extends GetxController {
   TextEditingController get widthController => _widthController;
   TextEditingController get dimensionController => _dimensionController;
 
-  // Getters for variant controllers
-  TextEditingController get variantColorController => _variantColorController;
-  TextEditingController get variantSizeController => _variantSizeController;
+  // Variant Controllers Getters
+  TextEditingController get variantNameController => _variantNameController;
   TextEditingController get variantPriceController => _variantPriceController;
-  TextEditingController get variantStockController => _variantStockController;
+  TextEditingController get variantSizeController => _variantSizeController;
+  TextEditingController get variantDiscountController => _variantDiscountController;
+  TextEditingController get variantQuantityController => _variantQuantityController;
+  TextEditingController get variantMaterialController => _variantMaterialController;
+  TextEditingController get variantGenderController => _variantGenderController;
+  TextEditingController get variantColorController => _variantColorController;
+
+//variant index
+
+  var variantCount = 1.obs;
+  var variantNameControllers = <TextEditingController>[].obs;
+  var variantPriceControllers = <TextEditingController>[].obs;
+  var variantQuantityControllers = <TextEditingController>[].obs;
+  var variantSizeControllers = <TextEditingController>[].obs;
+  var variantColorControllers = <TextEditingController>[].obs;
+  var variantMaterialControllers = <TextEditingController>[].obs;
+  var variantGenderControllers = <TextEditingController>[].obs;
+
+
+  void _initializeVariantControllers() {
+    variantNameControllers.add(TextEditingController());
+    variantPriceControllers.add(TextEditingController());
+    variantQuantityControllers.add(TextEditingController());
+    variantSizeControllers.add(TextEditingController());
+    variantColorControllers.add(TextEditingController());
+    variantMaterialControllers.add(TextEditingController());
+    variantGenderControllers.add(TextEditingController());
+  }
+
+  void setVariantCount(int count) {
+    variantCount.value = count;
+    while (variantNameControllers.length < count) {
+      _initializeVariantControllers();
+    }
+    while (variantNameControllers.length > count) {
+      variantNameControllers.removeLast();
+      variantPriceControllers.removeLast();
+      variantQuantityControllers.removeLast();
+      variantSizeControllers.removeLast();
+      variantColorControllers.removeLast();
+      variantMaterialControllers.removeLast();
+      variantGenderControllers.removeLast();
+    }
+  }
+
+  void updateVariantImage(String variantId) async {
+    await mediaController.imagePickerAndBase64Conversion(variantId: variantId);
+    final variantImageBase64 = mediaController.variantImageBase64;
+    mediaController.setVariantImage(variantId, variantImageBase64);
+  }
+
+
+
+
 
   // Getter for products
   List<Product> get products => productList;
@@ -77,40 +135,37 @@ class ProductController extends GetxController {
 
   bool validate() {
     final name = nameController.text.trim();
-    final price = priceController.text.trim();
-    final quantity = quantityController.text.trim();
+    // final price = priceController.text.trim();
+    // final quantity = quantityController.text.trim();
     final coverPhoto = mediaController.imageBase64;
     final additionalImages = mediaController.additionalImagesBase64;
 
-    if (name.isEmpty ||
-        price.isEmpty ||
-        quantity.isEmpty ||
-        coverPhoto.isEmpty) {
+    if (name.isEmpty  || coverPhoto.isEmpty) {
       Get.snackbar(
         'Validation Error',
-        'Please fill all required fields and upload a cover photo.',
+        'Please fill all required fields',
         snackPosition: SnackPosition.BOTTOM,
       );
       return false;
     }
 
-    if (double.tryParse(price) == null) {
-      Get.snackbar(
-        'Validation Error',
-        'Price must be a valid number.',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      return false;
-    }
+    // if (double.tryParse(price) == null) {
+    //   Get.snackbar(
+    //     'Validation Error',
+    //     'Price must be a valid number.',
+    //     snackPosition: SnackPosition.BOTTOM,
+    //   );
+    //   return false;
+    // }
 
-    if (int.tryParse(quantity) == null) {
-      Get.snackbar(
-        'Validation Error',
-        'Quantity must be a valid number.',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      return false;
-    }
+    // if (int.tryParse(quantity) == null) {
+    //   Get.snackbar(
+    //     'Validation Error',
+    //     'Quantity must be a valid number.',
+    //     snackPosition: SnackPosition.BOTTOM,
+    //   );
+    //   return false;
+    // }
 
     if (additionalImages.isEmpty) {
       Get.snackbar(
@@ -125,8 +180,7 @@ class ProductController extends GetxController {
   }
 
   // Create product
-  Future<void> createProduct(
-      Function(bool, {String? errorMessage})? onCreate) async {
+  Future<void> createProduct(Function(bool, {String? errorMessage})? onCreate) async {
     final valid = validate();
     final user = userController.user.value;
     if (valid) {
@@ -138,8 +192,6 @@ class ProductController extends GetxController {
             : videoController.text,
         name: nameController.text,
         slug: slugController.text,
-        price: int.tryParse(priceController.text) ?? 0,
-        quantity: int.tryParse(quantityController.text) ?? 0,
         summary: summaryController.text,
         description: descriptionController.text,
         category: categoryController.text,
@@ -155,18 +207,23 @@ class ProductController extends GetxController {
         ),
         variants: [
           ProductVariant(
-            color: variantColorController.text,
-            size: variantSizeController.text,
+            user: user.id,
+            name: variantNameController.text,
             price: int.tryParse(variantPriceController.text) ?? 0,
-            stock: int.tryParse(variantStockController.text) ?? 0,
+            discount: int.tryParse(variantDiscountController.text) ?? 0,
+            quantity: int.tryParse(variantQuantityController.text) ?? 0,
+            material: variantMaterialController.text,
+            size: variantSizeController.text,
+            gender: variantGenderController.text,
+            color: variantColorController.text,
+            image: mediaController.getVariantImage('variant_$variantCount'),
           ),
         ],
       );
 
       try {
         isLoading.value = true;
-        final createdProduct =
-        await _productService.createProduct(product.toJson());
+        final createdProduct = await _productService.createProduct(product.toJson());
         isLoading.value = false;
         if (onCreate != null) {
           onCreate(createdProduct);
@@ -197,8 +254,7 @@ class ProductController extends GetxController {
   }
 
   // Fetch product by ID
-  Future<void> getProductById(
-  String id, Function(Product, {String? errorMessage})?) async {
+  Future<void> getProductById(String id, Function(Product, {String? errorMessage})?) async {
   try {
   isLoading.value = true;
   final productResponse = await _productService.getProductById(id);
@@ -216,15 +272,14 @@ class ProductController extends GetxController {
 }
 
 // Update product
-Future<void> updateProductById(String id, Product product,
-    Function(bool, {String? errorMessage})? onUpdate) async {
+Future<void> updateProductById(String id, Product product, Function(bool, {String? errorMessage})? onUpdate) async {
   try {
     isLoading.value = true;
     final bool isUpdated = await _productService.updateProductById(id, product.toJson());
     isLoading.value = false;
 
     if (isUpdated) {
-      if (onUpdate != null) onUpdate(true); // Call the callback with success
+      if (onUpdate != null) onUpdate(true);
     } else {
       if (onUpdate != null) onUpdate(false, errorMessage: 'Failed to update product.');
     }
@@ -235,13 +290,18 @@ Future<void> updateProductById(String id, Product product,
 }
 
 // Delete product
-Future<void> deleteProduct(
-    String id, Function(bool, {String? errorMessage})? onDelete) async {
+Future<void> deleteProduct(String id, Function(bool, {String? errorMessage})? onDelete) async {
   try {
     isLoading.value = true;
-    final success = await _productService.deleteProductById(id);
+    final bool isDeleted = await _productService.deleteProductById(id);
     isLoading.value = false;
-    if (onDelete != null) onDelete(success);
+
+    if (isDeleted) {
+      productList.removeWhere((product) => product.id == id);
+      if (onDelete != null) onDelete(true);
+    } else {
+      if (onDelete != null) onDelete(false, errorMessage: 'Failed to delete product.');
+    }
   } catch (e) {
     isLoading.value = false;
     if (onDelete != null) onDelete(false, errorMessage: e.toString());

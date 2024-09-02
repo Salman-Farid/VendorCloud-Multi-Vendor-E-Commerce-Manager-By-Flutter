@@ -125,24 +125,6 @@ class ProductUpdateScreen extends GetView<ProductController> {
             label: 'Slug',
             icon: FontAwesomeIcons.link),
         const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-                child: buildTextField(
-                    controller: controller.priceController,
-                    label: 'Price',
-                    icon: FontAwesomeIcons.dollarSign,
-                    keyboardType: TextInputType.number)),
-            const SizedBox(width: 16),
-            Expanded(
-                child: buildTextField(
-                    controller: controller.quantityController,
-                    label: 'Quantity',
-                    icon: FontAwesomeIcons.cubes,
-                    keyboardType: TextInputType.number)),
-          ],
-        ),
-        const SizedBox(height: 16),
         buildTextField(
             controller: controller.summaryController,
             label: 'Summary',
@@ -234,8 +216,6 @@ class ProductUpdateScreen extends GetView<ProductController> {
           : controller.videoController.text,
       name: controller.nameController.text,
       slug: controller.slugController.text,
-      price: int.tryParse(controller.priceController.text) ?? 0,
-      quantity: int.tryParse(controller.quantityController.text) ?? 0,
       summary: controller.summaryController.text,
       description: controller.descriptionController.text,
       category: controller.categoryController.text,

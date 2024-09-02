@@ -113,6 +113,17 @@ class NetworkConstants {
   static String successPayment(String transactionId) => "api/payments/success/$transactionId";
   static String cancelPayment(String transactionId) => "api/payments/cancel/$transactionId";
 
+
+
+  // Reports
+  static const String getAllReports = "api/reports";
+  static String getReportById(String reportId) => "api/reports/$reportId";
+  static const String createReport = "api/reports";
+  static String updateReportById(String reportId) => "api/reports/$reportId";
+  static String deleteReportById(String reportId) => "api/reports/$reportId";
+
+
+
   // Others
   static const String getAllOthers = "api/others";
   static String getOtherById(String otherId) => "api/others/$otherId";

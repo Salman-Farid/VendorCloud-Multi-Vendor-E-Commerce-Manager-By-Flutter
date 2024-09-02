@@ -40,7 +40,8 @@ class coverPhotoSection  extends StatelessWidget {
                       border: Border.all(color: Colors.deepPurple, width: 2),
                       image: imageBase64.isNotEmpty
                           ? DecorationImage(
-                        image: MemoryImage(
+                        image:
+                        MemoryImage(
                             base64Decode(imageBase64.split(',').last)),
                         fit: BoxFit.cover,
                       )

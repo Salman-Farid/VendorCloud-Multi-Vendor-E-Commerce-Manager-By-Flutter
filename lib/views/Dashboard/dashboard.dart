@@ -7,6 +7,7 @@ import '../category/category_management_screen.dart';
 import '../eventManager/event_mangement.dart';
 import '../product/all_products.dart';
 import '../product/product_upload_screen.dart';
+import '../report/all_reports.dart';
 import '../review/product_review.dart';
 
 // Add other import statements for the respective screens
@@ -54,7 +55,7 @@ class DashboardScreen extends StatelessWidget {
     {
       'title': 'Report',
       'animationUrl': 'assets/images/lottie/Reports.json',
-      'routeName': CategoryCreationScreen.routeName
+      'routeName': AllReports.routeName
     },
   ];
 

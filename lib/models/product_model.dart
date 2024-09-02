@@ -202,8 +202,8 @@ class Product {
     data['quantity'] = quantity;
     data['summary'] = summary;
     data['description'] = description;
-    //data['category'] = category;
-    //data['subCategory'] = subCategory;
+    data['category'] = category;
+    data['subCategory'] = subCategory;
     data['brand'] = brand;
     data['warranty'] = warranty;
     data['packaging'] = packaging;
@@ -384,6 +384,7 @@ class Reviews {
   String? updatedAt;
   int? iV;
 
+
   Reviews({
     this.user,
     this.review,
@@ -508,35 +509,63 @@ class Packaging {
 
 
 class ProductVariant {
-  String? variantId;
+  String? id;
+  String? user;
+  String? name;
+  int? price; // Required
+  int ?discount;
+  int? quantity;
+  String material;
+  String ?size; // Required
+  String? gender;
   String? color;
-  String? size;
-  int? price;
-  int? stock;
+  String? image;
 
   ProductVariant({
-    this.variantId,
-    this.color,
-    this.size,
-    this.price,
-    this.stock,
+    this.id,
+    this.user,
+    this.name,
+    this.price, // Marked as required
+    this.size,  // Marked as required
+    this.discount = 0,
+    this.quantity = 0,
+    this.material = '',
+    this.gender = '',
+    this.color = '',
+    this.image = '',
   });
 
-  ProductVariant.fromJson(Map<String, dynamic> json) {
-    variantId = json['variantId'];
-    color = json['color'];
-    size = json['size'];
-    price = json['price'];
-    stock = json['stock'];
+  // Convert a ProductVariant object into a Map object
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'user': user,
+      'name': name,
+      'price': price,
+      'discount': discount,
+      'quantity': quantity,
+      'material': material,
+      'size': size,
+      'gender': gender,
+      'color': color,
+      'image': image,
+    };
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['variantId'] = variantId;
-    data['color'] = color;
-    data['size'] = size;
-    data['price'] = price;
-    data['stock'] = stock;
-    return data;
+  // Convert a Map object into a ProductVariant object
+  factory ProductVariant.fromJson(Map<String, dynamic> json) {
+    return ProductVariant(
+      id: json['_id'] ?? '',
+      user: json['user'] ?? '',
+      name: json['name'] ?? '',
+      price: json['price'], // Ensure it's a double
+      discount: json['discount'] ?? 0,
+      quantity: json['quantity'] ?? 0,
+      material: json['material'] ?? '',
+      size: json['size'] ?? '',
+      gender: json['gender'] ?? '',
+      color: json['color'] ?? '',
+      image: json['image'] ?? '',
+    );
   }
 }
