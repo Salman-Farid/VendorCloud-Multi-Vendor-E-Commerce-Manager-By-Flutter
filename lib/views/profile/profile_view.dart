@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:karmalab_assignment/constants/size_constants.dart';
 import 'package:karmalab_assignment/controllers/user_controller.dart';
-
-import '../../models/user_model.dart';
-import '../../services/shared_pref_service.dart'; // Import the controller
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'dart:math' as math;
 
 class Profile extends StatelessWidget {
@@ -19,6 +14,7 @@ class Profile extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.blue.shade50,
         title: const Text('Profile'),
         centerTitle: true,
       ),
@@ -32,59 +28,90 @@ class Profile extends StatelessWidget {
         final avatarUrl = "https://baburhaatbd.com${user.avatar}";
         final completionPercentage = userController.getProfileCompletionPercentage();
 
-        return Padding(
-          padding: const EdgeInsets.all(AppSizes.defaultPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 30),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  SizedBox(
-                    width: 120,
-                    height: 120,
-                    child: CustomPaint(
-                      painter: ProfileCompletionPainter(completionPercentage),
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(AppSizes.defaultPadding),
+            child: Column(
+
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 30),
+                Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        SizedBox(
+                          width: 120,
+                          height: 120,
+                          child: CustomPaint(
+                            painter: ProfileCompletionPainter(completionPercentage),
+                          ),
+                        ),
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundImage: NetworkImage(avatarUrl),
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: 20,),
+                    Column(
+                      children: [
+                        Text(
+                          'Your Profile Data',
+                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '25% Completed',
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.red),
+                        ),
+                        Text(
+                          user.name,
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          user.email,
+                          style: const TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+
+
+                  ],
+                ),
+                const SizedBox(height: 10),
+                // Text(
+                //   user.name,
+                //   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                // ),
+                const SizedBox(height: 5),
+                // Text(
+                //   user.email,
+                //   style: const TextStyle(fontSize: 14, color: Colors.grey),
+                // ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () => Get.toNamed('/editProfile'),
+                  child: const Text('Edit Profile', style: TextStyle(color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundImage: NetworkImage(avatarUrl),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Text(
-                user.name,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                user.email,
-                style: const TextStyle(fontSize: 14, color: Colors.grey),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () => Get.toNamed('/editProfile'),
-                child: const Text('Edit Profile', style: TextStyle(color: Colors.white)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
                 ),
-              ),
-              SizedBox(height: Get.height * 0.06),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(color: Colors.grey.shade300),
+                SizedBox(height: Get.height * 0.06),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(color: Colors.grey.shade300),
+                    ),
                   ),
+                  child: _buildMenuList(),
                 ),
-                child: _buildMenuList(),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       }),
@@ -95,9 +122,16 @@ class Profile extends StatelessWidget {
     return Column(
       children: [
         _buildMenuItem(Icons.settings, 'Settings'),
+        const SizedBox(height: 16,),
         _buildMenuItem(Icons.payment, 'Billing Details'),
+        const SizedBox(height: 16,),
+
         _buildMenuItem(Icons.people, 'User Management'),
+        const SizedBox(height: 16,),
+
         _buildMenuItem(Icons.info, 'Information'),
+        const SizedBox(height: 16,),
+
         _buildMenuItem(Icons.logout, 'Log out', onTap: () => _confirmLogout(Get.context!)),
       ],
     );
@@ -105,15 +139,19 @@ class Profile extends StatelessWidget {
 
   Widget _buildMenuItem(IconData icon, String title, {VoidCallback? onTap}) {
     return InkWell(
+      splashColor: Colors.grey.shade50,
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0),
         child: Row(
           children: [
             Icon(icon, color: Colors.blue),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(child: Text(title)),
-            Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
+              child: Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
+            ),
           ],
         ),
       ),
