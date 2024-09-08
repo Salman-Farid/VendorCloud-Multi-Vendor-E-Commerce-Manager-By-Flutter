@@ -4,6 +4,8 @@ import 'package:karmalab_assignment/constants/size_constants.dart';
 import 'package:karmalab_assignment/controllers/user_controller.dart';
 import 'dart:math' as math;
 
+import 'package:carousel_slider/carousel_slider.dart';
+
 class Profile extends StatelessWidget {
   Profile({Key? key}) : super(key: key);
   static const routeName = "/profile";
@@ -14,7 +16,7 @@ class Profile extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.blue.shade50,
+        backgroundColor: Colors.white,
         title: const Text('Profile'),
         centerTitle: true,
       ),
@@ -32,12 +34,10 @@ class Profile extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(AppSizes.defaultPadding),
             child: Column(
-
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 30),
                 Row(
-                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Stack(
                       alignment: Alignment.center,
@@ -76,32 +76,21 @@ class Profile extends StatelessWidget {
                         ),
                       ],
                     ),
-
-
                   ],
                 ),
-                const SizedBox(height: 10),
-                // Text(
-                //   user.name,
-                //   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                SizedBox(height: Get.height * 0.05),
+                _buildImageCarousel(),
+                // ElevatedButton(
+                //   onPressed: () => Get.toNamed('/editProfile'),
+                //   child: const Text('Edit Profile', style: TextStyle(color: Colors.white)),
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: Colors.blue,
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(20),
+                //     ),
+                //   ),
                 // ),
-                const SizedBox(height: 5),
-                // Text(
-                //   user.email,
-                //   style: const TextStyle(fontSize: 14, color: Colors.grey),
-                // ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () => Get.toNamed('/editProfile'),
-                  child: const Text('Edit Profile', style: TextStyle(color: Colors.white)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-                SizedBox(height: Get.height * 0.06),
+                SizedBox(height: Get.height * 0.05),
                 Container(
                   decoration: BoxDecoration(
                     border: Border(
@@ -118,21 +107,90 @@ class Profile extends StatelessWidget {
     );
   }
 
+  Widget _buildImageCarousel() {
+    final List<String> imgList = [
+      'https://static.vecteezy.com/system/resources/previews/002/006/774/non_2x/paper-art-shopping-online-on-smartphone-and-new-buy-sale-promotion-backgroud-for-banner-market-ecommerce-free-vector.jpg',
+      'https://www.zilliondesigns.com/blog/wp-content/uploads/Perfect-Ecommerce-Sales-Banner.jpg',
+      'https://t4.ftcdn.net/jpg/03/48/05/47/360_F_348054737_Tv5fl9LQnZnzDUwskKVKd5Mzj4SjGFxa.jpg',
+    ];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Center(
+            child: Text(
+              'Joined Events',
+              style: TextStyle(
+                fontSize: 18,
+                //fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+            ),
+          ),
+        ),
+        CarouselSlider(
+          options: CarouselOptions(
+            height: 150.0,
+            enlargeCenterPage: false,
+            autoPlay: true,
+            aspectRatio: 16 / 9,
+            autoPlayCurve: Curves.fastOutSlowIn,
+            enableInfiniteScroll: true,
+            autoPlayAnimationDuration: Duration(milliseconds: 1500),
+            viewportFraction: 1,
+          ),
+          items: imgList.map((item) => Container(
+            margin: EdgeInsets.all(5.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              image: DecorationImage(
+                image: NetworkImage(item),
+                fit: BoxFit.cover,
+              ),
+            ),
+          )).toList(),
+        ),
+      ],
+    );
+    // return CarouselSlider(
+    //   options: CarouselOptions(
+    //     height:150.0,
+    //     enlargeCenterPage: false,
+    //     autoPlay: true,
+    //     aspectRatio: 16 / 9,
+    //     autoPlayCurve: Curves.fastOutSlowIn,
+    //     enableInfiniteScroll: true,
+    //     autoPlayAnimationDuration: Duration(milliseconds: 1500),
+    //     viewportFraction: 1,
+    //   ),
+    //   items: imgList.map((item) => Container(
+    //     margin: EdgeInsets.all(5.0),
+    //     decoration: BoxDecoration(
+    //       borderRadius: BorderRadius.circular(20.0),
+    //       image: DecorationImage(
+    //         image: NetworkImage(item),
+    //         fit: BoxFit.cover,
+    //       ),
+    //     ),
+    //   )).toList(),
+    // );
+  }
+
   Widget _buildMenuList() {
     return Column(
       children: [
+        const SizedBox(height: 16,),
         _buildMenuItem(Icons.settings, 'Settings'),
         const SizedBox(height: 16,),
         _buildMenuItem(Icons.payment, 'Billing Details'),
         const SizedBox(height: 16,),
-
         _buildMenuItem(Icons.people, 'User Management'),
         const SizedBox(height: 16,),
-
         _buildMenuItem(Icons.info, 'Information'),
         const SizedBox(height: 16,),
-
         _buildMenuItem(Icons.logout, 'Log out', onTap: () => _confirmLogout(Get.context!)),
+        const SizedBox(height: 16,),
       ],
     );
   }
@@ -172,7 +230,6 @@ class Profile extends StatelessWidget {
     );
   }
 }
-
 class ProfileCompletionPainter extends CustomPainter {
   final double completionPercentage;
 

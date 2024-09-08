@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 class HomeScreen extends StatelessWidget {
   static const routeName = "/home";
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
