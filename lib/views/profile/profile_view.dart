@@ -76,9 +76,22 @@ class Profile extends StatelessWidget {
                         ),
                       ],
                     ),
+
                   ],
                 ),
-                SizedBox(height: Get.height * 0.05),
+                // SizedBox(height: Get.height * 0.04),
+                //
+                // Container(
+                //   decoration: BoxDecoration(
+                //     border:
+                //     Border(
+                //       top: BorderSide(color: Colors.grey.shade300),
+                //     ),
+                //   ),
+                //   //child: _buildMenuList(),
+                // ),
+                SizedBox(height: Get.height * 0.02),
+
                 _buildImageCarousel(),
                 // ElevatedButton(
                 //   onPressed: () => Get.toNamed('/editProfile'),
@@ -93,7 +106,8 @@ class Profile extends StatelessWidget {
                 SizedBox(height: Get.height * 0.05),
                 Container(
                   decoration: BoxDecoration(
-                    border: Border(
+                    border:
+                    Border(
                       top: BorderSide(color: Colors.grey.shade300),
                     ),
                   ),

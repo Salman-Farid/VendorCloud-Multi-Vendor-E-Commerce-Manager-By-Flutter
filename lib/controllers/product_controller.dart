@@ -33,7 +33,7 @@ class ProductController extends GetxController {
   final TextEditingController _variantMaterialController = TextEditingController();
   final TextEditingController _variantSizeController = TextEditingController();
   final TextEditingController _variantGenderController = TextEditingController();
-  final TextEditingController _variantImageController = TextEditingController();
+  //final TextEditingController _variantImageController = TextEditingController();
 
   // Packaging details controllers
   final TextEditingController _weightController = TextEditingController();
@@ -194,7 +194,7 @@ class ProductController extends GetxController {
         slug: slugController.text,
         summary: summaryController.text,
         description: descriptionController.text,
-        category: categoryController.text,
+        category: '66dec7718fe4ca1689c952c4',
         subCategory: subCategoryController.text,
         images: mediaController.additionalImagesBase64,
         brand: brandController.text,
@@ -207,7 +207,7 @@ class ProductController extends GetxController {
         ),
         variants: [
           ProductVariant(
-            user: user.id,
+            //user: user.id,
             name: variantNameController.text,
             price: int.tryParse(variantPriceController.text) ?? 0,
             discount: int.tryParse(variantDiscountController.text) ?? 0,
