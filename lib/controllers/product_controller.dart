@@ -221,6 +221,8 @@ class ProductController extends GetxController {
         ],
       );
 
+
+
       try {
         isLoading.value = true;
         final createdProduct = await _productService.createProduct(product.toJson());

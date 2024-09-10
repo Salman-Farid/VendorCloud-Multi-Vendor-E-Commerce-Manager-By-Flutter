@@ -539,7 +539,7 @@ class ProductVariant {
   Map<String, dynamic> toJson() {
     return {
       //'_id': id,
-      'user': user,
+      //'user': user,
       'name': name,
       'price': price,
       'discount': discount,
