@@ -162,9 +162,9 @@ class Product {
     }
     //packaging = json['packaging'] != null ? Packaging.fromJson(json['packaging']) : null;
     packaging= json["packaging"] == null ? null : Packaging.fromJson(json["packaging"]);
-    if (json['variants'] != null) {
+    if (json['productVariant'] != null) {
       variants = <ProductVariant>[];
-      json['variants'].forEach((v) {
+      json['productVariant'].forEach((v) {
         variants!.add(ProductVariant.fromJson(v));
       });
     }
@@ -203,12 +203,12 @@ class Product {
     data['summary'] = summary;
     data['description'] = description;
     data['category'] = category;
-    //data['subCategory'] = subCategory;
+    data['subCategory'] = subCategory;
     data['brand'] = brand;
     data['warranty'] = warranty;
     data['packaging'] = packaging;
     if (variants != null) {
-      data['variants'] = variants!.map((v) => v.toJson()).toList();
+      data['productVariants'] = variants!.map((v) => v.toJson()).toList();
     }
     if (images != null) {
       data['images'] = images;
