@@ -1,47 +1,106 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:karmalab_assignment/widgets/custom_input.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
-Column customForm({
-  required dynamic controller, // Can be either LoginController or SignUpController
-  required bool isLogin,      // Flag to indicate if it's the login form
-}) {
-  return Column(
-    children: [
-      // Conditionally add the "Business Name" field if it's not the login form
-      !isLogin
-          ? CustomInputFelid(
-        hint: "Business Name",
-        controller: controller.nameTextController,
-      )
-          : SizedBox.shrink(),
-      CustomInputFelid(
-        hint: "Email",
-        controller: controller.emailController,
-        keyboardType: TextInputType.emailAddress,
-      ),
-      Obx(() {
-        return CustomInputFelid(
-          hint: "Password",
-          controller: controller.passwordController,
-          isPassWord: true,
-          secure: controller.isPasswordVisible.value,
-          toggle: controller.togglePasswordVisibility,
-        );
-      }),
-      // Conditionally add the "Confirm Password" field if it's not the login form
-      !isLogin
-          ? Obx(() {
-        return CustomInputFelid(
-          hint: "Confirm Password",
-          controller: controller.conformPasswordController,
-          isPassWord: true,
-          secure: controller.isConformPasswordVisible.value,
-          lowerMargin: true,
-          toggle: controller.toggleConformPasswordVisibility,
-        );
-      })
-          : SizedBox.shrink(),
-    ],
-  );
+class CustomForm extends StatelessWidget {
+ final dynamic controller;
+  final bool isLogin;
+  final bool isEmailLogin;
+
+  const CustomForm({
+    Key? key,
+    required this.controller,
+    required this.isLogin,
+    required this.isEmailLogin,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        if (!isLogin)
+          CustomInputFelid(
+            hint: "Business Name",
+            controller: controller.nameTextController,
+          ),
+        if (isLogin)
+          CustomInputFelid(
+            hint: isEmailLogin ? "Email" : "Phone Number",
+            controller: isEmailLogin ? controller.emailController : controller.phoneController,
+            keyboardType: isEmailLogin ? TextInputType.emailAddress : TextInputType.phone,
+          )
+        else
+          CustomInputFelid(
+            hint: "Email",
+            controller: controller.emailController,
+            keyboardType: TextInputType.emailAddress,
+          ),
+        if (isEmailLogin && isLogin)
+          Obx(() => CustomInputFelid(
+            hint: "Password",
+            controller: controller.passwordController,
+            isPassWord: true,
+            secure: controller.isPasswordVisible,
+            toggle: controller.togglePasswordVisibility,
+          )),
+        if (isLogin && !isEmailLogin)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2.0),
+            child: PinCodeTextField(
+              appContext: context,
+              length: 4,
+              obscureText: false,
+              animationType: AnimationType.fade,
+              pinTheme: PinTheme(
+                shape: PinCodeFieldShape.box,
+                borderRadius: BorderRadius.circular(5),
+                fieldHeight: 50,
+                fieldWidth: 40,
+                activeFillColor: Colors.white,
+                inactiveFillColor: Colors.grey[100],
+                selectedFillColor: Colors.white,
+                activeColor: Colors.blue,
+                inactiveColor: Colors.grey,
+                selectedColor: Colors.blue,
+              ),
+              animationDuration: const Duration(milliseconds: 300),
+              backgroundColor: Colors.transparent,
+              enableActiveFill: true,
+              onCompleted: (v) {
+                controller.updateOtpValue(v); // Update the OTP value in the controller
+              },
+              onChanged: (value) {
+                controller.updateOtpValue(value);
+              },
+              beforeTextPaste: (text) {
+                return true;
+              },
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              keyboardType: TextInputType.number,
+            ),
+          ),
+
+
+
+        if (!isLogin)
+          Obx(() => CustomInputFelid(
+            hint: "Password",
+            controller: controller.passwordController,
+            isPassWord: true,
+            secure: controller.isPasswordVisible,
+            toggle: controller.togglePasswordVisibility,
+          )),
+        if (!isLogin)
+          Obx(() => CustomInputFelid(
+            hint: "Confirm Password",
+            controller: controller.confirmPasswordController,
+            isPassWord: true,
+            secure: controller.isConfirmPasswordVisible,
+            lowerMargin: true,
+            toggle: controller.toggleConfirmPasswordVisibility,
+          )),
+      ],
+    );
+  }
 }

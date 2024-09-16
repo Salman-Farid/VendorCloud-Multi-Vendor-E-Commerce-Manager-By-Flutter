@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import '../../../constants/colors.dart';
-import '../category/category_creation_screen.dart';
 import '../category/category_management_screen.dart';
 import '../eventManager/event_mangement.dart';
 import '../product/all_products.dart';
@@ -67,12 +66,12 @@ class DashboardScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.white, Colors.blue.shade50],
+            colors: [Colors.white, Colors.white],
           ),
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 16.0),
+            padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 0),
             child: Column(
               children: [
                 const Center(

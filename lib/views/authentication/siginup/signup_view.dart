@@ -86,7 +86,7 @@ class SignUpView extends StatelessWidget {
                     title: "Sign Up",
                   ),
                   const SizedBox(height: 25),
-                  customForm(controller: _signUpController, isLogin: false),
+                  CustomForm(controller: _signUpController, isLogin: false, isEmailLogin:false),
                   const SizedBox(height: 5),
                   Obx(() {
                     return CustomButton(

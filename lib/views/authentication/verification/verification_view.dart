@@ -14,9 +14,9 @@ import 'package:karmalab_assignment/widgets/fancy2_text.dart';
 class VerificationView extends StatelessWidget {
   const VerificationView({Key? key, this.email}) : super(key: key);
   static const routeName = "/verification-otp";
-
-  static final VerifyOtpController _verifyOtpController =
-      Get.put(VerifyOtpController());
+  //
+  // static final VerifyOtpController _verifyOtpController =
+  //     Get.put(VerifyOtpController());
 
   final String? email;
 
@@ -47,18 +47,18 @@ class VerificationView extends StatelessWidget {
                 Obx(() {
                   return CustomButton(
                     label: "Verify",
-                    isLoading: _verifyOtpController.loading,
-                    onTap: () {
-                      _verifyOtpController.verify(email, (status) {
-                        if (status) {
-                          Get.to(()=> NewPassWordView(email: email));
-                        } else {
-                          DialogHelper.showSnackBar();
-                        }
-                      });
-                      // return Navigator.of(context)
-                      //   .pushNamed(NewPassWordView.routeName);
-                    },
+                    //isLoading: _verifyOtpController.loading,
+                    // onTap: () {
+                    //   _verifyOtpController.verify(email, (status) {
+                    //     if (status) {
+                    //       Get.to(()=> NewPassWordView(email: email));
+                    //     } else {
+                    //       DialogHelper.showSnackBar();
+                    //     }
+                    //   });
+                    //   // return Navigator.of(context)
+                    //   //   .pushNamed(NewPassWordView.routeName);
+                    // },
                   );
                 }),
                 const SizedBox(height: 15),

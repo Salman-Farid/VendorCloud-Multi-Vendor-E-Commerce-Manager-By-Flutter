@@ -2,23 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:karmalab_assignment/constants/color_constants.dart';
 import 'package:remixicon/remixicon.dart';
+import 'package:get/get.dart';
+import 'package:karmalab_assignment/services/auth_service.dart';
 
 class SocialMediaAuthArea extends StatelessWidget {
   SocialMediaAuthArea({
     Key? key,
   }) : super(key: key);
+
   final List<Map<String, dynamic>> _media = [
     {
-      "bg": Colors.blueAccent,
-      "icon": Remix.facebook_fill,
-    },
-    {
-      "bg": Colors.green,
+      "bg": Colors.blue,
       "icon": Remix.google_fill,
-    },
-    {
-      "bg": Colors.blue.shade400,
-      "icon": Remix.twitter_fill,
+      "onTap": () async {
+        final AuthService authService = AuthService();
+
+        try {
+          final user = await authService.signInWithGoogle();
+
+          if (user != null) {
+            // Navigate to home screen or perform any other action
+            Get.offAllNamed('/mainScreen');
+          } else {
+            Get.snackbar('Error', 'Google Sign In failed');
+          }
+        } catch (e) {
+          Get.snackbar('Error', 'An error occurred during Google Sign In $e');
+        }
+      },
     },
   ];
 
@@ -50,11 +61,16 @@ class SocialMediaAuthArea extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: List.generate(
               _media.length,
-              (index) => CircleAvatar(
-                backgroundColor: _media[index]["bg"],
-                radius: 25,
-                child: Icon(_media[index]["icon"] as IconData,
-                    color: Colors.white),
+                  (index) => GestureDetector(
+                onTap: _media[index]["onTap"],
+                child: CircleAvatar(
+                  backgroundColor: _media[index]["bg"],
+                  radius: 25,
+                  child: Icon(
+                    _media[index]["icon"] as IconData,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           ),

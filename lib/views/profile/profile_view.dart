@@ -71,7 +71,7 @@ class Profile extends StatelessWidget {
                           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          user.email,
+                          user.email??'',
                           style: const TextStyle(fontSize: 12, color: Colors.grey),
                         ),
                       ],

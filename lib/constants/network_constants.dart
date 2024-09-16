@@ -7,9 +7,15 @@ class NetworkConstants {
   static const String loginAPI = "api/auth/login";
   static const String forgotPassWord = "api/auth/forgot-password";
   static const String verifyOtp = "api/auth/verify-otp";
+  static const String sendOtp = "api/auth/send-otp";
   static const String resetPassApi = "api/auth/reset-password";
-  static const String googleAuth = "/api/auth/google";
-  static const String googleLoginSuccessRedirectTo= "/api/auth/google/callback";
+
+
+  static const String googleAuth = "api/auth/google";
+  static const String googleLoginSuccessRedirectTo= "api/auth/google/callback";
+  static const String googleSuccess= "api/auth/google/success";
+
+
   static const String logoutUser = "api/auth/logout";
   static const String updatePassword = "api/auth/update-password";
   static const String forgotPassword = "api/auth/forgot-password";

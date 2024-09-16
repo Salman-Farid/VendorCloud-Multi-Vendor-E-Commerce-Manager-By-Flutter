@@ -32,7 +32,7 @@ class RouteUtil {
     GetPage(name: OnboardingView.routeName, page: () => const OnboardingView()),
     GetPage(name: SelectAuthView.routeName, page: () => const SelectAuthView()),
     GetPage(name: SignUpView.routeName, page: () => SignUpView()),
-    GetPage(name: LoginView.routeName, page: () => const LoginView()),
+    GetPage(name: LoginView.routeName, page: () => LoginView()),
     GetPage(name: ForgotPassWord.routeName, page: () => const ForgotPassWord()),
     GetPage(name: VerificationView.routeName, page: () => const VerificationView()),
     GetPage(name: Profile.routeName, page: () => Profile()),

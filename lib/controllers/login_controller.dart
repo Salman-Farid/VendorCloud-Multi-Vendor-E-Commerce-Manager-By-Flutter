@@ -1,97 +1,131 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:karmalab_assignment/services/auth_service.dart';
-import 'package:karmalab_assignment/services/base/app_exceptions.dart';
-import 'package:karmalab_assignment/services/shared_pref_service.dart';
-import 'package:karmalab_assignment/views/authentication/select_auth/select_auth_view.dart';
-import '../models/user_model.dart';
+import 'package:karmalab_assignment/models/user_model.dart';
 
-
-
-
+import '../services/shared_pref_service.dart';
 
 class LoginController extends GetxController {
-  final SharedPrefService _sharedPrefService = SharedPrefService();
-  final _formKey = GlobalKey<FormState>();
   final AuthService _authService = AuthService();
+  final SharedPrefService _prefService = SharedPrefService();
 
-  // controllers
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+  final RxString _otpValue = ''.obs;
+  void updateOtpValue(String value) {_otpValue.value = value;}
+  String get otpValue => _otpValue.value;
+  final RxBool _isEmailLogin = true.obs;
+  final RxBool _isOtpSent = false.obs;
+  final RxBool _isPasswordVisible = false.obs;
+  final RxBool _loading = false.obs;
 
-    super.dispose();
-  }
-
-  final _loading = false.obs;
-
-  var isPasswordVisible = false.obs;
-  void togglePasswordVisibility() {
-    isPasswordVisible.value = !isPasswordVisible.value;
-  }
-  // ?? getters
-  GlobalKey get formKey => _formKey;
-  TextEditingController get emailController => _emailController;
-  TextEditingController get passwordController => _passwordController;
-
+  bool get isEmailLogin => _isEmailLogin.value;
+  bool get isOtpSent => _isOtpSent.value;
+  bool get isPasswordVisible => _isPasswordVisible.value;
   bool get loading => _loading.value;
 
-// validate login form
-  bool validate() {
-    bool emailValid = RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(_emailController.text);
+  void toggleLoginMode(bool isEmail) {
+    _isEmailLogin.value = isEmail;
+    _isOtpSent.value = false;
+    _otpValue.value = '';
+  }
 
-    try {
-      if (
-          _emailController.text == "" ||
-          passwordController.text == "") {
-        throw InvalidException("please fill all given inputs !!", false);
-      } else {
-        if (emailValid) {
-          if (passwordController.text.length >= 8) {
-            return true;
+  void togglePasswordVisibility() {
+    _isPasswordVisible.value = !_isPasswordVisible.value;
+  }
+
+  Future<void> login() async {
+    if (_validate()) {
+      _loading.value = true;
+      try {
+        User? user;
+        if (_isEmailLogin.value) {
+          // Email login flow
+          user = await _authService.login(
+            {
+              "email": emailController.text,
+              "password": passwordController.text,
+            },
+          );
+          if (user != null) {
+            Get.offAllNamed('/mainScreen');
           } else {
-            throw InvalidException("password must be greater than 8 !!", false);
+            Get.snackbar('Error', 'Login failed');
           }
         } else {
-          throw InvalidException("Email is not valid !!", false);
+          // OTP login flow
+          if (otpValue.isEmpty) {
+            // Sending OTP
+            bool otpSent = await _authService.sentOtp({
+              "phone": phoneController.text,
+            });
+            if (otpSent) {
+              _isOtpSent.value = true;
+            } else {
+              Get.snackbar('Error', 'Failed to send OTP');
+            }
+          } else
+
+          {
+            String? hash = await _prefService.getHash();
+            user = await _authService.verifyOtp(
+              {
+                "otp": _otpValue.value,
+                "phone": phoneController.text,
+                "role": "vendor",
+                "hash": hash ?? '', // Use empty string if hash is null
+              },
+            );
+            if (user != null) {
+              Get.offAllNamed('/mainScreen');
+            } else {
+              Get.snackbar('Error', 'OTP verification failed');
+            }
+          }
         }
+      } catch (e) {
+        Get.snackbar('Error', e.toString());
+      } finally {
+        _loading.value = false;
       }
-    } catch (e) {
-      return false;
     }
   }
 
-  Future<void> login(Function(User?)? onLogin) async {
-    final valid = validate();
-    if (valid) {
-      _loading.value = true;
-      await Future.delayed(const Duration(seconds: 2));
-      // Perform login
-      User? user = await _authService.login(
-        {
-          "email": _emailController.text,
-          "password": _passwordController.text,
-        },
-      );
-      _loading.value = false;
-      await Future.delayed(const Duration(milliseconds: 300));
-      onLogin!(user);
+  bool _validate() {
+    if (_isEmailLogin.value) {
+      if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+        Get.snackbar('Error', 'Please fill all fields');
+        return false;
+      }
+      if (!GetUtils.isEmail(emailController.text)) {
+        Get.snackbar('Error', 'Please enter a valid email');
+        return false;
+      }
+    } else {
+      if (phoneController.text.isEmpty) {
+        Get.snackbar('Error', 'Please enter your phone number');
+        return false;
+      }
+      if (!GetUtils.isPhoneNumber(phoneController.text)) {
+        Get.snackbar('Error', 'Please enter a valid phone number');
+        return false;
+      }
+      if (_isOtpSent.value && _otpValue.value.isEmpty) {
+        Get.snackbar('Error', 'Please enter the OTP');
+        return false;
+      }
     }
+    return true;
   }
 
-  // ignore: logout method
-  void logout() {
-    _sharedPrefService.clear();
-    Get.offNamedUntil(
-      SelectAuthView.routeName,
-      (_) => false,
-    );
-    // Get.offAndToNamed(SelectAuthView.routeName);
+  @override
+  void onClose() {
+    emailController.dispose();
+    phoneController.dispose();
+    passwordController.dispose();
+    _otpValue.value ='';
+    super.onClose();
   }
 }

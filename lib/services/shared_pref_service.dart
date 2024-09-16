@@ -31,6 +31,35 @@ class SharedPrefService {
   }
 
 
+// Method to save the hash value in SharedPreferences
+  Future<void> saveHash(String hash) async {
+    final prefs = await SharedPreferences.getInstance();
+    // Save the hash value under the key 'hash'
+    bool result = await prefs.setString('hash', hash);
+
+    // Optionally, add a debug statement to check if saving was successful
+    if (result) {
+      print("Hash saved successfully.");
+    } else {
+      print("Failed to save hash.");
+    }
+  }
+
+// Method to get the hash value from SharedPreferences
+  Future<String?> getHash() async {
+    final prefs = await SharedPreferences.getInstance();
+    // Retrieve the hash value stored under the key 'hash'
+    String? hash = prefs.getString('hash');
+
+    // Optionally, add a debug statement to check the retrieved hash value
+    if (hash != null) {
+      print("Retrieved hash: $hash");
+    } else {
+      print("No hash found in storage.");
+    }
+
+    return hash;
+  }
 
 
 

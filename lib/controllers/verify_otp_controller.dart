@@ -39,15 +39,15 @@ class VerifyOtpController extends GetxController {
       await Future.delayed(const Duration(seconds: 2));
 
       // ? login method
-      bool status = await _authService.verifyOtp(
-        {
-          "email": email.toString(),
-          "otp": otp.toString(),
-        },
-      );
+      // bool status = await _authService.verifyOtp(
+      //   {
+      //     "email": email.toString(),
+      //     "otp": otp.toString(),
+      //   },
+      // );
       _loading.value = false;
       await Future.delayed(const Duration(milliseconds: 300));
-      success!(status);
+      //success!(status);
     }
   }
 }
