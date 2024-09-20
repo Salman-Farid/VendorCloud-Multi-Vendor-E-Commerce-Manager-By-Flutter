@@ -9,7 +9,7 @@ import 'constants/colors.dart';
 import 'controllers/dashboard_controller.dart';
 import 'controllers/mainscreen_controller.dart';
 import 'controllers/oerder_controller.dart';
-import 'controllers/product_review_controller.dart';
+import 'controllers/review_controller.dart';
 import 'controllers/user_controller.dart';
 
 void main() {

@@ -1,10 +1,10 @@
+import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:karmalab_assignment/constants/size_constants.dart';
 import 'package:karmalab_assignment/controllers/user_controller.dart';
 import 'dart:math' as math;
 
-import 'package:carousel_slider/carousel_slider.dart';
 
 class Profile extends StatelessWidget {
   Profile({Key? key}) : super(key: key);
@@ -15,11 +15,13 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text('Profile'),
-        centerTitle: true,
-      ),
+      // appBar:
+      //
+      // AppBar(
+      //   backgroundColor: Colors.white,
+      //   title: const Text('Profile'),
+      //   centerTitle: true,
+      // ),
       body: Obx(() {
         final user = userController.user.value;
         if (user == null) {

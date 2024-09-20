@@ -1,4 +1,3 @@
-// product_model.dart
 class Product {
   final String id;
   final String name;
@@ -19,13 +18,13 @@ class Product {
   });
 }
 
-// review_model.dart
 class Review {
   final String id;
   final String userName;
   final String comment;
   final double rating;
   final DateTime date;
+  final String? vendorReply;
 
   Review({
     required this.id,
@@ -33,5 +32,24 @@ class Review {
     required this.comment,
     required this.rating,
     required this.date,
+    this.vendorReply,
   });
+
+  Review copyWith({
+    String? id,
+    String? userName,
+    String? comment,
+    double? rating,
+    DateTime? date,
+    String? vendorReply,
+  }) {
+    return Review(
+      id: id ?? this.id,
+      userName: userName ?? this.userName,
+      comment: comment ?? this.comment,
+      rating: rating ?? this.rating,
+      date: date ?? this.date,
+      vendorReply: vendorReply ?? this.vendorReply,
+    );
+  }
 }

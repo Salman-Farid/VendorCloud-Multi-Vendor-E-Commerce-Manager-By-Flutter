@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 import '../models/user_model.dart';
 
@@ -8,7 +7,6 @@ class UserController extends GetxController {
   void setUser(User newUser) {
     user.value = newUser;
   }
-
 
   double getProfileCompletionPercentage() {
     if (user.value == null) return 0.0;
@@ -23,10 +21,4 @@ class UserController extends GetxController {
 
     return (completedFields / totalFields) * 100;
   }
-
-
-
-
-
-
 }

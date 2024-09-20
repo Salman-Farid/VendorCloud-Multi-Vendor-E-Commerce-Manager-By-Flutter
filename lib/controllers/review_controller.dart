@@ -143,13 +143,22 @@ class ProductReviewController  extends GetxController {
 
   void addReview(Product product, Review review) {
     product.reviews.add(review);
-    products.refresh(); // This will update the UI wherever products are used
+    products.refresh();
   }
 
   double getAverageRating(Product product) {
     if (product.reviews.isEmpty) return 0.0;
     return product.reviews.map((r) => r.rating).reduce((a, b) => a + b) / product.reviews.length;
   }
+
+  void addVendorReply(Product product, Review review, String reply) {
+    final index = product.reviews.indexOf(review);
+    if (index != -1) {
+      product.reviews[index] = review.copyWith(vendorReply: reply);
+      products.refresh();
+    }
+  }
+
 }
 
 

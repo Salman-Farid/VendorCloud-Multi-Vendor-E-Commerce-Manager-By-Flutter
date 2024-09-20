@@ -6,11 +6,11 @@ import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:karmalab_assignment/constants/network_constants.dart';
-import 'package:karmalab_assignment/controllers/base_controller.dart';
 import 'package:karmalab_assignment/helper/dialog_helper.dart';
 import 'package:karmalab_assignment/services/base/auth_client.dart';
 import 'package:karmalab_assignment/services/shared_pref_service.dart';
 
+import '../controllers/base_controller.dart';
 import '../controllers/user_controller.dart';
 import '../models/user_model.dart';
 
