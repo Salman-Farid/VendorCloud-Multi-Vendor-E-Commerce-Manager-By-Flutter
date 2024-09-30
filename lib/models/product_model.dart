@@ -42,7 +42,7 @@ class allProduct {
 class Product {
 
   dynamic?  video;
-  String? customId;
+  //String? customId;
   dynamic? user;
   String? name;
   String? slug;
@@ -50,7 +50,7 @@ class Product {
   int? quantity;
   String? summary;
   String? description;
-  String? category;
+
   String? brand;
   dynamic? coverPhoto;
   List<dynamic>? images;
@@ -61,11 +61,12 @@ class Product {
   int? ratings;
   Specifications? specifications;
   List<dynamic>? likes;
+  String? category;
   String? subCategory;
   String? warranty;
   Packaging? packaging;
 
-  String? sId;
+  //String? sId;
   String? createdAt;
   String? updatedAt;
   int? V;
@@ -81,8 +82,8 @@ class Product {
     this.coverPhoto,
     this.video,
     this.specifications,
-    this.sId,
-    this.customId,
+    //this.sId,
+    //this.customId,
     this.user,
     this.name,
     this.slug,
@@ -115,19 +116,11 @@ class Product {
   Product.fromJson(Map<String, dynamic> json) {
 
 
-    coverPhoto= json['coverPhoto'] != null
-        ? (json['coverPhoto'] is String
-        ? (json['coverPhoto'].isEmpty ? null : json['coverPhoto'])
-        : CoverPhoto.fromJson(json['coverPhoto']))
-        : null;
+    coverPhoto= json['coverPhoto'] != null ? (json['coverPhoto'] is String ? (json['coverPhoto'].isEmpty ? null : json['coverPhoto']) : CoverPhoto.fromJson(json['coverPhoto'])) : null;
 
 
     video = json['video'] != null ? CoverPhoto.fromJson(json['video']) : null;
-    specifications = json['specifications'] != null
-        ? Specifications.fromJson(json['specifications'])
-        : null;
-    sId = json['_id'];
-    customId = json['customId'];
+    specifications = json['specifications'] != null ? Specifications.fromJson(json['specifications']) : null;
     user = json['user'] != null ? User.fromJson(json['user']) : null;
     name = json['name'];
     slug = json['slug'];
@@ -137,6 +130,7 @@ class Product {
     warranty = json['warranty'];
     description = json['description'];
     category = json['category'];
+    subCategory = json['subCategory'];
     brand = json['brand'];
     if (json['images'] != null) {
       images = <Images>[];

@@ -57,16 +57,16 @@ class Profile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(width: 20,),
+                    const SizedBox(width: 20,),
                     Column(
                       children: [
-                        Text(
+                        const Text(
                           'Your Profile Data',
-                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         ),
-                        Text(
+                        const Text(
                           '25% Completed',
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.red),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.red),
                         ),
                         Text(
                           user.name,
@@ -132,8 +132,8 @@ class Profile extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 16.0),
           child: Center(
             child: Text(
               'Joined Events',
@@ -153,11 +153,11 @@ class Profile extends StatelessWidget {
             aspectRatio: 16 / 9,
             autoPlayCurve: Curves.fastOutSlowIn,
             enableInfiniteScroll: true,
-            autoPlayAnimationDuration: Duration(milliseconds: 1500),
+            autoPlayAnimationDuration: const Duration(milliseconds: 1500),
             viewportFraction: 1,
           ),
           items: imgList.map((item) => Container(
-            margin: EdgeInsets.all(5.0),
+            margin: const EdgeInsets.all(5.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               image: DecorationImage(

@@ -136,7 +136,8 @@ class ProductController extends GetxController {
     return true;
   }
 
-  Future<void> createProduct(Function(bool, {String? errorMessage})? onCreate) async {
+  Future<void> createProduct(
+      Function(bool, {String? errorMessage})? onCreate) async {
     final valid = validate();
     final user = userController.user.value;
     if (valid) {
@@ -181,7 +182,8 @@ class ProductController extends GetxController {
 
       try {
         isLoading.value = true;
-        final createdProduct = await _productService.createProduct(product.toJson());
+        final createdProduct =
+            await _productService.createProduct(product.toJson());
         isLoading.value = false;
         if (onCreate != null) {
           onCreate(createdProduct);
@@ -203,6 +205,25 @@ class ProductController extends GetxController {
       } else {
         productList.clear();
       }
+    }
+    catch (e) {
+      isLoading.value = false;
+      Get.snackbar('Error', 'Failed to fetch products: $e',
+          snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
+  Future<void> getProductById(
+      String id, Function(Product, {String? errorMessage})?) async {
+    try {
+      isLoading.value = true;
+      final productResponse = await _productService.getProductById(id);
+      isLoading.value = false;
+      if (productResponse != null && productResponse.data != null) {
+        productList.assignAll(productResponse.data!);
+      } else {
+        productList.clear();
+      }
     } catch (e) {
       isLoading.value = false;
       Get.snackbar('Error', 'Failed to fetch products: $e',
@@ -210,55 +231,43 @@ class ProductController extends GetxController {
     }
   }
 
-  Future<void> getProductById(String id, Function(Product, {String? errorMessage})?) async {
-  try {
-  isLoading.value = true;
-  final productResponse = await _productService.getProductById(id);
-  isLoading.value = false;
-  if (productResponse != null && productResponse.data != null) {
-  productList.assignAll(productResponse.data!);
-  } else {
-  productList.clear();
-  }
-  } catch (e) {
-  isLoading.value = false;
-  Get.snackbar('Error', 'Failed to fetch products: $e',
-  snackPosition: SnackPosition.BOTTOM);
-  }
-}
+  Future<void> updateProductById(String id, Product product,
+      Function(bool, {String? errorMessage})? onUpdate) async {
+    try {
+      isLoading.value = true;
+      final bool isUpdated =
+          await _productService.updateProductById(id, product.toJson());
+      isLoading.value = false;
 
-Future<void> updateProductById(String id, Product product, Function(bool, {String? errorMessage})? onUpdate) async {
-  try {
-    isLoading.value = true;
-    final bool isUpdated = await _productService.updateProductById(id, product.toJson());
-    isLoading.value = false;
-
-    if (isUpdated) {
-      if (onUpdate != null) onUpdate(true);
-    } else {
-      if (onUpdate != null) onUpdate(false, errorMessage: 'Failed to update product.');
+      if (isUpdated) {
+        if (onUpdate != null) onUpdate(true);
+      } else {
+        if (onUpdate != null)
+          onUpdate(false, errorMessage: 'Failed to update product.');
+      }
+    } catch (e) {
+      isLoading.value = false;
+      if (onUpdate != null) onUpdate(false, errorMessage: e.toString());
     }
-  } catch (e) {
-    isLoading.value = false;
-    if (onUpdate != null) onUpdate(false, errorMessage: e.toString());
   }
-}
 
-Future<void> deleteProduct(String id, Function(bool, {String? errorMessage})? onDelete) async {
-  try {
-    isLoading.value = true;
-    final bool isDeleted = await _productService.deleteProductById(id);
-    isLoading.value = false;
+  Future<void> deleteProduct(
+      String id, Function(bool, {String? errorMessage})? onDelete) async {
+    try {
+      isLoading.value = true;
+      final bool isDeleted = await _productService.deleteProductById(id);
+      isLoading.value = false;
 
-    if (isDeleted) {
-      productList.removeWhere((product) => product.id == id);
-      if (onDelete != null) onDelete(true);
-    } else {
-      if (onDelete != null) onDelete(false, errorMessage: 'Failed to delete product.');
+      if (isDeleted) {
+        productList.removeWhere((product) => product.id == id);
+        if (onDelete != null) onDelete(true);
+      } else {
+        if (onDelete != null)
+          onDelete(false, errorMessage: 'Failed to delete product.');
+      }
+    } catch (e) {
+      isLoading.value = false;
+      if (onDelete != null) onDelete(false, errorMessage: e.toString());
     }
-  } catch (e) {
-    isLoading.value = false;
-    if (onDelete != null) onDelete(false, errorMessage: e.toString());
   }
-}
 }

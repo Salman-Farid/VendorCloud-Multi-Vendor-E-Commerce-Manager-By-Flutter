@@ -228,7 +228,7 @@ class CategoryController extends GetxController {
 
 // Fetch categories by ID
 
-  Future<void> getProductById(
+  Future<void> getCategoryById(
       String id, Function(Category, {String? errorMessage})?) async {
     try {
       isLoading.value = true;

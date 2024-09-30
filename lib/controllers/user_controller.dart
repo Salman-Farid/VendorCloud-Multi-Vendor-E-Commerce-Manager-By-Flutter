@@ -15,7 +15,7 @@ class UserController extends GetxController {
     int totalFields = 5; // Adjust this based on your user model
 
     if (user.value!.name.isNotEmpty) completedFields++;
-    if (user.value!.email!.isNotEmpty) completedFields++;
+    if (user.value!.email.isNotEmpty) completedFields++;
     if (user.value!.avatar.isNotEmpty) completedFields++;
     // Add more fields as needed
 

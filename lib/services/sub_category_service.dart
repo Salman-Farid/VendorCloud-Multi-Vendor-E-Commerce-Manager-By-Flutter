@@ -2,11 +2,17 @@ import 'package:karmalab_assignment/constants/network_constants.dart';
 import 'package:karmalab_assignment/controllers/base_controller.dart';
 import 'package:karmalab_assignment/services/base/auth_client.dart';
 import 'package:karmalab_assignment/services/shared_pref_service.dart';
-import '../models/category_model.dart'; // Assuming the SubCategory model is similar to Data model
+import '../models/category_model.dart';
+
+
+
+
 
 class SubCategoryService extends BaseController {
   final SharedPrefService _prefService = SharedPrefService();
   final BaseClient _baseClient = BaseClient();
+
+
 
   // Fetch all subcategories
   Future<SubCategories?> getAllSubCategories() async {
@@ -43,6 +49,9 @@ class SubCategoryService extends BaseController {
     return null;
   }
 
+
+
+
   // Create a new subcategory
   Future<SubCategories?> createSubCategory(dynamic object) async {
     try {
@@ -66,6 +75,7 @@ class SubCategoryService extends BaseController {
     return null;
   }
 
+
   // Update subcategory by ID
   Future<bool> updateSubCategoryById(String id, dynamic object) async {
     try {
@@ -87,6 +97,9 @@ class SubCategoryService extends BaseController {
     }
     return false;
   }
+
+
+
 
   // Delete subcategory by ID
   Future<bool> deleteSubCategoryById(String id) async {

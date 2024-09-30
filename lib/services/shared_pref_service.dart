@@ -5,15 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_model.dart';
 import '../views/home/home.dart';
 
-
-
 class SharedPrefService {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
-
-
-
-
 
   Future<void> saveSessionId(String sessionId) async {
     final prefs = await SharedPreferences.getInstance();
@@ -29,7 +22,6 @@ class SharedPrefService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('session_id');
   }
-
 
 // Method to save the hash value in SharedPreferences
   Future<void> saveHash(String hash) async {
@@ -61,12 +53,10 @@ class SharedPrefService {
     return hash;
   }
 
-
-
   Future<void> saveUser(User user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userJson = jsonEncode(user.toJson());
-    print('Saving User: $userJson');  // Debugging statement
+    print('Saving User: $userJson'); // Debugging statement
     await prefs.setString('user', userJson);
   }
 
@@ -74,21 +64,16 @@ class SharedPrefService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userJson = prefs.getString('user');
     if (userJson != null) {
-      print('Retrieved User JSON: $userJson');  // Debugging statement
       return User.fromJson(jsonDecode(userJson));
     }
-    print('No user data found in SharedPreferences');  // Debugging statement
     return null;
   }
-
-
-
 
   void userLog({String? email, String? id, int? otp}) async {
     SharedPreferences pref = await _prefs;
     pref.setBool("login", true);
     pref.setString("email", email ?? "email");
-    pref.setString("id", id?? "0");
+    pref.setString("id", id ?? "0");
     pref.setInt("otp", otp ?? 0);
   }
 
@@ -102,7 +87,6 @@ class SharedPrefService {
 
     return status != null ? Profile.routeName : OnboardingView.routeName;
   }
-
 
   Future<void> forgotPassCred({String? token, int? otp}) async {
     SharedPreferences pref = await _prefs;
