@@ -11,7 +11,6 @@ class ProductService extends BaseController {
   final SharedPrefService _prefService = SharedPrefService();
   final BaseClient _baseClient = BaseClient();
   late  final allProduct? product;
-
   Future<allProduct?> getProducts() async {
     try {
       final sessionId = await _prefService.getSessionId();
