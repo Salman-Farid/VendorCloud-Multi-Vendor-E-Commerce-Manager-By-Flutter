@@ -30,6 +30,9 @@ class ProductService extends BaseController {
     return null;
   }
 
+
+
+
   Future<allProduct?> getProductById(String id) async {
     try {
       final sessionId = await _prefService.getSessionId();
