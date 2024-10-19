@@ -7,6 +7,8 @@ class Product {
   final double rating;
   final List<Review> reviews;
 
+
+
   Product({
     required this.id,
     required this.name,
