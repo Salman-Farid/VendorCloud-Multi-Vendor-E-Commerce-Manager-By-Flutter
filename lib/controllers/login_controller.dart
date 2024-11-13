@@ -40,7 +40,7 @@ class LoginController extends GetxController {
     if (_validate()) {
       _loading.value = true;
       try {
-        User? user;
+        UserModel? user;
         if (_isEmailLogin.value) {
           // Email login flow
           user = await _authService.login(
@@ -62,6 +62,7 @@ class LoginController extends GetxController {
               "phone": phoneController.text,
             });
             if (otpSent) {
+              Get.snackbar('Success', 'An OTP has been sent to your phone');
               _isOtpSent.value = true;
             } else {
               Get.snackbar('Error', 'Failed to send OTP');

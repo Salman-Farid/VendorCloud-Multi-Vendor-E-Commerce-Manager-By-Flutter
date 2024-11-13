@@ -1,25 +1,24 @@
 import 'package:get/get.dart';
-import 'package:karmalab_assignment/views/authentication/forgot/forgot_password.dart';
-import 'package:karmalab_assignment/views/authentication/login/login_view.dart';
-import 'package:karmalab_assignment/views/authentication/new_password/new_password.dart';
-import 'package:karmalab_assignment/views/authentication/select_auth/select_auth_view.dart';
-import 'package:karmalab_assignment/views/authentication/siginup/signup_view.dart';
-import 'package:karmalab_assignment/views/authentication/verification/verification_view.dart';
-import 'package:karmalab_assignment/views/profile/profile_view.dart';
-import 'package:karmalab_assignment/views/onboarding/onboarding_view.dart';
-import 'package:karmalab_assignment/views/splash/splash_view.dart';
-import '../views/Dashboard/dashboard.dart';
-import '../views/category/category_creation_screen.dart';
-import '../views/category/category_management_screen.dart';
-import '../views/eventManager/event_mangement.dart';
-import '../views/home/home.dart';
-import '../views/mainScreen/mainscreen.dart';
-import '../views/order_management/orderlist_screen.dart';
-import '../views/product/all_products.dart';
-import '../views/product/product_upload_screen.dart';
-import '../views/report/all_reports.dart';
-import '../views/report/report_details.dart';
-import '../views/review/product_review.dart';
+import 'package:karmalab_assignment/screens/order/widgets/orders_list.dart';
+import '../screens/Dashboard/dashboard.dart';
+import '../screens/authentication/forgot/forgot_password.dart';
+import '../screens/authentication/login/login_view.dart';
+import '../screens/authentication/new_password/new_password.dart';
+import '../screens/authentication/select_auth/select_auth_view.dart';
+import '../screens/authentication/siginup/signup_view.dart';
+import '../screens/authentication/verification/verification_view.dart';
+import '../screens/category/category_creation_screen.dart';
+import '../screens/category/category_management_screen.dart';
+import '../screens/eventManager/event_mangement.dart';
+import '../screens/home/home.dart';
+import '../screens/mainScreen/mainscreen.dart';
+import '../screens/onboarding/onboarding_view.dart';
+import '../screens/product/all_products.dart';
+import '../screens/product/product_upload_screen.dart';
+import '../screens/profile/profile_view.dart';
+import '../screens/report/all_reports.dart';
+import '../screens/review/product_review.dart';
+import '../screens/splash/splash_view.dart';
 import 'Bindings/category_bindings.dart';
 import 'Bindings/dashboard_binding.dart';
 import 'Bindings/fetchProductBindings.dart';
@@ -42,7 +41,7 @@ class RouteUtil {
     GetPage(name: CategoryCreationScreen.routeName, page: () => CategoryCreationScreen(), binding: Categorybindings(),),
     GetPage(name: DashboardScreen.routeName, page: () => DashboardScreen()), //binding:DashboardBinding()),
     GetPage(name: EventManagementScreen.routeName, page: () => EventManagementScreen()),//binding: BindingsBuilder(() {Get.lazyPut<EventManagementController>(() => EventManagementController());}),),
-    GetPage(name: OrderListScreen.routeName, page: () => OrderListScreen(), binding: OrderlistBinding()),
+    GetPage(name: OrdersListItems.routeName, page: () => OrdersListItems(), binding: OrderlistBinding()),
     GetPage(name: MainScreen.routeName, page: () =>  MainScreen()),
     GetPage(name: AllReports.routeName, page: () =>  AllReports()),
     GetPage(name: HomeScreen.routeName, page: () =>  HomeScreen()),

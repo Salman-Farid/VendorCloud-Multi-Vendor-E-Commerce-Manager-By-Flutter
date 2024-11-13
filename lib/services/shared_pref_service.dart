@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'package:karmalab_assignment/views/profile/profile_view.dart';
-import 'package:karmalab_assignment/views/onboarding/onboarding_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_model.dart';
-import '../views/home/home.dart';
+import '../screens/onboarding/onboarding_view.dart';
+import '../screens/profile/profile_view.dart';
 
 class SharedPrefService {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -53,18 +52,18 @@ class SharedPrefService {
     return hash;
   }
 
-  Future<void> saveUser(User user) async {
+  Future<void> saveUser(UserModel user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userJson = jsonEncode(user.toJson());
     print('Saving User: $userJson'); // Debugging statement
     await prefs.setString('user', userJson);
   }
 
-  Future<User?> getUser() async {
+  Future<UserModel?> getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userJson = prefs.getString('user');
     if (userJson != null) {
-      return User.fromJson(jsonDecode(userJson));
+      return UserModel.fromJson(jsonDecode(userJson));
     }
     return null;
   }

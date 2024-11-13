@@ -16,21 +16,20 @@ class SignUpController extends GetxController {
   final TextEditingController _nameTextController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _conformPasswordController =
-  TextEditingController();
+  final TextEditingController _conformPasswordController = TextEditingController();
 
   var type = ''.obs;
 
   final _loading = false.obs;
 
-  var isPasswordVisible = false.obs;
+  final RxBool _isPasswordVisible = false.obs;
   void togglePasswordVisibility() {
-    isPasswordVisible.value = !isPasswordVisible.value;
+    _isPasswordVisible.value = !_isPasswordVisible.value;
   }
 
-  var isConformPasswordVisible = false.obs;
+  final RxBool _isConformPasswordVisible = false.obs;
   void toggleConformPasswordVisibility() {
-    isConformPasswordVisible.value = !isConformPasswordVisible.value;
+    _isConformPasswordVisible.value = !_isConformPasswordVisible.value;
   }
 
   @override
@@ -41,11 +40,13 @@ class SignUpController extends GetxController {
     _conformPasswordController.dispose();
     super.dispose();
   }
-
+  bool get isPasswordVisible => _isPasswordVisible.value;
+  bool get isConformPasswordVisible => _isConformPasswordVisible.value;
   TextEditingController get nameTextController => _nameTextController;
   TextEditingController get emailController => _emailController;
   TextEditingController get passwordController => _passwordController;
   TextEditingController get conformPasswordController => _conformPasswordController;
+
 
   bool get loading => _loading.value;
   String get Type => type.value;
@@ -89,7 +90,7 @@ class SignUpController extends GetxController {
 
 
   Future<void> register(
-      Function(User?, {String? errorMessage})? onRegister) async {
+      Function(UserModel?, {String? errorMessage})? onRegister) async {
     String ImageBase64 = imageController.imageBase64;
 
     final valid = validate();
@@ -98,7 +99,7 @@ class SignUpController extends GetxController {
       try {
         await Future.delayed(const Duration(seconds: 2));
         // Create a User object
-        User user = User(
+        UserModel user = UserModel(
           name: _nameTextController.text,
           email: _emailController.text,
           password: _passwordController.text,
@@ -106,12 +107,9 @@ class SignUpController extends GetxController {
           avatar: ImageBase64,
           otherPermissions: OtherPermissions(),
         );
-
         // Register method
-        User? registeredUser = await _authService.register(user.toJson());
-
+        UserModel? registeredUser = await _authService.register(user.toJson());
         _loading.value = false;
-
         // Call the onRegister callback with the registered user
         if (onRegister != null) {
           onRegister(registeredUser);

@@ -503,7 +503,7 @@ class Packaging {
 
 
 class ProductVariant {
-  //String? id;
+  String? id;
   String? user;
   String? name;
   int? price; // Required
@@ -516,7 +516,7 @@ class ProductVariant {
   String? image;
 
   ProductVariant({
-    //this.id,
+    this.id,
     this.user,
     this.name,
     this.price, // Marked as required
@@ -532,7 +532,7 @@ class ProductVariant {
   // Convert a ProductVariant object into a Map object
   Map<String, dynamic> toJson() {
     return {
-      //'_id': id,
+      '_id': id,
       //'user': user,
       'name': name,
       'price': price,
@@ -549,7 +549,7 @@ class ProductVariant {
   // Convert a Map object into a ProductVariant object
   factory ProductVariant.fromJson(Map<String, dynamic> json) {
     return ProductVariant(
-      //id: json['_id'] ?? '',
+      id: json['_id'] ?? '',
       user: json['user'] ?? '',
       name: json['name'] ?? '',
       price: json['price'], // Ensure it's a double

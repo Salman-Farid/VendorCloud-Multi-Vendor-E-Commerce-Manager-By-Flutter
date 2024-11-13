@@ -1,14 +1,13 @@
 
 class NetworkConstants {
-  // base url
+
   static const String baseURL = "https://baburhaatbd.com/";
-  // endpoints for login and signup:
+
   static const String registerAPI = "api/auth/register";
   static const String loginAPI = "api/auth/login";
   static const String forgotPassWord = "api/auth/forgot-password";
   static const String verifyOtp = "api/auth/verify-otp";
   static const String sendOtp = "api/auth/send-otp";
-  static const String resetPassApi = "api/auth/reset-password";
 
 
   static const String googleAuth = "api/auth/google";
@@ -22,7 +21,7 @@ class NetworkConstants {
   static const String resetPassword = "api/auth/reset-password";
 
 
-  // Users
+
   static const String getAllUsers = "api/users";
   static String getUserById(String userId) => "api/users/$userId";
   static const String getMe = "api/users/me";
@@ -32,10 +31,10 @@ class NetworkConstants {
   static const String deleteMe = "api/users/me";
 
 
-  // Example of uploading an image
-  static const String uploadImage = "api/auth/register"; // Example endpoint for image upload
 
-  // To get all users with pagination and filters
+  static const String uploadImage = "api/auth/register";
+
+
   static String getUsers({int? page, int? limit, String? sort, String? search, String? fields}) {
     final queryParams = <String>[];
     if (page != null) queryParams.add('_page=$page');
@@ -49,7 +48,10 @@ class NetworkConstants {
 
 
 
-  // Endpoints for products
+
+  static String getBrandFromProductByCategory(String id) => "api/products?_filter[category]=$id";
+
+
   static const String getProducts = "api/products?_limit=200";
   static const String createProduct = "api/products";
   static String getProductById(String id) => "api/products/$id";
@@ -58,13 +60,30 @@ class NetworkConstants {
   static String updateProductBySlug(String slug) => "api/products/$slug";
   static String deleteProductById(String id) => "api/products/$id";
   static String deleteProductBySlug(String slug) => "api/products/$slug";
-  static const String getRandomProducts = "api/products/get-random-products";
-  // Endpoints for user products
+  static const String getRandomProducts = "api/products/get-random-products?_limit=20";
+  static String getRandomProductsWithLimit(int limit) => "api/products/get-random-products?_limit=$limit";
+
   static String getUserProducts(String userId) => "api/users/$userId/products";
-  // Endpoints for like product
+  static String getFavouriteProducts() => "api/users/me/products";
+
   static String toggleLikeProduct(String productId) => "api/products/$productId/like";
 
-// Endpoints for review:
+  static String getPaginatedProducts(int limit, int page) => "api/products?_limit=$limit&_page=$page";
+  static String getProductsForBrand(String id,int limit) => "api/users/$id/products?_limit=$limit";
+  static String getProductsForSubCategory(String id, int limit) => "api/products?_filter[subCategory]=$id&_limit=$limit";
+
+  static searchProduct(String query) => "api/products?_search=$query,product,name,slug,summary,description";
+  static const String sortProductsByPriceLowestToHigest = "api/products?_sort=-price";
+  static const String sortProductsByPriceHigestToLowest = "api/products?_sort=price";
+
+  static getProductsForOnlySelectedField(String query) => "api/products?_fields=$query";
+
+  static const String getManyProducts = "api/products/many";
+
+
+
+
+
 
   static const String getAllReviews = "api/reviews";
   static String getReviewsByProductId(String productId) => "api/products/$productId/reviews";
@@ -75,40 +94,40 @@ class NetworkConstants {
   static String updateReviewById(String reviewId) => "api/reviews/$reviewId";
   static String deleteReviewById(String reviewId) => "api/reviews/$reviewId";
 
-  // Specific endpoints for reviews by product or user
+
   static String getReviewByProductIdAndReviewId(String productId, String reviewId) => "api/products/$productId/reviews/$reviewId";
   static String getReviewByUserIdAndReviewId(String userId, String reviewId) => "api/users/$userId/reviews/$reviewId";
   static String getReviewByLoggedInUserAndReviewId(String reviewId) => "api/me/reviews/$reviewId";
 
-  // Vouchers
+
   static const String getAllVouchers = "api/vouchers";
   static String getVoucherById(String voucherId) => "api/vouchers/$voucherId";
   static const String createVoucher = "api/vouchers";
   static String updateVoucherById(String voucherId) => "api/vouchers/$voucherId";
   static String deleteVoucherById(String voucherId) => "api/vouchers/$voucherId";
 
-  // Categories
+
   static const String getAllCategories = "api/categories";
   static String getCategoryById(String categoryId) => "api/categories/$categoryId";
   static const String createCategory = "api/categories";
   static String updateCategoryById(String categoryId) => "api/categories/$categoryId";
   static String deleteCategoryById(String categoryId) => "api/categories/$categoryId";
 
-  // SubCategories
+
   static const String getAllSubCategories = "api/sub-categories";
   static String getSubCategoryById(String subCategoryId) => "api/sub-categories/$subCategoryId";
   static const String createSubCategory = "api/sub-categories";
   static String updateSubCategoryById(String subCategoryId) => "api/sub-categories/$subCategoryId";
   static String deleteSubCategoryById(String subCategoryId) => "api/sub-categories/$subCategoryId";
 
-  // Packages
+
   static const String getAllPackages = "api/packages";
   static String getPackageById(String packageId) => "api/packages/$packageId";
   static const String createPackage = "api/packages";
   static String updatePackageById(String packageId) => "api/packages/$packageId";
   static String deletePackageById(String packageId) => "api/packages/$packageId";
 
-  // Payments
+
   static const String getAllPayments = "api/payments";
   static String getPaymentsByUserId(String userId) => "api/users/$userId/payments";
   static String getPaymentById(String paymentId) => "api/payments/$paymentId";
@@ -121,7 +140,7 @@ class NetworkConstants {
 
 
 
-  // Reports
+
   static const String getAllReports = "api/reports";
   static String getReportById(String reportId) => "api/reports/$reportId";
   static const String createReport = "api/reports";
@@ -130,11 +149,50 @@ class NetworkConstants {
 
 
 
-  // Others
+
   static const String getAllOthers = "api/others";
   static String getOtherById(String otherId) => "api/others/$otherId";
   static const String createOther = "api/others";
   static String updateOtherById(String otherId) => "api/others/$otherId";
   static String deleteOtherById(String otherId) => "api/others/$otherId";
+
+
+
+  static const String getAllOrders = "api/orders";
+  static String getOrderById(String orderId) => "api/orders/$orderId";
+  static const String getMultipleOrders = "api/orders/many";
+  // static String getUserOrders(String userId) => "api/orders?_filter[vendor]=66cb6175017d8682d2b9e6ef";
+
+  // static String getUserOrders(String id, {page, limit}) {
+  //   return 'api/orders?_filter[vendor]=66cb6175017d8682d2b9e6ef&_page=$page&_limit=5';
+  // }
+  static String getUserOrders(String id, {int page = 1, int limit = 20}) {
+    return 'api/orders?_filter[vendor]=66dda29c8fe4ca1689c5556b&_sort=-createdAt&_page=$page&_limit=$limit';
+  }
+
+  //static const String getLoggedInUserOrders = "api/users/me/orders";
+  //static const String createOrder = "api/orders";
+  static String updateOrderById(String orderId) => "api/orders/$orderId";
+  static String deleteOrderById(String orderId) => "api/orders/$orderId";
+
+  static const String createMultipleOrders = "api/orders/many";
+
+
+
+
+  static const String getAllBillingAddresses = "api/billing-addresses";
+
+  static String getUserBillingAddresses(String userId) => "api/users/$userId/billing-addresses";
+
+  static String getBillingAddressById(String billingId) => "api/billing-addresses/$billingId";
+
+  static const String createBillingAddress = "api/billing-addresses";
+
+  static String updateBillingAddressById(String billingId) => "api/billing-addresses/$billingId";
+
+  static String deleteBillingAddressById(String billingId) => "api/billing-addresses/$billingId";
+
+
+
 
 }

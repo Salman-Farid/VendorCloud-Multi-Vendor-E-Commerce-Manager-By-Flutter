@@ -9,28 +9,27 @@ class OnboardingController extends GetxController {
 
   final List<OnboardingModel> _onboardingList = [
     OnboardingModel(
-      title: "Learn from Experts and Professionals",
+      title: "Manage Your Store Effortlessly",
       description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.",
+      "Take control of your business with our easy-to-use dashboard. Track orders, manage inventory, and analyze sales performance all in one place.",
       imageURL: "assets/images/png/onboarding-images/onboarding-3.png",
-      bgColor: const Color(0xffEBF4FF),
+      bgColor: const Color(0xffE8F5E9), // Light green for business growth
     ),
     OnboardingModel(
-      title: "One to one doubt clearing sessions!",
+      title: "Real-time Order Management",
       description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. ",
+      "Receive instant notifications for new orders, track deliveries, and manage customer communications seamlessly. Never miss a sale opportunity!",
       imageURL: "assets/images/png/onboarding-images/onboarding-1.png",
-      bgColor: const Color(0xffFFDDDD),
+      bgColor: const Color(0xffFFF3E0), // Warm orange for activity
     ),
     OnboardingModel(
-      title: "Explore your new skills everyday!",
+      title: "Boost Your Sales with Analytics",
       description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.",
+      "Make data-driven decisions with detailed insights into your best-selling products, peak hours, and customer preferences. Watch your business grow!",
       imageURL: "assets/images/png/onboarding-images/onboarding-2.png",
-      bgColor: const Color(0xffE6FFD6),
+      bgColor: const Color(0xffE3F2FD), // Light blue for technology/analytics
     ),
   ];
-
   //getters
   List<OnboardingModel> get onboardingList => _onboardingList;
   int get selectedIndex => _selectedIndex.value;

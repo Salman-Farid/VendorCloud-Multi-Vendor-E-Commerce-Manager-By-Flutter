@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 import '../models/user_model.dart';
 
 class UserController extends GetxController {
-  var user = Rxn<User>();
+  var user = Rxn<UserModel>();
 
-  void setUser(User newUser) {
+  void setUser(UserModel newUser) {
     user.value = newUser;
   }
 

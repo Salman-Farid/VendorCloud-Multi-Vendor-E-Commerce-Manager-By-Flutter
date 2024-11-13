@@ -1,99 +1,366 @@
-import 'package:intl/intl.dart';
 
-class Order {
-  final String id;
-  final List<Product> products;
-  final String status;
-  final String currency;
-  final String paymentType;
-  final String userId;
-  final ShippingInfo shippingInfo;
-  final DateTime createdAt;
 
-  Order({
-    required this.id,
-    required this.products,
-    required this.status,
-    required this.currency,
-    required this.paymentType,
-    required this.userId,
-    required this.shippingInfo,
-    required this.createdAt,
-  });
+import 'package:karmalab_assignment/models/product_model.dart';
 
-  factory Order.fromJson(Map<String, dynamic> json) {
-    return Order(
-      id: json['_id'],
-      products: (json['products'] as List).map((p) => Product.fromJson(p)).toList(),
-      status: json['status'],
-      currency: json['currency'],
-      paymentType: json['paymentType'],
-      userId: json['user'],
-      shippingInfo: ShippingInfo.fromJson(json['shippingInfo']),
-      createdAt: DateTime.parse(json['createdAt']),
-    );
+import '../utils/helpers/helper_functions.dart';
+
+class OrderModels {
+  String? status;
+  int? total;
+  int? count;
+  List<OrderModel>? data;
+
+  OrderModels({this.status, this.total, this.count, this.data});
+
+  OrderModels.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    total = json['total'];
+    count = json['count'];
+    if (json['data'] != null) {
+      data = <OrderModel>[];
+      json['data'].forEach((v) {
+        data!.add(OrderModel.fromJson(v));
+      });
+    }
   }
 
-  double get totalAmount => products.fold(0, (sum, product) => sum + (product.price * product.quantity));
-  String get formattedDate => DateFormat('MMM d, yyyy').format(createdAt);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['total'] = total;
+    data['count'] = count;
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-class Product {
-  final String id;
-  final double price;
-  final int quantity;
+class OrderModel {
+  ShippingInfo? shippingInfo;
+  String? sId;
+  dynamic user;
+  dynamic product;
+  String? variantId;
+  String? transactionId;
+  int? price;
+  String? currency;
+  String? paymentType;
+  String? status;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic vat;
+  dynamic commission;
+  dynamic transactionCost;
+  dynamic shippingCharge;
+  dynamic profit;
+  dynamic quantity;
+  String? vendorPaid;
+  String? vendor;
 
-  Product({required this.id, required this.price, required this.quantity});
+  OrderModel({
+    this.shippingInfo,
+    this.sId,
+    this.user,
+    this.product,
+    this.variantId,
+    this.transactionId,
+    this.price,
+    this.currency,
+    this.paymentType,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.vat,
+    this.commission,
+    this.transactionCost,
+    this.shippingCharge,
+    this.profit,
+    this.quantity,
+    this.vendorPaid,
+    this.vendor,
+  });
 
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      id: json['product'],
-      price: json['price'].toDouble(),
-      quantity: json['quantity'],
-    );
+  OrderModel.fromJson(Map<String, dynamic> json) {
+    shippingInfo = json['shippingInfo'] != null ? ShippingInfo.fromJson(json['shippingInfo']) : null;
+    sId = json['_id'] ?? '';
+    user = json['user'] is String ? json['user'] : (json['user'] is Map<String, dynamic> ? User.fromJson(json['user']) : null);
+    product = json['product'] != null ? Product.fromJson(json['product']) : null;
+    variantId = json['variantId'] ?? '';
+    transactionId = json['transactionId'] ?? '';
+
+    price = json['price'] ?? 0;  // Default to 0 if null
+    currency = json['currency'] ?? '';
+    paymentType = json['paymentType'] ?? '';
+    status = json['status'] ?? '';
+
+    createdAt = json['createdAt'] ?? '';
+    updatedAt = json['updatedAt'] ?? '';
+
+    vat = json['vat'] ?? '';  // Default to 0 if null
+    commission = json['commission'] ?? '';  // Default to 0 if null
+    transactionCost = json['transactionCost'] ?? '';  // Default to 0 if null
+    shippingCharge = json['shippingCharge'] ?? '';  // Default to 0 if null
+    profit = json['profit'] ?? '';  // Default to 0 if null
+
+    quantity = json['quantity'] ?? '';  // Default to 0 if null
+    vendorPaid = json['vendorPaid'] ?? '';  // Default to false if null
+    vendor = json['vendor'] ?? '';
+  }
+
+
+
+
+  String get formattedOrderDate {
+    DateTime createdAtDate = DateTime.parse(createdAt!);
+    return HelperFunctions.getFormattedDate(createdAtDate);
+  }
+
+
+  String get formattedDeliveryDate {
+    return updatedAt != null ? HelperFunctions.getFormattedDate(DateTime.parse(updatedAt!)) : '';
+  }
+  String get orderStatusText => status == 'COMPLETED' ? 'Delivered' : status == 'CANCELLED' ? 'Cancelled' : 'Processing';
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (shippingInfo != null) {
+      data['shippingInfo'] = shippingInfo!.toJson();
+    }
+    data['user'] = user;
+    if (product != null) {
+      data['product'] = product;
+    }
+    data['variantId'] = variantId??'667ea9b1df5d6c0e864f1814';
+    data['transactionId'] = transactionId;
+    data['price'] = price;
+    data['paymentType'] = paymentType;
+    data['status'] = status;
+    data['vat'] = vat;
+    data['commission'] = commission;
+    data['transactionCost'] = transactionCost;
+    data['shippingCharge'] = shippingCharge;
+    data['profit'] = profit;
+    data['quantity'] = quantity;
+    data['vendor'] = vendor;
+    return data;
   }
 }
 
 class ShippingInfo {
-  final String name;
-  final String email;
-  final String phone;
-  final String method;
-  final String address1;
-  final String address2;
-  final String city;
-  final String state;
-  final int postcode;
-  final String country;
-  final double deliveryFee;
+  String? name;
+  String? email;
+  String? phone;
+  String? method;
+  dynamic deliveryFee;
+  String? address1;
+  String? address2;
+  String? city;
+  String? state;
+  int? postcode;
+  String? country;
 
   ShippingInfo({
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.method,
-    required this.address1,
-    required this.address2,
-    required this.city,
-    required this.state,
-    required this.postcode,
-    required this.country,
-    required this.deliveryFee,
+    this.name,
+    this.email,
+    this.phone,
+    this.method,
+    this.deliveryFee,
+    this.address1,
+    this.address2,
+    this.city,
+    this.state,
+    this.postcode,
+    this.country,
   });
 
-  factory ShippingInfo.fromJson(Map<String, dynamic> json) {
-    return ShippingInfo(
-      name: json['name'],
-      email: json['email'],
-      phone: json['phone'],
-      method: json['method'],
-      address1: json['address1'],
-      address2: json['address2'],
-      city: json['city'],
-      state: json['state'],
-      postcode: json['postcode'],
-      country: json['country'],
-      deliveryFee: json['deliveryFee'].toDouble(),
-    );
+  ShippingInfo.fromJson(Map<String, dynamic> json) {
+    name = json['name'] ?? '';
+    email = json['email'] ?? '';
+    phone = json['phone'] ?? '';
+    method = json['method'] ?? '';
+    deliveryFee = json['deliveryFee'] ?? 0;  // Assuming deliveryFee is a double
+    address1 = json['address1'] ?? '';
+    address2 = json['address2'] ?? '';
+    city = json['city'] ?? '';
+    state = json['state'] ?? '';
+    postcode = json['postcode'] ?? '';
+    country = json['country'] ?? '';
+  }
+
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['method'] = method;
+    data['deliveryFee'] = deliveryFee;
+    data['address1'] = address1;
+    data['address2'] = address2;
+    data['city'] = city;
+    data['state'] = state;
+    data['postcode'] = postcode;
+    data['country'] = country;
+    return data;
   }
 }
+
+
+class CoverPhoto {
+  String? publicId;
+  String? secureUrl;
+
+  CoverPhoto({this.publicId, this.secureUrl});
+
+  CoverPhoto.fromJson(Map<String, dynamic> json) {
+    publicId = json['public_id']??'';
+    secureUrl = json['secure_url']??'';
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['public_id'] = publicId;
+    data['secure_url'] = secureUrl;
+    return data;
+  }
+}
+
+class Packaging {
+  String? weight;
+  String? height;
+  String? width;
+  String? dimension;
+
+  Packaging({this.weight, this.height, this.width, this.dimension});
+
+  Packaging.fromJson(Map<String, dynamic> json) {
+    weight = json['weight'];
+    height = json['height'];
+    width = json['width'];
+    dimension = json['dimension'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['weight'] = weight;
+    data['height'] = height;
+    data['width'] = width;
+    data['dimension'] = dimension;
+    return data;
+  }
+}
+
+
+class Location {
+  String? address1;
+  String? address2;
+  String? city;
+  String? state;
+  int? postcode;
+  String? country;
+
+  Location({
+    this.address1,
+    this.address2,
+    this.city,
+    this.state,
+    this.postcode,
+    this.country,
+  });
+
+  Location.fromJson(Map<String, dynamic> json) {
+    address1 = json['address1'];
+    address2 = json['address2'];
+    city = json['city'];
+    state = json['state'];
+    postcode = json['postcode'];
+    country = json['country'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['address1'] = address1;
+    data['address2'] = address2;
+    data['city'] = city;
+    data['state'] = state;
+    data['postcode'] = postcode;
+    data['country'] = country;
+    return data;
+  }
+}
+
+class OtherPermissions {
+  bool? isVendor;
+  bool? isCustomer;
+  bool? isCategories;
+  bool? isProducts;
+  bool? isOrders;
+  bool? isReviews;
+  bool? isVouchers;
+  bool? isAdManager;
+  bool? isRoleManager;
+  bool? isMessageCenter;
+  bool? isFinance;
+  bool? isShipment;
+  bool? isSupport;
+  bool? isEventManager;
+  bool? isMessage;
+
+  OtherPermissions({
+    this.isVendor,
+    this.isCustomer,
+    this.isCategories,
+    this.isProducts,
+    this.isOrders,
+    this.isReviews,
+    this.isVouchers,
+    this.isAdManager,
+    this.isRoleManager,
+    this.isMessageCenter,
+    this.isFinance,
+    this.isShipment,
+    this.isSupport,
+    this.isEventManager,
+    this.isMessage,
+  });
+
+  OtherPermissions.fromJson(Map<String, dynamic> json) {
+    isVendor = json['isVendor'];
+    isCustomer = json['isCustomer'];
+    isCategories = json['isCategories'];
+    isProducts = json['isProducts'];
+    isOrders = json['isOrders'];
+    isReviews = json['isReviews'];
+    isVouchers = json['isVouchers'];
+    isAdManager = json['isAdManager'];
+    isRoleManager = json['isRoleManager'];
+    isMessageCenter = json['isMessageCenter'];
+    isFinance = json['isFinance'];
+    isShipment = json['isShipment'];
+    isSupport = json['isSupport'];
+    isEventManager = json['isEventManager'];
+    isMessage = json['isMessage'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['isVendor'] = isVendor;
+    data['isCustomer'] = isCustomer;
+    data['isCategories'] = isCategories;
+    data['isProducts'] = isProducts;
+    data['isOrders'] = isOrders;
+    data['isReviews'] = isReviews;
+    data['isVouchers'] = isVouchers;
+    data['isAdManager'] = isAdManager;
+    data['isRoleManager'] = isRoleManager;
+    data['isMessageCenter'] = isMessageCenter;
+    data['isFinance'] = isFinance;
+    data['isShipment'] = isShipment;
+    data['isSupport'] = isSupport;
+    data['isEventManager'] = isEventManager;
+    data['isMessage'] = isMessage;
+    return data;
+  }
+}
+

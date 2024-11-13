@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../../controllers/oerder_controller.dart';
+import 'package:karmalab_assignment/controllers/order_controller.dart';
 class OrderlistBinding extends Bindings {
   @override
   void dependencies() {
