@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
@@ -6,11 +7,22 @@ import 'package:http/http.dart' as http;
 import '../shared_pref_service.dart';
 import '../../constants/network_constants.dart';
 import 'package:karmalab_assignment/services/base/app_exceptions.dart';
+import 'package:logger/logger.dart';
 
 class BaseClient {
   var client = http.Client();
   final SharedPrefService _prefService = SharedPrefService();
-
+  var logger = Logger(
+    printer: PrettyPrinter(
+      methodCount: 100, // Number of method calls to be displayed
+      errorMethodCount: 8, // Number of method calls if stacktrace is provided
+      lineLength: 1000, // Width of the output
+      colors: true, // Colorful log messages
+      printEmojis: true, // Print an emoji for each log message
+      // Should each log print contain a timestamp
+      dateTimeFormat: DateTimeFormat.onlyTimeAndSinceStart,
+    ),
+  );
   // GET method
   Future<dynamic> get(String api, {dynamic header}) async {
     var uri = Uri.parse(NetworkConstants.baseURL + api);
@@ -30,7 +42,7 @@ class BaseClient {
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.post(uri, body: payload, headers: header);
-      print('Raw POST Response: ${response.body}');
+      logger.i('Response Body: ${response.body}');
       _printAndSaveCookies(response); // Print and save cookies
       return _processResponse(response);
     } on SocketException {
@@ -44,7 +56,7 @@ class BaseClient {
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.put(uri, body: payload, headers: header);
-      print('Raw POST Response: ${response.body}');
+      logger.i('Response Body: ${response.body}');
       _printAndSaveCookies(response); // Print and save cookies
       return _processResponse(response);
     } on SocketException {
@@ -58,7 +70,8 @@ class BaseClient {
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.patch(uri, body: payload, headers: header);
-      print('Raw POST Response: ${response.body}');
+      logger.i('Response Body: ${response.body}');
+      logger.e('Response header: ${response.headers}');
       _printAndSaveCookies(response); // Print and save cookies
       return _processResponse(response);
     } on SocketException {
@@ -71,8 +84,7 @@ class BaseClient {
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.delete(uri, headers: header);
-      print('Raw POST Response: ${response.body}');
-      print('Raw POST Response: $response}');
+      logger.i('Response Body: ${response.body}');
       return _processResponse(response);
     } on SocketException {
       throw FetchDataException("No Internet connection", uri.toString());

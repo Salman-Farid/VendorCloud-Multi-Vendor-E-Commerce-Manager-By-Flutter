@@ -141,13 +141,13 @@ class ProductController extends GetxController {
     final valid = validate();
     final user = userController.user.value;
     if (valid) {
-      List<ProductVariant> variants = [];
+      List<ProductVariants> variants = [];
       for (int i = 0; i < variantCount.value; i++) {
-        variants.add(ProductVariant(
+        variants.add(ProductVariants(
           name: variantNameControllers[i].text,
-          price: int.tryParse(variantPriceControllers[i].text) ?? 0,
-          discount: int.tryParse(variantDiscountControllers[i].text) ?? 0,
-          quantity: int.tryParse(variantQuantityControllers[i].text) ?? 0,
+          price: variantPriceControllers[i].text,
+          discount: variantDiscountControllers[i].text,
+          quantity: variantQuantityControllers[i].text,
           material: variantMaterialControllers[i].text,
           size: variantSizeControllers[i].text,
           gender: variantGenderControllers[i].text,

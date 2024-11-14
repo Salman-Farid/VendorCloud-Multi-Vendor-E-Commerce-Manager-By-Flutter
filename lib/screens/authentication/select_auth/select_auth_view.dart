@@ -13,7 +13,7 @@ class SelectAuthView extends StatelessWidget {
   static const String routeName = "/selectAuth";
 
   // Constants to avoid magic numbers
-  static const double _contentPaddingHorizontal = 30;
+  static const double _contentPaddingHorizontal = 60;
   static const double _titleFontSizeRatio = 6;
   static const double _descriptionFontSizeRatio = 4.2;
   static const double _buttonSpacing = 15;
@@ -82,9 +82,9 @@ class SelectAuthView extends StatelessWidget {
             ),
             child: Column(
               children: [
-                const SizedBox(height: _contentSpacing),
-
+                const SizedBox(height: 100),
                 _buildBanner(),
+                const SizedBox(height: 60),
                 _buildTitle(context),
                 const SizedBox(height: _buttonSpacing),
                 _buildDescription(context),

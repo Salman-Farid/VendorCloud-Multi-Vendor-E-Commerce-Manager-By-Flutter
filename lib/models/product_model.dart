@@ -72,7 +72,7 @@ class Product {
   int? V;
   List<Reviews>? reviews;
   String? id;
-  List<ProductVariant>? variants;
+  List<ProductVariants>? variants;
 
 
 
@@ -82,8 +82,6 @@ class Product {
     this.coverPhoto,
     this.video,
     this.specifications,
-    //this.sId,
-    //this.customId,
     this.user,
     this.name,
     this.slug,
@@ -156,10 +154,10 @@ class Product {
     }
     //packaging = json['packaging'] != null ? Packaging.fromJson(json['packaging']) : null;
     packaging= json["packaging"] == null ? null : Packaging.fromJson(json["packaging"]);
-    if (json['productVariant'] != null) {
-      variants = <ProductVariant>[];
-      json['productVariant'].forEach((v) {
-        variants!.add(ProductVariant.fromJson(v));
+    if (json['productVariants'] != null) {
+      variants = <ProductVariants>[];
+      json['productVariants'].forEach((v) {
+        variants!.add(ProductVariants.fromJson(v));
       });
     }
     createdAt = json['createdAt'];
@@ -502,64 +500,59 @@ class Packaging {
 }
 
 
-class ProductVariant {
-  String? id;
-  String? user;
+class ProductVariants {
+  dynamic image;
   String? name;
-  int? price; // Required
-  int ?discount;
-  int? quantity;
-  String material;
-  String ?size; // Required
-  String? gender;
   String? color;
-  String? image;
+  String? gender;
+  String? size;
+  String? material;
+  String? price;
+  String? discount;
+  String? quantity;
+  String? sId;
+  String? id;
 
-  ProductVariant({
-    this.id,
-    this.user,
-    this.name,
-    this.price, // Marked as required
-    this.size,  // Marked as required
-    this.discount = 0,
-    this.quantity = 0,
-    this.material = '',
-    this.gender = '',
-    this.color = '',
-    this.image = '',
-  });
+  ProductVariants(
+      {this.image,
+        this.name,
+        this.color,
+        this.gender,
+        this.size,
+        this.material,
+        this.price,
+        this.discount,
+        this.quantity,
+        this.sId,
+        this.id});
 
-  // Convert a ProductVariant object into a Map object
-  Map<String, dynamic> toJson() {
-    return {
-      '_id': id,
-      //'user': user,
-      'name': name,
-      'price': price,
-      'discount': discount,
-      'quantity': quantity,
-      'material': material,
-      'size': size,
-      'gender': gender,
-      'color': color,
-      'image': image,
-    };
+  ProductVariants.fromJson(Map<String, dynamic> json) {
+    image = json['image'] != null ? "https://baburhaatbd.com${CoverPhoto.fromJson(json['image']).secureUrl}" : null;
+    name = json['name'] ?? '';
+    color = json['color'] ?? '';
+    gender = json['gender'] ?? '';
+    size = json['size'] ?? '';
+    material = json['material'] ?? '';
+    price = json['price'] ?? '';
+    discount = json['discount'] ?? '';
+    quantity = json['quantity'] ?? '';
+    id = json['_id'] ?? '';
   }
 
-  // Convert a Map object into a ProductVariant object
-  factory ProductVariant.fromJson(Map<String, dynamic> json) {
-    return ProductVariant(
-      id: json['_id'] ?? '',
-      user: json['user'] ?? '',
-      name: json['name'] ?? '',
-      price: json['price'], // Ensure it's a double
-      discount: json['discount'] ?? 0,
-      quantity: json['quantity'] ?? 0,
-      material: json['material'] ?? '',
-      size: json['size'] ?? '',
-      gender: json['gender'] ?? '',
-      color: json['color'] ?? '',
-      image: json['image'] ?? '',
-    );
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (image != null) {
+      data['image'] = image;
+    }
+    data['name'] = name;
+    data['color'] = color;
+    data['gender'] = gender;
+    data['size'] = size;
+    data['material'] = material;
+    data['price'] = price;
+    data['discount'] = discount;
+    data['quantity'] = quantity;
+    data['_id'] = id;
+    return data;
   }
 }

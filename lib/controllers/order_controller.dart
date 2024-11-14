@@ -16,7 +16,29 @@ class OrderController extends GetxController {
   int currentPage = 0;
   final int limit = 10;
   bool hasMoreData = true;
+  RxString orderStatus = 'pending'.obs; // Default status is 'pending'
 
+  Future<void> updateOrderStatusById(String orderId, String newStatus) async {
+    try {
+      final success = await orderRepository.updateOrderStatus(orderId, newStatus);
+      if (success) {
+        final orderIndex = orders.indexWhere((order) => order.sId == orderId);
+        if (orderIndex != -1) {
+          orders[orderIndex].status = newStatus;
+          orders.refresh(); // Trigger UI update
+        }
+        Loaders.succcessSnackBar(
+          title: 'Success',
+          message: 'Order status updated successfully',
+        );
+      }
+    } catch (e) {
+      Loaders.errorSnackBar(
+        title: 'Error',
+        message: e.toString(),
+      );
+    }
+  }
   Future<List<OrderModel>> fetchUserOrders({bool isLoadMore = false}) async {
     if (!isLoadMore) {
       currentPage = 1;
@@ -30,8 +52,6 @@ class OrderController extends GetxController {
       isLoading.value = true;
       UserModel? user = await _hiveService.getUser();
       final userId = user?.id ?? '';
-      print('the id is........................................$userId');
-
       final newOrders = await orderRepository.fetchUserOrders(
           userId,
           page: currentPage,

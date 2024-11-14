@@ -120,7 +120,7 @@ class OrderModel {
   String get formattedDeliveryDate {
     return updatedAt != null ? HelperFunctions.getFormattedDate(DateTime.parse(updatedAt!)) : '';
   }
-  String get orderStatusText => status == 'COMPLETED' ? 'Delivered' : status == 'CANCELLED' ? 'Cancelled' : 'Processing';
+  String get orderStatusText => status == 'completed' ? 'Delivered' : status == 'cancelled' ? 'Cancelled': status == 'shipped' ? 'Shipped' : 'Processing';
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

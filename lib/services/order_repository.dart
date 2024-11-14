@@ -46,4 +46,28 @@ class OrderRepository extends GetxController {
     }
     return [];
   }
+
+
+
+
+  Future<bool> updateOrderStatus(String orderId, String newStatus) async {
+    try {
+      print('the id is .............................$orderId');
+      final sessionId = await _prefService.getSessionId();
+      final response = await _baseClient.patch(
+        NetworkConstants.updateOrderStatus(orderId),
+        {'status': newStatus},
+        header: {'Cookie': "connect.sid=$sessionId"},
+      ).catchError((e) => throw CustomApiException('Failed to update order status'));
+      return response != null && response['success'] == true;
+    } catch (e) {
+      throw 'Failed to update order status. Please try again.';
+    }
+  }
+
+
+
+
+
+
 }

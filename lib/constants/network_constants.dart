@@ -161,18 +161,13 @@ class NetworkConstants {
   static const String getAllOrders = "api/orders";
   static String getOrderById(String orderId) => "api/orders/$orderId";
   static const String getMultipleOrders = "api/orders/many";
-  // static String getUserOrders(String userId) => "api/orders?_filter[vendor]=66cb6175017d8682d2b9e6ef";
 
-  // static String getUserOrders(String id, {page, limit}) {
-  //   return 'api/orders?_filter[vendor]=66cb6175017d8682d2b9e6ef&_page=$page&_limit=5';
-  // }
   static String getUserOrders(String id, {int page = 1, int limit = 20}) {
     return 'api/orders?_filter[vendor]=66dda29c8fe4ca1689c5556b&_sort=-createdAt&_page=$page&_limit=$limit';
   }
+  //static String updateOrderStatus(String orderId) => '/api/orders/$orderId/status';
 
-  //static const String getLoggedInUserOrders = "api/users/me/orders";
-  //static const String createOrder = "api/orders";
-  static String updateOrderById(String orderId) => "api/orders/$orderId";
+  static String updateOrderStatus(String orderId) => "api/orders/$orderId";
   static String deleteOrderById(String orderId) => "api/orders/$orderId";
 
   static const String createMultipleOrders = "api/orders/many";
