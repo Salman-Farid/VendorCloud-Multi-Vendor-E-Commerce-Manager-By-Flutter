@@ -26,6 +26,39 @@ class AuthService extends BaseController {
   UserController userController = Get.find<UserController>();
   final HiveService _hiveService = HiveService();
 
+
+
+
+
+
+
+
+
+
+
+
+  Future<void> _saveSessionId(Map<String, String> headers) async {
+    var setCookie = headers['set-cookie'];
+    if (setCookie != null) {
+      var cookies = setCookie.split(';');
+      for (var cookie in cookies) {
+        if (cookie.startsWith('connect.sid=')) {
+          var sessionId = cookie.split('=')[1];
+          await _prefService.saveSessionId(sessionId);
+          break;
+        }
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+
 // !! Register method
   Future<UserModel?> register(dynamic object) async {
     try {
@@ -34,19 +67,15 @@ class AuthService extends BaseController {
         object,
         header: {'Content-Type': "application/json"},
       ).catchError(handleError);
-
-      // Ensure result is not null and parse the response
-      if (response != null && response.containsKey('data')) {
-        var data = response['data'];
-
-        UserModel fetchedUser = UserModel.fromJson(data);
-        userController.setUser(fetchedUser);
-        await _prefService.saveUser(fetchedUser);
-        return fetchedUser;
+      if (response != null) {
+        var responseBody = response['body'];
+        if (responseBody.containsKey('data')) {
+          var data = responseBody['data'];
+          UserModel fetchedUser = UserModel.fromJson(data);
+          return fetchedUser;
+        }
       }
-    } catch (e) {
-      print('Error during registration: $e');
-    }
+    } catch (e) {}
     return null;
   }
 
@@ -57,16 +86,22 @@ class AuthService extends BaseController {
         object,
         header: {'Content-Type': "application/json"},
       ).catchError(handleError);
-      if (response != null && response.containsKey('data')) {
-        var data = response['data'];
-        UserModel fetchedUser = UserModel.fromJson(data);
-        await _hiveService.saveUser(fetchedUser);
-        userController.setUser(fetchedUser);
-        return fetchedUser;
+      if (response != null) {
+        var responseBody = response['body'];
+        var headers = response['headers'];
+        if (responseBody.containsKey('data')) {
+          await _saveSessionId(headers);
+          var data = responseBody['data'];
+          UserModel fetchedUser = UserModel.fromJson(data);
+          await _hiveService.saveUser(fetchedUser);
+          userController.setUser(fetchedUser);
+          return fetchedUser;
+        }
       }
     } catch (e) {}
     return null;
   }
+
 
 
 
@@ -85,37 +120,30 @@ class AuthService extends BaseController {
 // !! send otp
   Future<bool> sentOtp(dynamic object) async {
     try {
-      var result = await _baseClient.post(
+      var response = await _baseClient.post(
         NetworkConstants.sendOtp,
         object,
         header: {'Content-Type': "application/json"},
       ).catchError(handleError);
 
-      if (result != null && result is Map<String, dynamic>) {
-        if (result.containsKey("data") &&
-            result["data"] is Map<String, dynamic> &&
-            result["data"].containsKey("hash")) {
-          final hash = result["data"]["hash"];
-
-          // Save the hash using the _prefService
+      if (response['body'] != null &&
+          response['body'] is Map<String, dynamic>) {
+        if (response['body'].containsKey("data") &&
+            response['body']["data"] is Map<String, dynamic> &&
+            response['body']["data"].containsKey("hash")) {
+          final hash = response['body']["data"]["hash"];
           await _prefService.saveHash(hash);
-          print("Hash saved successfully: $hash");
-
           return true;
         } else {
-          print("Response doesn't contain expected 'data' or 'hash' fields");
           return false;
         }
       } else {
-        print("Invalid or null result received from API");
         return false;
       }
     } catch (e) {
-      print("Error in sentOtp: $e");
       return false;
     }
   }
-
 
 
   // !! verify otp
@@ -126,24 +154,21 @@ class AuthService extends BaseController {
         object,
         header: {'Content-Type': "application/json"},
       ).catchError(handleError);
+      if (response != null) {
+        var responseBody = response['body'];
+        var headers = response['headers'];
 
-      print("VerifyOtp raw response: $response"); // Debug print
+        if (responseBody.containsKey('data')) {
+          await _saveSessionId(headers);
 
-      if (response != null && response.containsKey('data')) {
-        var data = response['data'];
-        print("VerifyOtp data: $data"); // Debug print
-
-        UserModel fetchedUser = UserModel.fromJson(data);
-        userController.setUser(fetchedUser);
-        await _hiveService.saveUser(fetchedUser);
-
-        return fetchedUser;
-      } else {
-        print("VerifyOtp: 'data' key not found in response"); // Debug print
-      }
-    } catch (e) {
-      print('Error during OTP verification: $e'); // Debug print
-    }
+          var data = responseBody['data'];
+          UserModel fetchedUser = UserModel.fromJson(data);
+          await _hiveService.saveUser(fetchedUser);
+          userController.setUser(fetchedUser);
+          return fetchedUser;
+        }
+      } else {}
+    } catch (e) {}
     return null;
   }
 

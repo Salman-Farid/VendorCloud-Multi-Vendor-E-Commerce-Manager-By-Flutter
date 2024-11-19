@@ -120,12 +120,45 @@ class NetworkConstants {
   static String updateSubCategoryById(String subCategoryId) => "api/sub-categories/$subCategoryId";
   static String deleteSubCategoryById(String subCategoryId) => "api/sub-categories/$subCategoryId";
 
-
-  static const String getAllPackages = "api/packages";
+//for package
+  static String getAllPackages(page,limit) => "api/packages?_sort=-createdAt&_page=$page&_limit=$limit";
   static String getPackageById(String packageId) => "api/packages/$packageId";
   static const String createPackage = "api/packages";
   static String updatePackageById(String packageId) => "api/packages/$packageId";
   static String deletePackageById(String packageId) => "api/packages/$packageId";
+
+  // for event
+  static String getAllEvents(int page, int limit) => "api/events?_sort=-createdAt&_page=$page&_limit=$limit";
+  static String getEventById(String eventId) => "api/events/$eventId";
+  static const String createEvent = "api/events";
+  static String updateEventById(String eventId) => "api/events/$eventId";
+  static String deleteEventById(String eventId) => "api/events/$eventId";
+
+
+
+
+
+
+
+  // Package Products
+  static String getAllPackageProducts(int page, int limit) => "api/package-products?_sort=-createdAt&_page=$page&_limit=$limit";
+  static String getPackageProductById(String packageProductId) => "api/package-products/$packageProductId";
+  static const String createPackageProduct = "api/package-products";
+  static String updatePackageProductById(String packageProductId) => "api/package-products/$packageProductId";
+  static String deletePackageProductById(String packageProductId) => "api/package-products/$packageProductId";
+
+  // Event Products
+  static String getAllEventProducts(int page, int limit) => "api/event-products?_sort=-createdAt&_page=$page&_limit=$limit";
+  static String getEventProductById(String eventProductId) => "api/event-products/$eventProductId";
+  static const String createEventProduct = "api/event-products";
+  static String updateEventProductById(String eventProductId) => "api/event-products/$eventProductId";
+  static String deleteEventProductById(String eventProductId) => "api/event-products/$eventProductId";
+
+
+
+
+
+
 
 
   static const String getAllPayments = "api/payments";

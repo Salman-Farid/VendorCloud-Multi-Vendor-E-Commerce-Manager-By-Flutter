@@ -16,8 +16,8 @@ class CategoryService extends BaseController {
         NetworkConstants.getAllCategories,
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
-      if (response != null) {
-        return Category.FromJson(response);
+      if (response['body'] != null) {
+        return Category.FromJson(response['body']);
       }
     } catch (e) {
       print('Error fetching categories: $e');
@@ -34,8 +34,8 @@ class CategoryService extends BaseController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
-      if (response != null) {
-        return Category.FromJson(response);
+      if (response['body'] != null) {
+        return Category.FromJson(response['body']);
       }
     } catch (e) {
       print('Error fetching category by ID: $e');
@@ -56,9 +56,9 @@ class CategoryService extends BaseController {
         },
       ).catchError(handleError);
 
-      if (response != null ) {
+      if (response['body'] != null ) {
         print('The response is: ... ... ... $response');
-        return  Category.FromJson(response);
+        return  Category.FromJson(response['body']);
       }
     } catch (e) {
       print('Error creating category: $e');
@@ -79,7 +79,7 @@ class CategoryService extends BaseController {
         },
       ).catchError(handleError);
 
-      if (response != null) {
+      if (response['body'] != null) {
         return true;
       }
     } catch (e) {
@@ -97,7 +97,7 @@ class CategoryService extends BaseController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
-      if (response == null) {
+      if (response['body'] == null) {
         return true;
       }
     } catch (e) {
@@ -116,7 +116,7 @@ class CategoryService extends BaseController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
-      if (response == null) {
+      if (response['body'] == null) {
         return true;
       }
     } catch (e) {

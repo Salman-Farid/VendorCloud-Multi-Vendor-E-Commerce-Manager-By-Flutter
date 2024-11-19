@@ -5,8 +5,8 @@ import '../Dashboard/dashboard.dart';
 import '../home/home.dart';
 //import '../order_management/orderlist_screen.dart';
 import '../order/widgets/orders_list.dart';
+import '../product_reviews/products_for_review_screen.dart';
 import '../profile/profile_view.dart';
-import '../review/product_review.dart';
 
 class MainScreen extends StatelessWidget {
   static const routeName = "/mainScreen";
@@ -24,8 +24,8 @@ class MainScreen extends StatelessWidget {
         children: [
           HomeScreen(),
           DashboardScreen(),
-          OrdersListItems(),
-          ProductReviewScreen(),
+          const OrdersListItems(),
+          const ProductsListScreen(isReviewScreen: true),
           Profile(),
         ],
       ),

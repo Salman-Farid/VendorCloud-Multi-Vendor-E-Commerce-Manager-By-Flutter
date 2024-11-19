@@ -114,7 +114,7 @@ class Product {
   Product.fromJson(Map<String, dynamic> json) {
 
 
-    coverPhoto= json['coverPhoto'] != null ? (json['coverPhoto'] is String ? (json['coverPhoto'].isEmpty ? null : json['coverPhoto']) : CoverPhoto.fromJson(json['coverPhoto'])) : null;
+    coverPhoto= json['coverPhoto'] != null ? "https://baburhaatbd.com${CoverPhoto.fromJson(json['coverPhoto']).secureUrl ?? ''}" : null;
 
 
     video = json['video'] != null ? CoverPhoto.fromJson(json['video']) : null;

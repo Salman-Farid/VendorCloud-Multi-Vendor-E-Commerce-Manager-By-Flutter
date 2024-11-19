@@ -21,8 +21,8 @@ class OrderRepository extends GetxController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError((e) => throw CustomApiException('Failed to load orders'));
 
-      if (response != null && response.containsKey('data')) {
-        return (response['data'] as List).map((order) => OrderModel.fromJson(order)).toList();
+      if (response['body'] != null && response['body'].containsKey('data')) {
+        return (response['body']['data'] as List).map((order) => OrderModel.fromJson(order)).toList();
       }
     } catch (e) {
       throw 'Something went wrong while fetching Order Information. Try again later.';
@@ -59,7 +59,7 @@ class OrderRepository extends GetxController {
         {'status': newStatus},
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError((e) => throw CustomApiException('Failed to update order status'));
-      return response != null && response['success'] == true;
+      return response['body'] != null && response['body']['success'] == true;
     } catch (e) {
       throw 'Failed to update order status. Please try again.';
     }

@@ -97,14 +97,10 @@ class SignUpView extends StatelessWidget {
                           await _signUpController
                               .register((UserModel? user, {String? errorMessage}) {
                             if (user != null) {
-                              Get.offNamedUntil(
-                                MainScreen.routeName,
-                                (_) => false,
-                              );
+                              Get.to(()=> LoginView.routeName);
+                              DialogHelper.showSnackBar(description: 'Register successful! You can login now');
                             } else {
-                              DialogHelper.showSnackBar(
-                                  description:
-                                      'Register failed!!! $errorMessage ');
+                              DialogHelper.showSnackBar(description: 'Register failed! $errorMessage ');
                             }
                           });
                         } catch (e) {

@@ -24,149 +24,174 @@ class OrdersListItems extends StatelessWidget {
     final scrollController = ScrollController();
 
     scrollController.addListener(() {
-      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
         controller.fetchUserOrders(isLoadMore: true);
       }
     });
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('All Orders'),
+        ),
+        body: FutureBuilder(
+          future: controller.fetchUserOrders(),
+          builder: (_, snapshot) {
+            const emptyWidget = AnimationLoaderWidget(
+              text: 'Whoops! No Orders Yet!',
+              animation: ImageStrings.orderCompletedAnimation,
+              showAction: false,
+            );
 
-    return FutureBuilder(
-      future: controller.fetchUserOrders(),
-      builder: (_, snapshot) {
-        final emptyWidget = AnimationLoaderWidget(
-          text: 'Whoops! No Orders Yet!',
-          animation: ImageStrings.orderCompletedAnimation,
-          showAction: false,
-        );
+            final response = CloudHelperFunctions.checkMultiRecordState(
+                snapshot: snapshot, nothingFound: emptyWidget);
+            if (response != null) return response;
 
-        final response = CloudHelperFunctions.checkMultiRecordState(
-            snapshot: snapshot,
-            nothingFound: emptyWidget
-        );
-        if (response != null) return response;
+            return Obx(() {
+              final orders = controller.orders;
 
-        return Obx(() {
-          final orders = controller.orders;
+              return ListView.separated(
+                controller: scrollController,
+                shrinkWrap: true,
+                itemCount: orders.length + (controller.isLoading.value ? 1 : 0),
+                separatorBuilder: (_, __) =>
+                    const SizedBox(height: Sizes.spaceBtwItems),
+                itemBuilder: (_, index) {
+                  if (index == orders.length) {
+                    return const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
 
-          return ListView.separated(
-            controller: scrollController,
-            shrinkWrap: true,
-            itemCount: orders.length + (controller.isLoading.value ? 1 : 0),
-            separatorBuilder: (_, __) => const SizedBox(height: Sizes.spaceBtwItems),
-            itemBuilder: (_, index) {
-              if (index == orders.length) {
-                return const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
+                  final order = orders[index];
+                  final String shortOrderId =
+                      order.sId?.substring(order.sId!.length - 6) ?? '';
 
-              final order = orders[index];
-              final String shortOrderId = order.sId?.substring(order.sId!.length - 6) ?? '';
-
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(15, 4, 15, 4),
-                child: RoundedContainer(
-                  showBorder: true,
-                  padding: const EdgeInsets.all(Sizes.md),
-                  backgroundColor: dark ? AppColors.dark : AppColors.light,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 4, 15, 4),
+                    child: RoundedContainer(
+                      showBorder: true,
+                      padding: const EdgeInsets.all(Sizes.md),
+                      backgroundColor: dark ? AppColors.dark : AppColors.white,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Iconsax.ship),
-                          const SizedBox(width: Sizes.spaceBtwItems / 2),
-                          Expanded(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  order.orderStatusText,
-                                  style: Theme.of(context).textTheme.bodyLarge!.apply(color: AppColors.primary, fontWeightDelta: 1),
-                                  overflow: TextOverflow.ellipsis,
+                          Row(
+                            children: [
+                              const Icon(Iconsax.ship),
+                              const SizedBox(width: Sizes.spaceBtwItems / 2),
+                              Expanded(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      order.orderStatusText,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .apply(
+                                              color: AppColors.primary,
+                                              fontWeightDelta: 1),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text(order.formattedOrderDate,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall),
+                                  ],
                                 ),
-                                Text(order.formattedOrderDate, style: Theme.of(context).textTheme.headlineSmall),
-                              ],
-                            ),
+                              ),
+                              IconButton(
+                                  onPressed: () =>
+                                      Get.to(OrderDetailsScreen(order: order)),
+                                  icon: const Icon(Iconsax.arrow_right_34,
+                                      size: Sizes.iconSm)),
+                            ],
                           ),
-                          IconButton(
-                              onPressed: () => Get.to(OrderDetailsScreen(order: order)),
-                              icon: const Icon(Iconsax.arrow_right_34, size: Sizes.iconSm)
+                          const SizedBox(height: Sizes.spaceBtwItems),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    const Icon(Iconsax.tag),
+                                    const SizedBox(
+                                        width: Sizes.spaceBtwItems / 2),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Order',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelMedium,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          Text(
+                                            '#$shortOrderId',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    const Icon(Iconsax.calendar),
+                                    const SizedBox(
+                                        width: Sizes.spaceBtwItems / 2),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Shipping date',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelMedium,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          Text(
+                                            order.formattedDeliveryDate,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      const SizedBox(height: Sizes.spaceBtwItems),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                const Icon(Iconsax.tag),
-                                const SizedBox(width: Sizes.spaceBtwItems / 2),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Order',
-                                        style: Theme.of(context).textTheme.labelMedium,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      Text(
-                                        '#$shortOrderId',
-                                        style: Theme.of(context).textTheme.titleMedium,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                const Icon(Iconsax.calendar),
-                                const SizedBox(width: Sizes.spaceBtwItems / 2),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Shipping date',
-                                        style: Theme.of(context).textTheme.labelMedium,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      Text(
-                                        order.formattedDeliveryDate,
-                                        style: Theme.of(context).textTheme.titleMedium,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               );
-            },
-          );
-        });
-      },
-    );
+            });
+          },
+        ));
   }
 }

@@ -19,10 +19,9 @@ class ProductService extends BaseController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
-      if (response != null) {
-        print('Response: $response');
+      if (response['body'] != null) {
         //List<dynamic> data = response;
-        return allProduct.fromJson(response);
+        return allProduct.fromJson(response['body']);
       }
     } catch (e) {
       print('Error fetching products: $e');
@@ -41,10 +40,10 @@ class ProductService extends BaseController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
-      if (response != null) {
+      if (response['body'] != null) {
         //final productResponse = jsonDecode(response);
         //List<dynamic> data = productResponse['data'];
-        return allProduct.fromJson(response);
+        return allProduct.fromJson(response['body']);
       }
     } catch (e) {
       print('Error fetching product by ID: $e');
@@ -64,9 +63,11 @@ class ProductService extends BaseController {
           'Content-Type': "application/json",
         },
       ).catchError(handleError);
-      if (response['status']=='success') {
+      if (response['body']['status']=='success') {
         return true;
       }
+
+
     } catch (e) {
       print('Error creating product: $e');
     }
@@ -87,7 +88,7 @@ class ProductService extends BaseController {
         },
       ).catchError(handleError);
 
-      if (response != null) {
+      if (response['body'] != null) {
         return true; // Return true to indicate success
       }
     } catch (e) {
@@ -105,7 +106,7 @@ class ProductService extends BaseController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
-      if (response ==null) {
+      if (response==null) {
         return true;
       }
     } catch (e) {}
@@ -122,7 +123,7 @@ class ProductService extends BaseController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
-      if (response != null) {
+      if (response['body'] != null) {
         return true;
       }
     } catch (e) {
@@ -140,8 +141,8 @@ class ProductService extends BaseController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
-      if (response != null) {
-        List<dynamic> data = json.decode(response);
+      if (response['body'] != null) {
+        List<dynamic> data = json.decode(response['body']);
         return data.map((json) => Reviews.fromJson(json)).toList();
       }
     } catch (e) {
@@ -163,8 +164,8 @@ class ProductService extends BaseController {
         },
       ).catchError(handleError);
 
-      if (response != null && response.containsKey('data')) {
-        var data = response['data'];
+      if (response['body'] != null && response['body'].containsKey('data')) {
+        var data = response['body']['data'];
         return Reviews.fromJson((data));
       }
     } catch (e) {
@@ -182,7 +183,7 @@ class ProductService extends BaseController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
-      if (response != null) {
+      if (response['body'] != null) {
         return true;
       }
     } catch (e) {

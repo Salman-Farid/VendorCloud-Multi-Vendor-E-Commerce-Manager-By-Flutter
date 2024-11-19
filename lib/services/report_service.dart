@@ -19,8 +19,8 @@ class ReportService extends BaseController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
-      if (response != null) {
-        List<dynamic> data = response['data'];
+      if (response['body'] != null) {
+        List<dynamic> data = response['body']['data'];
         return data.map((json) => Report.fromJson(json)).toList();
       }
     } catch (e) {
@@ -37,8 +37,8 @@ class ReportService extends BaseController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
-      if (response != null) {
-        return Report.fromJson(response['data']);
+      if (response['body'] != null) {
+        return Report.fromJson(response['body']['data']);
       }
     } catch (e) {
       print('Error fetching report by ID: $e');
@@ -58,7 +58,7 @@ class ReportService extends BaseController {
         },
       ).catchError(handleError);
 
-      if (response != null && response['status'] == 'success') {
+      if (response['body'] != null && response['body']['status'] == 'success') {
         return true;
       }
     } catch (e) {
@@ -79,7 +79,7 @@ class ReportService extends BaseController {
         },
       ).catchError(handleError);
 
-      if (response != null && response['status'] == 'success') {
+      if (response['body'] != null && response['body']['status'] == 'success') {
         return true;
       }
     } catch (e) {
@@ -96,7 +96,7 @@ class ReportService extends BaseController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
-      if (response != null && response['status'] == 'success') {
+      if (response['body'] != null && response['body']['status'] == 'success') {
         return true;
       }
     } catch (e) {

@@ -86,38 +86,38 @@ class OrderDetailsScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade300),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Obx(() => DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: currentStatus.value,
-                    items: const [
-                      DropdownMenuItem(
-                        value: 'pending',
-                        child: Text('Processing'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'shipped',
-                        child: Text('Shipped'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'completed',
-                        child: Text('Completed'),
-                      ),
-                    ],
-                    onChanged: (String? newStatus) async {
-                      if (newStatus != null && newStatus != currentStatus.value) {
-                        orderController.updateOrderStatusById(order.sId!, newStatus);
-                        currentStatus.value = newStatus;
-                      }
-                    },
-                  ),
-                )),
-              ),
+              // Container(
+              //   padding: const EdgeInsets.symmetric(horizontal: 12),
+              //   decoration: BoxDecoration(
+              //     border: Border.all(color: Colors.grey.shade300),
+              //     borderRadius: BorderRadius.circular(8),
+              //   ),
+              //   child: Obx(() => DropdownButtonHideUnderline(
+              //     child: DropdownButton<String>(
+              //       value: currentStatus.value,
+              //       items: const [
+              //         DropdownMenuItem(
+              //           value: 'pending',
+              //           child: Text('Processing'),
+              //         ),
+              //         DropdownMenuItem(
+              //           value: 'shipped',
+              //           child: Text('Shipped'),
+              //         ),
+              //         DropdownMenuItem(
+              //           value: 'completed',
+              //           child: Text('Completed'),
+              //         ),
+              //       ],
+              //       onChanged: (String? newStatus) async {
+              //         if (newStatus != null && newStatus != currentStatus.value) {
+              //           orderController.updateOrderStatusById(order.sId!, newStatus);
+              //           currentStatus.value = newStatus;
+              //         }
+              //       },
+              //     ),
+              //   )),
+              // ),
             ],
           ),
           const SizedBox(height: 20),
@@ -161,7 +161,7 @@ class OrderDetailsScreen extends StatelessWidget {
               Iconsax.box,
             ),
             beforeLineStyle: LineStyle(
-              color: currentStatus.value == 'pending'
+              color: currentStatus.value == 'pending'||currentStatus.value == 'shipped' || currentStatus.value == 'completed'
                   ? Colors.green
                   : Colors.grey.shade300,
               thickness: 3,
@@ -171,14 +171,14 @@ class OrderDetailsScreen extends StatelessWidget {
               height: 25,
               indicator: Container(
                 decoration: BoxDecoration(
-                  color: currentStatus.value == 'pending'
+                  color: currentStatus.value == 'pending'||currentStatus.value == 'shipped' || currentStatus.value == 'completed'
                       ? Colors.green
                       : Colors.grey.shade300,
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Iconsax.box,
-                  color: currentStatus.value == 'pending'
+                  color: currentStatus.value == 'pending'||currentStatus.value == 'shipped' || currentStatus.value == 'completed'
                       ? Colors.white
                       : Colors.grey.shade400,
                   size: 15,

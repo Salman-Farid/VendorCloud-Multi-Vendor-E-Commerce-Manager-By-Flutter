@@ -7,20 +7,19 @@ import '../screens/authentication/new_password/new_password.dart';
 import '../screens/authentication/select_auth/select_auth_view.dart';
 import '../screens/authentication/siginup/signup_view.dart';
 import '../screens/authentication/verification/verification_view.dart';
-import '../screens/category/category_creation_screen.dart';
 import '../screens/category/category_management_screen.dart';
-import '../screens/eventManager/event_mangement.dart';
+import '../screens/event_ad_management_screen/event_ad_mangement.dart';
+import '../screens/finance/vendor_finance.dart';
 import '../screens/home/home.dart';
 import '../screens/mainScreen/mainscreen.dart';
 import '../screens/onboarding/onboarding_view.dart';
 import '../screens/product/all_products.dart';
 import '../screens/product/product_upload_screen.dart';
+import '../screens/product_reviews/products_for_review_screen.dart';
 import '../screens/profile/profile_view.dart';
 import '../screens/report/all_reports.dart';
-import '../screens/review/product_review.dart';
 import '../screens/splash/splash_view.dart';
 import 'Bindings/category_bindings.dart';
-import 'Bindings/dashboard_binding.dart';
 import 'Bindings/fetchProductBindings.dart';
 import 'Bindings/orderlist_binding.dart';
 import 'Bindings/product_creation_screen_binding.dart';
@@ -38,14 +37,19 @@ class RouteUtil {
     GetPage(name: ProductCreationScreen.routeName, page: () => ProductCreationScreen(), binding: ProductCreationScreenBinding(),),
     GetPage(name: ProductGridView.routeName, page: () => const ProductGridView(), binding: Fetchproductbindings(),),
     GetPage(name: CategorySubcategoryView.routeName, page: () => const CategorySubcategoryView(), binding: Categorybindings(),),
-    GetPage(name: CategoryCreationScreen.routeName, page: () => CategoryCreationScreen(), binding: Categorybindings(),),
-    GetPage(name: DashboardScreen.routeName, page: () => DashboardScreen()), //binding:DashboardBinding()),
-    GetPage(name: EventManagementScreen.routeName, page: () => EventManagementScreen()),//binding: BindingsBuilder(() {Get.lazyPut<EventManagementController>(() => EventManagementController());}),),
-    GetPage(name: OrdersListItems.routeName, page: () => OrdersListItems(), binding: OrderlistBinding()),
+    GetPage(name: PackageScreen_EventScreen.packageRouteName, page: () => const PackageScreen_EventScreen()),
+    GetPage(name: PackageScreen_EventScreen.eventRouteName, page: () => const PackageScreen_EventScreen(isPackageScreen: false,)),
+     //binding:DashboardBinding()),
+    //GetPage(name: Event_AD_Product_ManagementScreen.routeName, page: () => Event_AD_Product_ManagementScreen()),//binding: BindingsBuilder(() {Get.lazyPut<EventManagementController>(() => EventManagementController());}),),
+    GetPage(name: OrdersListItems.routeName, page: () => const OrdersListItems(), binding: OrderlistBinding()),
     GetPage(name: MainScreen.routeName, page: () =>  MainScreen()),
     GetPage(name: AllReports.routeName, page: () =>  AllReports()),
     GetPage(name: HomeScreen.routeName, page: () =>  HomeScreen()),
+    GetPage(name: FinanceScreen.routeName, page: () =>  FinanceScreen()),
+    GetPage(name: FinanceScreen.routeName, page: () =>  FinanceScreen()),
     GetPage(name: NewPassWordView.routeName, page: () => const NewPassWordView()),
-    GetPage(name: ProductReviewScreen.routeName, page: () => ProductReviewScreen()),
+    GetPage(name: ProductsListScreen.routeNameReviews, page: () => const ProductsListScreen(isReviewScreen: true),),
+    GetPage(name: ProductsListScreen.routeNameQA, page: () => const ProductsListScreen(isReviewScreen: false),),
+    GetPage(name: DashboardScreen.routeName, page: () => DashboardScreen()),
   ];
 }

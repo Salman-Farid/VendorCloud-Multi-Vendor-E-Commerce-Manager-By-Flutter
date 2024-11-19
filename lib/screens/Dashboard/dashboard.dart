@@ -3,19 +3,20 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import '../../../constants/colors.dart';
 import '../category/category_management_screen.dart';
-import '../eventManager/event_mangement.dart';
+import '../eventManager/event_Package_products.dart';
+import '../event_ad_management_screen/event_ad_mangement.dart';
+import '../finance/vendor_finance.dart';
 import '../product/all_products.dart';
 import '../product/product_upload_screen.dart';
+import '../product_reviews/products_for_review_screen.dart';
 import '../report/all_reports.dart';
-import '../review/product_review.dart';
-
-// Add other import statements for the respective screens
 
 class DashboardScreen extends StatelessWidget {
   static const routeName = "/dashboard";
+
   DashboardScreen({Key? key}) : super(key: key);
 
-  final List<Map<String, dynamic>> menuList = [
+  static const List<Map<String, dynamic>> _menuList = [
     {
       'title': 'Manage Products',
       'animationUrl': 'assets/images/lottie/manage_prod.json',
@@ -34,22 +35,34 @@ class DashboardScreen extends StatelessWidget {
     {
       'title': 'Finance',
       'animationUrl': 'assets/images/lottie/finance.json',
-      'routeName': '/Finance'
+      'routeName': FinanceScreen.routeName
     },
+    // {
+    //   'title': 'Event Management',
+    //   'animationUrl': 'assets/images/lottie/event.json',
+    //   'routeName': EventManagementScreen.routeName
+    // },
+
+
+
     {
       'title': 'Event Management',
       'animationUrl': 'assets/images/lottie/event.json',
-      'routeName': EventManagementScreen.routeName
+      'routeName': PackageScreen_EventScreen.eventRouteName
     },
+
+
+
+
     {
       'title': 'AD Management',
       'animationUrl': 'assets/images/lottie/advertise.json',
-      'routeName': '/ad'
+      'routeName':PackageScreen_EventScreen.packageRouteName
     },
     {
-      'title': 'Review',
+      'title': 'Message Center',
       'animationUrl': 'assets/images/lottie/reviews.json',
-      'routeName': ProductReviewScreen.routeName
+      'routeName': ProductsListScreen.routeNameQA
     },
     {
       'title': 'Report',
@@ -105,8 +118,8 @@ class DashboardScreen extends StatelessWidget {
                       mainAxisSpacing: 16,
                       childAspectRatio: 1,
                     ),
-                    itemCount: menuList.length,
-                    itemBuilder: (context, index) => _buildMenuItem(context, menuList[index]),
+                    itemCount: _menuList.length,
+                    itemBuilder: (context, index) => _MenuItem(_menuList[index]),
                   ),
                 ),
               ],
@@ -116,8 +129,15 @@ class DashboardScreen extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildMenuItem(BuildContext context, Map<String, dynamic> item) {
+class _MenuItem extends StatelessWidget {
+  final Map<String, dynamic> item;
+
+  const _MenuItem(this.item);
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -130,13 +150,17 @@ class DashboardScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Lottie.asset(
+            LottieBuilder.asset(
               item['animationUrl'],
               width: 110,
               height: 110,
               fit: BoxFit.cover,
+              frameRate: FrameRate(60),
+              options: LottieOptions(
+                enableMergePaths: true,
+              ),
+              repeat: false,
             ),
-            //const SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(

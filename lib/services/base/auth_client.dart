@@ -1,106 +1,87 @@
-import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'dart:math';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-import '../shared_pref_service.dart';
 import '../../constants/network_constants.dart';
-import 'package:karmalab_assignment/services/base/app_exceptions.dart';
-import 'package:logger/logger.dart';
+import 'app_exceptions.dart';
 
 class BaseClient {
   var client = http.Client();
-  final SharedPrefService _prefService = SharedPrefService();
-  var logger = Logger(
-    printer: PrettyPrinter(
-      methodCount: 100, // Number of method calls to be displayed
-      errorMethodCount: 8, // Number of method calls if stacktrace is provided
-      lineLength: 1000, // Width of the output
-      colors: true, // Colorful log messages
-      printEmojis: true, // Print an emoji for each log message
-      // Should each log print contain a timestamp
-      dateTimeFormat: DateTimeFormat.onlyTimeAndSinceStart,
-    ),
-  );
-  // GET method
+
   Future<dynamic> get(String api, {dynamic header}) async {
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.get(uri, headers: header);
-      print('Raw POST Response: ${response.body}');
-      _printAndSaveCookies(response); // Print and save cookies
+      print('Raw PATCH Response Body:\n${(response.body)}');
+
       return _processResponse(response);
     } on SocketException {
       throw FetchDataException("No Internet connection", uri.toString());
     }
   }
 
-  // POST method
   Future<dynamic> post(String api, dynamic object, {dynamic header}) async {
     var payload = jsonEncode(object);
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.post(uri, body: payload, headers: header);
-      logger.i('Response Body: ${response.body}');
-      _printAndSaveCookies(response); // Print and save cookies
+      print('Raw PATCH Response Body:\n${(response.body)}');
+
       return _processResponse(response);
     } on SocketException {
       throw FetchDataException("No Internet connection", uri.toString());
     }
   }
 
-  // PUT method
   Future<dynamic> put(String api, dynamic object, {dynamic header}) async {
     var payload = jsonEncode(object);
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.put(uri, body: payload, headers: header);
-      logger.i('Response Body: ${response.body}');
-      _printAndSaveCookies(response); // Print and save cookies
       return _processResponse(response);
     } on SocketException {
       throw FetchDataException("No Internet connection", uri.toString());
     }
   }
 
-  // PATCH method
   Future<dynamic> patch(String api, dynamic object, {dynamic header}) async {
     var payload = jsonEncode(object);
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.patch(uri, body: payload, headers: header);
-      logger.i('Response Body: ${response.body}');
-      logger.e('Response header: ${response.headers}');
-      _printAndSaveCookies(response); // Print and save cookies
+      print('Raw PATCH Response Body:\n${(response.body)}');
       return _processResponse(response);
     } on SocketException {
       throw FetchDataException("No Internet connection", uri.toString());
     }
   }
 
-  // DELETE method
+  String jsonPretty(String jsonString) {
+    var jsonObj = json.decode(jsonString);
+    return JsonEncoder.withIndent('  ').convert(jsonObj);
+  }
+
   Future<dynamic> delete(String api, {dynamic header}) async {
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.delete(uri, headers: header);
-      logger.i('Response Body: ${response.body}');
       return _processResponse(response);
     } on SocketException {
       throw FetchDataException("No Internet connection", uri.toString());
     }
   }
 
-  // Process response method
   dynamic _processResponse(http.Response response) {
     var bodyBytes = utf8.decode(response.bodyBytes);
     var responseJson = json.decode(bodyBytes);
     switch (response.statusCode) {
       case 200:
-        return responseJson;
+        return {'body': responseJson, 'headers': response.headers};
       case 201:
-        return responseJson;
-
+        return {'body': responseJson, 'headers': response.headers};
+      case 204:
+        return {'body': responseJson, 'headers': response.headers};
       case 400:
         var errors = json.decode(bodyBytes)["errors"];
 
@@ -124,30 +105,6 @@ class BaseClient {
         throw FetchDataException(
             "Error occur with code : ${response.statusCode}",
             response.request!.url.toString());
-    }
-  }
-
-  // Print and save cookies
-  void _printAndSaveCookies(http.Response response) async {
-    var setCookie = response.headers['set-cookie'];
-    print(setCookie);
-    if (setCookie != null) {
-      debugPrint("Set-Cookie Header: $setCookie"); // Print the cookies
-      await _saveSessionId(setCookie);
-    }
-  }
-
-  // Save session ID to shared preferences
-  Future<void> _saveSessionId(String setCookie) async {
-    // Extract the session ID from the set-cookie header
-    var cookies = setCookie.split(';');
-    for (var cookie in cookies) {
-      if (cookie.startsWith('connect.sid=')) {
-        // Check for the session ID cookie
-        var sessionId = cookie.split('=')[1]; // Get the session ID value
-        await _prefService.saveSessionId(sessionId);
-        break;
-      }
     }
   }
 }

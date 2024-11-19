@@ -22,8 +22,8 @@ class SubCategoryService extends BaseController {
         NetworkConstants.getAllSubCategories,
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
-      if (response != null) {
-        return SubCategories.fromJson(response);
+      if (response['body'] != null) {
+        return SubCategories.fromJson(response['body']);
       }
     } catch (e) {
       print('Error fetching subcategories: $e');
@@ -40,8 +40,8 @@ class SubCategoryService extends BaseController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
-      if (response != null) {
-        return SubCategories.fromJson(response);
+      if (response['body'] != null) {
+        return SubCategories.fromJson(response['body']);
       }
     } catch (e) {
       print('Error fetching subcategory by ID: $e');
@@ -65,9 +65,9 @@ class SubCategoryService extends BaseController {
         },
       ).catchError(handleError);
 
-      if (response != null) {
+      if (response['body'] != null) {
         print('The response is: ... ... ... $response');
-        return SubCategories.fromJson(response);
+        return SubCategories.fromJson(response['body']);
       }
     } catch (e) {
       print('Error creating subcategory: $e');
@@ -89,7 +89,7 @@ class SubCategoryService extends BaseController {
         },
       ).catchError(handleError);
 
-      if (response != null) {
+      if (response['body'] != null) {
         return true;
       }
     } catch (e) {
@@ -110,7 +110,7 @@ class SubCategoryService extends BaseController {
         header: {'Cookie': "connect.sid=$sessionId"},
       ).catchError(handleError);
 
-      if (response == null) {
+      if (response['body'] == null) {
         return true;
       }
     } catch (e) {
