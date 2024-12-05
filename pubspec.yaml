@@ -80,7 +80,7 @@ dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/logos/ic_launcher-2/1024.png"
+  image_path: "assets/images/logos/vendor_logo.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
 
 
@@ -101,7 +101,6 @@ flutter:
     - assets/images/lottie/
     - assets/images/png/onboarding-images/
     - assets/images/png/
-    - assets/images/logos/ic_launcher-2/
 
 
 
