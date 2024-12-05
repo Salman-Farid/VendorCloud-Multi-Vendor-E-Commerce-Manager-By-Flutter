@@ -15,6 +15,8 @@ class NetworkConstants {
   static const String googleSuccess= "api/auth/google/success";
 
 
+
+
   static const String logoutUser = "api/auth/logout";
   static const String updatePassword = "api/auth/update-password";
   static const String forgotPassword = "api/auth/forgot-password";

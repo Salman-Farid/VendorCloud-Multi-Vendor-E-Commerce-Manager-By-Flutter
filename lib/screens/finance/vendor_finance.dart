@@ -369,8 +369,7 @@ class FinanceScreen extends StatelessWidget {
     return orders.fold(0.0, (sum, order) => sum + double.parse(order.profit));
   }
 
-  int _getPendingOrders(List<OrderModel> orders)
-  {
+  int _getPendingOrders(List<OrderModel> orders)  {
     return orders.where((order) => order.status?.toLowerCase() == 'pending').length;
   }
 }
