@@ -105,7 +105,7 @@ class UserModel {
       if (json["avatar"] is String) {
         profilePicture = json["avatar"];
       } else if (json["avatar"] is Map<String, dynamic>) {
-        profilePicture = "https://baburhaatbd.com${Avatar.fromJson(json["avatar"]).secureUrl}";
+        profilePicture = "https://readyhow.com${Avatar.fromJson(json["avatar"]).secureUrl}";
       }
 
       return UserModel(

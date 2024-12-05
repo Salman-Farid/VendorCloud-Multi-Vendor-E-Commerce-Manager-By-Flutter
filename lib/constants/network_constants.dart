@@ -1,7 +1,7 @@
 
 class NetworkConstants {
 
-  static const String baseURL = "https://baburhaatbd.com/";
+  static const String baseURL = "https://readyhow.com/";
 
   static const String registerAPI = "api/auth/register";
   static const String loginAPI = "api/auth/login";

@@ -82,20 +82,20 @@ class ProductUpdateScreen extends GetView<ProductController> {
       // Initialize media controllers
       if (product.coverPhoto != null && product.coverPhoto.secureUrl != null) {
         String coverPhotoUrl =
-            "https://baburhaatbd.com${product.coverPhoto.secureUrl}";
+            "https://readyhow.com${product.coverPhoto.secureUrl}";
         controller.mediaController.setCoverPhoto(coverPhotoUrl);
       }
 
       if (product.images != null) {
         List<String> imageUrls = product.images!
             .where((image) => image != null && image.secureUrl != null)
-            .map((dynamic image) => "https://baburhaatbd.com${image.secureUrl}")
+            .map((dynamic image) => "https://readyhow.com${image.secureUrl}")
             .toList();
         controller.mediaController.setAdditionalImages(imageUrls);
       }
 
       if (product.video != null && product.video.secureUrl != null) {
-        String videoUrl = "https://baburhaatbd.com${product.video.secureUrl}";
+        String videoUrl = "https://readyhow.com${product.video.secureUrl}";
         controller.mediaController.setVideo(videoUrl);
       }
     } catch (e) {

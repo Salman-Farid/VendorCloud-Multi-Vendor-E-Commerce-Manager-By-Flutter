@@ -147,7 +147,7 @@ class CategorySubcategoryView extends GetView<CategoryController> {
                                 children: [
                                   if (category.image != null)
                                     Image.network(
-                                      "https://baburhaatbd.com${category.image!.secureUrl}",
+                                      "https://readyhow.com${category.image!.secureUrl}",
                                       width: 100,
                                       height: 100,
                                     ),

@@ -326,7 +326,7 @@ class ProfileCompletionPainter extends CustomPainter {
 //           );
 //         }
 //
-//         final avatarUrl = "https://baburhaatbd.com${user.avatar}";
+//         final avatarUrl = "https://readyhow.com${user.avatar}";
 //
 //         return Padding(
 //           padding: const EdgeInsets.all(AppSizes.defaultPadding),
@@ -356,7 +356,7 @@ class ProfileCompletionPainter extends CustomPainter {
 //             accountEmail: Text(userController.user.value?.email ?? ''),
 //             currentAccountPicture: CircleAvatar(
 //               backgroundImage: NetworkImage(
-//                   "https://baburhaatbd.com${userController.user.value?.avatar ?? ''}"),
+//                   "https://readyhow.com${userController.user.value?.avatar ?? ''}"),
 //             ),
 //           ),
 //           ListTile(

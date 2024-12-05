@@ -42,7 +42,7 @@ class ReportDetailScreen extends StatelessWidget {
         child: FlexibleSpaceBar(
           background: report.image?.secureUrl != null
               ? Image.network(
-            "https://baburhaatbd.com${report.image!.secureUrl!}",
+            "https://readyhow.com${report.image!.secureUrl!}",
             fit: BoxFit.cover,
           )
               : Container(

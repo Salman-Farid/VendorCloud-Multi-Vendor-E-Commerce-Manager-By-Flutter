@@ -114,7 +114,7 @@ class Product {
   Product.fromJson(Map<String, dynamic> json) {
 
 
-    coverPhoto= json['coverPhoto'] != null ? "https://baburhaatbd.com${CoverPhoto.fromJson(json['coverPhoto']).secureUrl ?? ''}" : null;
+    coverPhoto= json['coverPhoto'] != null ? "https://readyhow.com${CoverPhoto.fromJson(json['coverPhoto']).secureUrl ?? ''}" : null;
 
 
     video = json['video'] != null ? CoverPhoto.fromJson(json['video']) : null;
@@ -527,7 +527,7 @@ class ProductVariants {
         this.id});
 
   ProductVariants.fromJson(Map<String, dynamic> json) {
-    image = json['image'] != null ? "https://baburhaatbd.com${CoverPhoto.fromJson(json['image']).secureUrl}" : null;
+    image = json['image'] != null ? "https://readyhow.com${CoverPhoto.fromJson(json['image']).secureUrl}" : null;
     name = json['name'] ?? '';
     color = json['color'] ?? '';
     gender = json['gender'] ?? '';

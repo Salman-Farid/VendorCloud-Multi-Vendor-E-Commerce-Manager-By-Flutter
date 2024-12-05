@@ -65,7 +65,7 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     image = (json['image'] != null && json['image'] is Map)
-        ? "https://baburhaatbd.com${CoverPhoto.fromJson(json['image']).secureUrl ?? ''}"
+        ? "https://readyhow.com${CoverPhoto.fromJson(json['image']).secureUrl ?? ''}"
         : null;
     sId = json['_id'] ?? '';
     user = json['user'] != null ? UserModel.fromJson(json['user']) : null;
@@ -133,7 +133,7 @@ class ReplyTo {
 
   ReplyTo.fromJson(Map<String, dynamic> json) {
     image = (json['image'] != null && json['image'] is Map)
-        ? "https://baburhaatbd.com${CoverPhoto.fromJson(json['image']).secureUrl ?? ''}"
+        ? "https://readyhow.com${CoverPhoto.fromJson(json['image']).secureUrl ?? ''}"
         : null;
     sId = json['_id'] ?? '';
 
