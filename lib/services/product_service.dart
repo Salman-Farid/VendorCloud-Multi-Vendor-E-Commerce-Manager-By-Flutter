@@ -24,7 +24,7 @@ class ProductService extends BaseController {
         return allProduct.fromJson(response['body']);
       }
     } catch (e) {
-      print('Error fetching products: $e');
+      Get.snackbar('Error fetching products: $e', '');
     }
     return null;
   }

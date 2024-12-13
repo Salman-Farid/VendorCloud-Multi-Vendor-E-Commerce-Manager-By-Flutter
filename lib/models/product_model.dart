@@ -1,7 +1,3 @@
-
-
-
-
 class allProduct {
   String? status;
   int? total;
@@ -119,7 +115,7 @@ class Product {
 
     video = json['video'] != null ? CoverPhoto.fromJson(json['video']) : null;
     specifications = json['specifications'] != null ? Specifications.fromJson(json['specifications']) : null;
-    user = json['user'] != null ? User.fromJson(json['user']) : null;
+    //user = json['user'] != null ? User.fromJson(json['user']) : null;
     name = json['name'];
     slug = json['slug'];
     price = json['price'];

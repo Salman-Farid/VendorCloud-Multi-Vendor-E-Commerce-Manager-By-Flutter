@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
 
       // ),
       //themeMode: ThemeMode.system,
-      title: 'Vendor Manage 2.0',
+      title: 'AnyhowVendor',
       initialRoute: SelectAuthView.routeName,
       getPages: RouteUtil.routes,
       debugShowCheckedModeBanner: false,

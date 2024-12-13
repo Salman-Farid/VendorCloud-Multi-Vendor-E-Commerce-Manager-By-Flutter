@@ -13,6 +13,8 @@ class SelectedProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('The photo is......................................................${eventProduct.coverPhoto}'??'No photo');
+
     return Container(
       width: 150,
       margin: const EdgeInsets.only(right: 12),
@@ -27,8 +29,7 @@ class SelectedProductCard extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                child: Image.network(
-                  eventProduct.product?.coverPhoto ?? '',
+                child: Image.network(eventProduct.coverPhoto??'',
                   height: 60,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -37,7 +38,7 @@ class SelectedProductCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Text(
-                  eventProduct.product?.name ?? '',
+                  eventProduct?.summary ?? 'nothing',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontWeight: FontWeight.w500),
@@ -49,7 +50,7 @@ class SelectedProductCard extends StatelessWidget {
             top: 4,
             right: 4,
             child: InkWell(
-              onTap: () => controller.removeProduct(eventProduct.sId ?? ''),
+              onTap: () => controller.removeProduct(eventProduct.id ?? ''),
               child: Container(
                 padding: const EdgeInsets.all(4),
                 decoration: const BoxDecoration(

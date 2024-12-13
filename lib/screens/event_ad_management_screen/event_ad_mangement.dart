@@ -8,22 +8,22 @@ import '../../models/pachakge_model.dart';
 import '../../models/product_model.dart';
 import '../eventManager/event_Package_products.dart';
 
-class PackageScreen_EventScreen extends StatefulWidget {
+class Package_EventScreen extends StatefulWidget {
   final bool isPackageScreen;
 
   // Define route names
   static const packageRouteName = "/package";
   static const eventRouteName = "/event";
 
-  const PackageScreen_EventScreen({Key? key, this.isPackageScreen = true})
+  const Package_EventScreen({Key? key, this.isPackageScreen = true})
       : super(key: key);
 
   @override
-  State<PackageScreen_EventScreen> createState() =>
-      _PackageScreen_EventScreenState();
+  State<Package_EventScreen> createState() =>
+      _Package_EventScreenState();
 }
 
-class _PackageScreen_EventScreenState extends State<PackageScreen_EventScreen> {
+class _Package_EventScreenState extends State<Package_EventScreen> {
   late final GenericController<dynamic> _controller = widget.isPackageScreen
       ? Get.find<GenericController<Package>>(tag: 'package')
       : Get.find<GenericController<Event>>(tag: 'event');
@@ -402,10 +402,7 @@ class _PackageScreen_EventScreenState extends State<PackageScreen_EventScreen> {
       padding: const EdgeInsets.all(16),
       child: ElevatedButton(
         onPressed: () {
-          Get.to(() => Event_AD_Products(
-                isPackage: widget.isPackageScreen,
-                id: item.sId,
-              ));
+          Get.to(() => Event_AD_Products(isPackage: widget.isPackageScreen, id: item.sId));
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blue,

@@ -26,17 +26,6 @@ class AuthService extends BaseController {
   UserController userController = Get.find<UserController>();
   final HiveService _hiveService = HiveService();
 
-
-
-
-
-
-
-
-
-
-
-
   Future<void> _saveSessionId(Map<String, String> headers) async {
     var setCookie = headers['set-cookie'];
     if (setCookie != null) {
@@ -50,14 +39,6 @@ class AuthService extends BaseController {
       }
     }
   }
-
-
-
-
-
-
-
-
 
 // !! Register method
   Future<UserModel?> register(dynamic object) async {
@@ -102,20 +83,7 @@ class AuthService extends BaseController {
     return null;
   }
 
-
-
-
-
-
   //Google sign in:
-
-
-
-
-
-
-
-
 
 // !! send otp
   Future<bool> sentOtp(dynamic object) async {
@@ -145,7 +113,6 @@ class AuthService extends BaseController {
     }
   }
 
-
   // !! verify otp
   Future<UserModel?> verifyOtp(dynamic object) async {
     try {
@@ -171,8 +138,6 @@ class AuthService extends BaseController {
     } catch (e) {}
     return null;
   }
-
-
 
   //  resetPassword
   Future<bool> resetPassword(dynamic object) async {

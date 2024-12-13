@@ -222,7 +222,7 @@ class GenericController<T> extends GetxController {
   GenericController(this.repository, {this.isPackageScreen = false});
 
   final ProductController productController = Get.put(ProductController());
-  final _eventProductRepository = EventProductRepository();
+ // final _eventProductRepository = EventProductRepository();
   final error = ''.obs;
   final UserController userController = Get.find<UserController>();
 
@@ -256,8 +256,7 @@ class GenericController<T> extends GetxController {
 
       // Update available products
       var availableProducts = productController.products.toList();
-      availableProducts.removeWhere((product) =>
-          selectedProducts.any((ep) => ep.product?.id == product.id));
+      availableProducts.removeWhere((product) => selectedProducts.any((ep) => ep.product?.id == product.id));
       productController.productList.value = availableProducts;
 
       // Update event products

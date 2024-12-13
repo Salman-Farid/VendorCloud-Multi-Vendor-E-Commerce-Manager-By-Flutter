@@ -1,24 +1,33 @@
 import 'dart:ui';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
-import 'package:karmalab_assignment/controllers/product_controller.dart';
-import 'package:karmalab_assignment/controllers/user_controller.dart';
 import '../models/product_model.dart';
+import '../models/event_model.dart';
+import '../models/pachakge_model.dart';
 import '../services/add_product_to_event_package_service.dart';
+import '../controllers/product_controller.dart';
+import '../controllers/user_controller.dart';
+import 'event_ad_management_controller.dart';
 
 class EventManagementController extends GetxController {
   static EventManagementController get instance => Get.find();
 
   final ProductController productController = Get.put(ProductController());
-  RxList<Product> eventProducts = <Product>[].obs; // Products in the event
-  RxList<Product> availableProducts = <Product>[].obs; // Products not in the event
+  RxList<Product> eventProducts = <Product>[].obs;
+  RxList<Product> availableProducts = <Product>[].obs;
   RxBool isLoading = false.obs;
 
   final _eventProductRepository = EventProductRepository();
   final error = ''.obs;
   final UserController userController = Get.find<UserController>();
+
+  late final GenericController<dynamic> parentController;
+  final bool isPackage;
+
+  EventManagementController({this.isPackage = true}) {
+    parentController = isPackage
+        ? Get.find<GenericController<Package>>(tag: 'package')
+        : Get.find<GenericController<Event>>(tag: 'event');
+  }
 
   @override
   void onInit() {
@@ -26,41 +35,56 @@ class EventManagementController extends GetxController {
     syncProductsWithEvent();
   }
 
-  /// Fetch products from server and sync available and event products
-  Future<void> syncProductsWithEvent() async {
+  Future<void> syncProductsWithEvent({String? parentId}) async {
     try {
       isLoading.value = true;
 
-      // Fetch all available products from the product controller
-      productController.getProducts();
+      // Get all products
+      await productController.getProducts();
       final allProducts = productController.products;
 
-      // Fetch a single event product from the repository
-      final eventProduct = await _eventProductRepository.getEventProducts();
+      // Reset lists
+      eventProducts.clear();
+      //availableProducts.value = allProducts;
 
-      if (eventProduct != null) {
-        // Add the single event product to the eventProducts list
-        if (!eventProducts.any((p) => p.id == eventProduct.id)) {
-          eventProducts.add(eventProduct);
+      // If no items in parent controller, return
+      if (parentController.items.isEmpty) return;
+
+      // Determine which items to process
+      final itemsToProcess = parentId != null
+          ? [parentController.items.firstWhere((item) => item.sId == parentId)]
+          : parentController.items;
+
+      // Process each item
+      for (var currentItem in itemsToProcess) {
+        // Extract products based on whether it's package or event
+        final itemProducts = isPackage
+            ? currentItem.packageProducts?.map((pp) => pp.product).toList() ?? []
+            : currentItem.eventProducts?.map((ep) => ep.product).toList() ?? [];
+
+        // Add to event products if not already present
+        for (var product in itemProducts) {
+          if (product != null && !eventProducts.any((p) => p.id == product.id)) {
+            eventProducts.add(product);
+          }
         }
 
-        // Remove the event product from availableProducts
-        availableProducts.value = allProducts
-            .where((product) => product.id != eventProduct.id)
-            .toList();
-      } else {
-        Get.snackbar('Error', 'Failed to fetch event products.');
+        // Update available products
+        availableProducts.value = itemProducts.da;
+
+        //     availableProducts.where((product) =>
+        // !eventProducts.any((eventProduct) => eventProduct.id == product.id)
+        // ).toList();
       }
     } catch (e) {
       error.value = e.toString();
+      print('Failed to sync products: $error');
       Get.snackbar('Error', e.toString());
     } finally {
       isLoading.value = false;
     }
   }
 
-  /// Mock API call to fetch product IDs assigned to an event
-  /// Add product to event and update lists
   Future<void> addProductToEventOrPackage(Product product, String parentId) async {
     try {
       isLoading.value = true;
@@ -92,13 +116,11 @@ class EventManagementController extends GetxController {
     }
   }
 
-  /// Remove product from available and add to event products
   void removeProductFromAvailable(Product product) {
     availableProducts.remove(product);
     eventProducts.add(product);
   }
 
-  /// Remove product from event and update lists
   Future<void> removeProductFromEvent(String productId) async {
     try {
       isLoading.value = true;
@@ -106,12 +128,14 @@ class EventManagementController extends GetxController {
       final success = await _eventProductRepository.deletePackageProduct(productId);
 
       if (success) {
-        // Update lists
-        final product = eventProducts.firstWhere((prod) => prod.id == productId,);
-        if (product != null) {
-          eventProducts.remove(product);
-          availableProducts.add(product);
-        }
+        final product = eventProducts.firstWhere(
+              (prod) => prod.id == productId,
+          orElse: () => throw 'Product not found',
+        );
+
+        eventProducts.remove(product);
+        availableProducts.add(product);
+
         Get.snackbar('Success', 'Product removed successfully');
       } else {
         Get.snackbar('Error', 'Failed to remove product');

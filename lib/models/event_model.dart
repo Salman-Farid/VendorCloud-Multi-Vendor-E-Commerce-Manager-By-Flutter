@@ -105,8 +105,7 @@ class EventProducts {
     sId = json['_id'];
     event = json['event'];
     user = json['user'];
-    product =
-    json['product'] != null ? new Product.fromJson(json['product']) : null;
+    product = json['product'] != null ? new Product.fromJson(json['product']) : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];

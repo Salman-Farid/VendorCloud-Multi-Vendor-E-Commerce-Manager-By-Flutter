@@ -13,7 +13,7 @@ class BaseClient {
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.get(uri, headers: header);
-      print('Raw PATCH Response Body:\n${(response.body)}');
+      print('Raw Get Response Body:\n${(response.body)}');
 
       return _processResponse(response);
     } on SocketException {
@@ -26,7 +26,7 @@ class BaseClient {
     var uri = Uri.parse(NetworkConstants.baseURL + api);
     try {
       var response = await client.post(uri, body: payload, headers: header);
-      print('Raw PATCH Response Body:\n${(response.body)}');
+      print('Raw Post Response Body:\n${(response.body)}');
 
       return _processResponse(response);
     } on SocketException {

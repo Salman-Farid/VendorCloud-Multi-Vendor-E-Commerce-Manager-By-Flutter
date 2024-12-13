@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:karmalab_assignment/screens/event_ad_management_common_widgets/product_list.dart';
-import 'package:karmalab_assignment/screens/event_ad_management_common_widgets/selected_product_card.dart';
 
 import '../../controllers/event_product_controller.dart';
 
@@ -17,7 +16,7 @@ class Event_AD_Products extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final  controller = EventManagementController.instance;
+    final controller = Get.put(EventManagementController(isPackage: isPackage));
     controller.syncProductsWithEvent();
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -49,58 +48,6 @@ class Event_AD_Products extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Selected Products',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Obx(() {
-                  final selectedProducts = controller.eventProducts;
-
-                  return selectedProducts.isEmpty
-                      ? Container(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          alignment: Alignment.center,
-                          child: const Text(
-                            'No products selected',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16,
-                            ),
-                          ),
-                        )
-                      : Container(
-                          height: 100,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: selectedProducts.length,
-                            itemBuilder: (context, index) {
-                              final product = selectedProducts[index];
-                              return SelectedProductCard(
-                                eventProduct: product,
-                                controller: controller,
-                              );
-                            },
-                          ),
-                        );
-                }),
-              ],
-            ),
-          ),
-          Container(
-            height: 8,
-            color: Colors.grey[100],
-          ),
           Expanded(
             child: Container(
               color: Colors.white,
@@ -130,19 +77,21 @@ class Event_AD_Products extends StatelessWidget {
                                 ),
                               ),
                             )
-                          :
-                      ListView.builder(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        itemCount: controller.productController.products.length,  // Changed to lowercase
-                        itemBuilder: (context, index) {
-                          final product = controller.productController.products[index];  // Changed to lowercase
-                          return ProductListItem(
-                            product: product,
-                            parentId: id ?? '',
-                            controller: controller,
-                          );
-                        },
-                      );                    }),
+                          : ListView.builder(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              itemCount: controller.productController.products
+                                  .length, // Changed to lowercase
+                              itemBuilder: (context, index) {
+                                final product = controller.productController
+                                    .products[index]; // Changed to lowercase
+                                return ProductListItem(
+                                  product: product,
+                                  parentId: id,
+                                  controller: controller,
+                                );
+                              },
+                            );
+                    }),
                   ),
                 ],
               ),

@@ -48,7 +48,7 @@ class DashboardScreen extends StatelessWidget {
     {
       'title': 'Event Management',
       'animationUrl': 'assets/images/lottie/event.json',
-      'routeName': PackageScreen_EventScreen.eventRouteName
+      'routeName': Package_EventScreen.eventRouteName
     },
 
 
@@ -57,7 +57,7 @@ class DashboardScreen extends StatelessWidget {
     {
       'title': 'AD Management',
       'animationUrl': 'assets/images/lottie/advertise.json',
-      'routeName':PackageScreen_EventScreen.packageRouteName
+      'routeName':Package_EventScreen.packageRouteName
     },
     {
       'title': 'Message Center',
