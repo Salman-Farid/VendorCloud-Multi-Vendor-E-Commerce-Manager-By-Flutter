@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 import 'package:karmalab_assignment/controllers/product_controller.dart';
 import 'package:karmalab_assignment/controllers/user_controller.dart';
@@ -210,22 +209,18 @@ import '../utils/popups/loaders.dart';
 
 
 class GenericController<T> extends GetxController {
-
   final GenericRepository<T> repository;
   final bool isPackageScreen;
 
   RxList<EventProducts> eventProducts = <EventProducts>[].obs;
   RxList<PackageProducts> packageProducts = <PackageProducts>[].obs;
 
-
-
   GenericController(this.repository, {this.isPackageScreen = false});
 
   final ProductController productController = Get.put(ProductController());
- // final _eventProductRepository = EventProductRepository();
+  // final _eventProductRepository = EventProductRepository();
   final error = ''.obs;
   final UserController userController = Get.find<UserController>();
-
 
   final RxList<T> items = <T>[].obs;
   final RxBool isLoading = false.obs;
@@ -256,17 +251,14 @@ class GenericController<T> extends GetxController {
 
       // Update available products
       var availableProducts = productController.products.toList();
-      availableProducts.removeWhere((product) => selectedProducts.any((ep) => ep.product?.id == product.id));
+      availableProducts.removeWhere((product) =>
+          selectedProducts.any((ep) => ep.product?.id == product.id));
       productController.productList.value = availableProducts;
 
       // Update event products
       eventProducts.value = selectedProducts;
     }
   }
-
-
-
-
 
   Future<void> fetchItems({bool isLoadMore = false}) async {
     if (!isLoadMore) {
@@ -303,7 +295,6 @@ class GenericController<T> extends GetxController {
       isLoading.value = false;
     }
   }
-
 
   void reset() {
     currentPage = 1;
