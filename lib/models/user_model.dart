@@ -95,56 +95,58 @@ class UserModel {
     return usernameWithPrefix;
   }
 
-  static UserModel empty() => UserModel(id: '', name: '', email: '', phoneNumber: '', avatar: '', password: '');
-
-
+  static UserModel empty() => UserModel(
+      id: '', name: '', email: '', phoneNumber: '', avatar: '', password: '');
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      String profilePicture = '';
-      if (json["avatar"] is String) {
-        profilePicture = json["avatar"];
-      } else if (json["avatar"] is Map<String, dynamic>) {
-        profilePicture = "https://readyhow.com${Avatar.fromJson(json["avatar"]).secureUrl}";
-      }
-
-      return UserModel(
-        avatar: profilePicture,
-        location: json["location"] != null ? Location.fromJson(json["location"]) : null,
-        id: json["_id"],
-        name: json["name"]??'Anonymous',
-        email: json["email"]??'',
-        password: json["password"]??'',
-        role: json["role"]??'',
-        isActive: json["isActive"] ?? false,
-        isFeatured: json["isFeatured"] ?? false,
-        isVerified: json["isVerified"] ?? false,
-        phoneNumber: json["phone"] ?? '',
-        gender: json["gender"]??'',
-        likes: json["likes"] != null ? List<dynamic>.from(json["likes"].map((x) => x)) : [],
-        createdAt: json["createdAt"] != null ? DateTime.parse(json["createdAt"]) : null,
-        updatedAt: json["updatedAt"] != null ? DateTime.parse(json["updatedAt"]) : null,
-        v: json["__v"],
-        otherPermissions: json["otherPermissions"] != null ? OtherPermissions.fromJson(json["otherPermissions"]) : null,
-      );
-    } else {
-      return UserModel.empty();
+    String profilePicture = '';
+    if (json["avatar"] is String) {
+      profilePicture = json["avatar"];
+    } else if (json["avatar"] is Map<String, dynamic>) {
+      profilePicture =
+          "https://readyhow.com${Avatar.fromJson(json["avatar"]).secureUrl}";
     }
-  }
 
-
-
-
+    return UserModel(
+      avatar: profilePicture,
+      location: json["location"] != null
+          ? Location.fromJson(json["location"])
+          : null,
+      id: json["_id"],
+      name: json["name"] ?? 'Anonymous',
+      email: json["email"] ?? '',
+      password: json["password"] ?? '',
+      role: json["role"] ?? '',
+      isActive: json["isActive"] ?? false,
+      isFeatured: json["isFeatured"] ?? false,
+      isVerified: json["isVerified"] ?? false,
+      phoneNumber: json["phone"] ?? '',
+      gender: json["gender"] ?? '',
+      likes: json["likes"] != null
+          ? List<dynamic>.from(json["likes"].map((x) => x))
+          : [],
+      createdAt: json["createdAt"] != null
+          ? DateTime.parse(json["createdAt"])
+          : null,
+      updatedAt: json["updatedAt"] != null
+          ? DateTime.parse(json["updatedAt"])
+          : null,
+      v: json["__v"],
+      otherPermissions: json["otherPermissions"] != null
+          ? OtherPermissions.fromJson(json["otherPermissions"])
+          : null,
+    );
+    }
 
   Map<String, dynamic> toJson() => {
-    "avatar": avatar,
-    "name": name,
-    "email": email,
-    "password": password,
-    "phone": phoneNumber,
-    "confirmPassword": confirmPassword,
-    "otherPermissions": otherPermissions?.toJson(),
-  };
+        "avatar": avatar,
+        "name": name,
+        "email": email,
+        "password": password,
+        "phone": phoneNumber,
+        "confirmPassword": confirmPassword,
+        "otherPermissions": otherPermissions?.toJson(),
+      };
 }
 
 // Avatar Class
@@ -162,24 +164,24 @@ class Avatar {
   });
 
   factory Avatar.fromJson(Map<String, dynamic> json) => Avatar(
-    publicId: json["public_id"],
-    secureUrl: json["secure_url"],
-  );
+        publicId: json["public_id"],
+        secureUrl: json["secure_url"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "public_id": publicId,
-    "secure_url": secureUrl,
-  };
+        "public_id": publicId,
+        "secure_url": secureUrl,
+      };
 }
 
 // Location Class
 @HiveType(typeId: 2)
 class Location {
   @HiveField(0)
-  String address1;
+  String? address1;
 
   @HiveField(1)
-  String address2;
+  String? address2;
 
   @HiveField(2)
   String city;
@@ -194,8 +196,8 @@ class Location {
   String country;
 
   Location({
-    required this.address1,
-    required this.address2,
+    this.address1,
+    this.address2,
     required this.city,
     required this.state,
     required this.postcode,
@@ -203,22 +205,22 @@ class Location {
   });
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
-    address1: json["address1"],
-    address2: json["address2"],
-    city: json["city"],
-    state: json["state"],
-    postcode: json["postcode"],
-    country: json["country"],
-  );
+        address1: json["address1"] ?? '',
+        address2: json["address2"] ?? '',
+        city: json["city"] ?? '',
+        state: json["state"] ?? '',
+        postcode: json["postCode"] ?? 0,
+        country: json["country"] ?? '',
+      );
 
   Map<String, dynamic> toJson() => {
-    "address1": address1,
-    "address2": address2,
-    "city": city,
-    "state": state,
-    "postcode": postcode,
-    "country": country,
-  };
+        "address1": address1,
+        "address2": address2,
+        "city": city,
+        "state": state,
+        "postcode": postcode,
+        "country": country,
+      };
 }
 
 // OtherPermissions Class
@@ -287,39 +289,40 @@ class OtherPermissions {
     this.isMessage = false,
   });
 
-  factory OtherPermissions.fromJson(Map<dynamic, dynamic> json) => OtherPermissions(
-    isVendor: json["isVendor"],
-    isCustomer: json["isCustomer"],
-    isCategories: json["isCategories"],
-    isProducts: json["isProducts"],
-    isOrders: json["isOrders"],
-    isReviews: json["isReviews"],
-    isVouchers: json["isVouchers"],
-    isAdManager: json["isAdManager"],
-    isRoleManager: json["isRoleManager"],
-    isMessageCenter: json["isMessageCenter"],
-    isFinance: json["isFinance"],
-    isShipment: json["isShipment"],
-    isSupport: json["isSupport"],
-    isEventManager: json["isEventManager"],
-    isMessage: json["isMessage"],
-  );
+  factory OtherPermissions.fromJson(Map<dynamic, dynamic> json) =>
+      OtherPermissions(
+        isVendor: json["isVendor"],
+        isCustomer: json["isCustomer"],
+        isCategories: json["isCategories"],
+        isProducts: json["isProducts"],
+        isOrders: json["isOrders"],
+        isReviews: json["isReviews"],
+        isVouchers: json["isVouchers"],
+        isAdManager: json["isAdManager"],
+        isRoleManager: json["isRoleManager"],
+        isMessageCenter: json["isMessageCenter"],
+        isFinance: json["isFinance"],
+        isShipment: json["isShipment"],
+        isSupport: json["isSupport"],
+        isEventManager: json["isEventManager"],
+        isMessage: json["isMessage"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "isVendor": isVendor,
-    "isCustomer": isCustomer,
-    "isCategories": isCategories,
-    "isProducts": isProducts,
-    "isOrders": isOrders,
-    "isReviews": isReviews,
-    "isVouchers": isVouchers,
-    "isAdManager": isAdManager,
-    "isRoleManager": isRoleManager,
-    "isMessageCenter": isMessageCenter,
-    "isFinance": isFinance,
-    "isShipment": isShipment,
-    "isSupport": isSupport,
-    "isEventManager": isEventManager,
-    "isMessage": isMessage,
-  };
+        "isVendor": isVendor,
+        "isCustomer": isCustomer,
+        "isCategories": isCategories,
+        "isProducts": isProducts,
+        "isOrders": isOrders,
+        "isReviews": isReviews,
+        "isVouchers": isVouchers,
+        "isAdManager": isAdManager,
+        "isRoleManager": isRoleManager,
+        "isMessageCenter": isMessageCenter,
+        "isFinance": isFinance,
+        "isShipment": isShipment,
+        "isSupport": isSupport,
+        "isEventManager": isEventManager,
+        "isMessage": isMessage,
+      };
 }
